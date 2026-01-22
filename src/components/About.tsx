@@ -133,7 +133,7 @@ const About = () => {
                 </div>
                 <div className="mt-4 md:mt-0 text-left md:text-right">
                   <p className="text-muted-foreground">August 2024 – May 2026</p>
-                  <p className="text-green-500 font-bold text-lg">GPA: 3.73/4</p>
+                  <p className="text-green-500 font-bold text-lg">GPA: 3.82/4</p>
                 </div>
               </div>
               

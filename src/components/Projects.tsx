@@ -11,6 +11,7 @@ interface Project {
   metrics?: { label: string; value: string }[];
   publication?: string;
   github?: string;
+  status?: "live" | "in-progress";
 }
 
 const Projects = () => {
@@ -18,92 +19,184 @@ const Projects = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const projects: Project[] = [
+    // ── Full-Stack ──────────────────────────────────────────────────
     {
       title: "AI Mock Interview Platform",
       description:
-        "A full-stack job interview preparation platform with AI-powered voice agents for realistic mock interviews",
-      tags: ["Next.js", "Firebase", "Vapi AI", "Google Gemini", "Tailwind CSS"],
+        "Full-stack AI platform that simulates real-time interview scenarios using voice agents and LLM APIs for dynamic Q&A and structured feedback",
+      tags: ["Next.js", "TypeScript", "Node.js", "Firebase", "Vapi AI", "Gemini API"],
       category: "Full-Stack",
       achievements: [
-        "Integrated Vapi AI voice agents for natural conversation flow",
-        "Real-time performance feedback using Google Gemini API",
-        "Responsive UI with modern design principles",
+        "Built backend workflows for dynamic question generation and structured feedback evaluation",
+        "Integrated Vapi AI voice agents for natural real-time conversation flow",
+        "Developed data pipelines to capture user responses and generate performance insights",
       ],
       github: "https://github.com/Udit013",
     },
     {
-      title: "Brain Tumor Classification using Deep Neural Networks",
+      title: "Screen Recording & Video Sharing Platform",
       description:
-        "Advanced deep learning model for medical image analysis achieving state-of-the-art accuracy",
+        "Serverless platform for screen recording, video uploads, and secure sharing with AI-generated transcripts and CDN-based media delivery",
+      tags: ["Next.js", "TypeScript", "Bunny.net", "Better Auth", "Xata", "Arcjet", "Drizzle ORM"],
+      category: "Full-Stack",
+      achievements: [
+        "Implemented scalable backend architecture with CDN-based media delivery via Bunny.net",
+        "Designed authentication, privacy controls, and AI transcript generation features",
+        "Secured platform using Arcjet for advanced rate limiting and bot protection",
+      ],
+      github: "https://github.com/Udit013",
+    },
+    {
+      title: "Automated Secrets Scanner",
+      description:
+        "Security tool to detect hardcoded secrets and credentials in codebases using pattern matching and entropy-based analysis",
+      tags: ["Python", "FastAPI", "React", "PostgreSQL"],
+      category: "Full-Stack",
+      achievements: [
+        "Built backend pipelines to scan repositories and identify exposed credentials",
+        "Designed entropy-based detection alongside regex pattern matching for high accuracy",
+        "Developed REST APIs and dashboards to visualize security risks and vulnerabilities",
+      ],
+      github: "https://github.com/Udit013",
+    },
+    // ── Data ────────────────────────────────────────────────────────
+    {
+      title: "Retail Analytics Platform",
+      description:
+        "Data analytics platform with normalized schema, ETL pipelines, and dashboards for tracking business metrics and retail trends",
+      tags: ["Next.js", "PostgreSQL", "Drizzle ORM", "Chart.js"],
+      category: "Data",
+      achievements: [
+        "Designed normalized database schema handling 10K+ records with full data integrity",
+        "Built SQL-based ETL pipelines and REST APIs for data processing and analytics",
+        "Developed interactive dashboards to visualize KPIs and business performance trends",
+      ],
+      github: "https://github.com/Udit013",
+    },
+    {
+      title: "Business Analytics Dashboard",
+      description:
+        "Decision-support system to track KPIs, analyze business performance trends, and enable scenario-based strategic decision making",
+      tags: ["React", "Node.js", "PostgreSQL", "Tableau"],
+      category: "Data",
+      status: "in-progress",
+      achievements: [
+        "Built decision-support system to track KPIs and analyze business performance across datasets",
+        "Designed SQL queries and aggregation pipelines for trend analysis and reporting",
+        "Implemented dashboards enabling scenario-based decision making for stakeholders",
+      ],
+      github: "https://github.com/Udit013",
+    },
+    {
+      title: "User Behavior Analytics Pipeline",
+      description:
+        "End-to-end ETL pipeline to ingest, process, and visualize user activity data for engagement and retention analysis",
+      tags: ["Python", "PostgreSQL", "Airflow", "Tableau"],
+      category: "Data",
+      status: "in-progress",
+      achievements: [
+        "Built ETL pipelines to ingest and process user activity data at scale",
+        "Analyzed engagement and retention patterns to generate actionable product insights",
+        "Developed dashboards to visualize key metrics and surface behavioral trends",
+      ],
+      github: "https://github.com/Udit013",
+    },
+    {
+      title: "Market Entry Strategy Simulator",
+      description:
+        "Decision model to evaluate market expansion strategies by analyzing revenue, cost, and competition with scenario-based trade-off visualization",
+      tags: ["Python", "SQL", "Tableau"],
+      category: "Data",
+      status: "in-progress",
+      achievements: [
+        "Developed decision model to evaluate market expansion strategies across scenarios",
+        "Analyzed revenue, cost, and competitive dynamics to recommend optimal entry paths",
+        "Built dashboards for scenario analysis and trade-off visualization",
+      ],
+      github: "https://github.com/Udit013",
+    },
+    // ── AI / ML ─────────────────────────────────────────────────────
+    {
+      title: "Brain Tumor Classification",
+      description:
+        "Deep learning model for MRI-based brain tumor classification, benchmarked across CNN architectures and published at IEEE 2024",
       tags: ["Python", "TensorFlow", "Keras", "CNN", "EfficientNetB3"],
       category: "AI/ML",
       metrics: [
         { label: "Accuracy", value: "99.84%" },
-        { label: "Dataset", value: "7,023 MRI scans" },
+        { label: "MRI Scans", value: "7,023" },
         { label: "Parameters", value: "11.7M" },
       ],
       achievements: [
-        "99.84% accuracy in tumor classification",
-        "Analyzed 7,023 MRI scans",
-        "Benchmarked multiple models (CNN, VGG16, InceptionV3, EfficientNetB3)",
+        "Processed 7,023 MRI scans; achieved 99.84% classification accuracy with EfficientNetB3",
+        "Benchmarked CNN, VGG16, InceptionV3, and EfficientNetB3 to find optimal architecture",
+        "Co-authored IEEE publication contributing to medical imaging research",
       ],
-      publication:
-        "IEEE International Conference on Cognitive Robotics and Intelligent Systems 2024",
+      publication: "IEEE International Conference on Cognitive Robotics and Intelligent Systems 2024",
       github: "https://github.com/Udit013",
     },
     {
-      title: "Full-Stack Screen Recording & Video Sharing Platform",
+      title: "Aphasia Detection using Transformer Models",
       description:
-        "Modern serverless platform for screen recording and video sharing with AI-generated transcripts",
-      tags: ["Next.js", "TypeScript", "Bunny.net", "Better Auth", "Xata", "Arcjet", "Drizzle"],
-      category: "Full-Stack",
-      achievements: [
-        "Next.js + AI transcripts",
-        "Bunny.net CDN integration",
-        "Advanced security with Arcjet",
+        "NLP system for clinical aphasia detection using fine-tuned DeBERTa-v3 on speech transcripts with custom preprocessing for dysfluency handling",
+      tags: ["Python", "DeBERTa-v3", "Hugging Face", "NLP", "Fine-tuning"],
+      category: "AI/ML",
+      metrics: [
+        { label: "F1-Score", value: "0.90" },
+        { label: "Model", value: "DeBERTa-v3" },
+        { label: "Domain", value: "Clinical NLP" },
       ],
+      achievements: [
+        "Fine-tuned DeBERTa-v3 on clinical transcripts achieving 0.90 F1-score",
+        "Built preprocessing pipeline for annotation cleaning, dysfluency handling, and text normalization",
+        "Applied weighted loss and optimized thresholds to handle class imbalance in clinical data",
+      ],
+      github: "https://github.com/Udit013",
     },
     {
       title: "LLM Generated Text Detection",
       description:
-        "Advanced NLP model to detect AI-generated text for academic integrity and disinformation prevention",
-      tags: ["Python", "BERT", "Deep Learning", "NLP", "Fine-tuning"],
+        "BERT-based classifier to distinguish human-written from AI-generated text, targeting academic integrity and disinformation prevention",
+      tags: ["Python", "BERT", "Hugging Face", "NLP", "Deep Learning"],
       category: "AI/ML",
       metrics: [
         { label: "Accuracy", value: "95.25%" },
         { label: "Model", value: "Fine-tuned BERT" },
-        { label: "Application", value: "Academic Integrity" },
+        { label: "Use Case", value: "Academic Integrity" },
       ],
       achievements: [
-        "95.25% accuracy in text detection",
-        "Fine-tuned BERT for optimal performance",
-        "Contextual understanding of linguistic patterns",
+        "Achieved 95.25% accuracy distinguishing human vs. AI-generated text",
+        "Fine-tuned BERT to capture contextual linguistic patterns unique to LLM output",
+        "Built evaluation pipelines for multi-model performance comparison",
       ],
+      github: "https://github.com/Udit013",
     },
   ];
 
-  const filters = ["All", "AI/ML", "Full-Stack"];
+  const filters = ["All", "Full-Stack", "Data", "AI/ML"];
 
   const filteredProjects =
     activeFilter === "All"
       ? projects
       : projects.filter((p) => p.category === activeFilter);
 
+  const categoryColors: Record<string, string> = {
+    "Full-Stack": "bg-blue-500/20 text-blue-400",
+    "AI/ML": "bg-red-500/20 text-red-400",
+    "Data": "bg-emerald-500/20 text-emerald-400",
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 
-    // Circuit board pattern
     const paths: any[] = [];
-    const numPaths = 20;
-
-    for (let i = 0; i < numPaths; i++) {
+    for (let i = 0; i < 20; i++) {
       paths.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -117,7 +210,6 @@ const Projects = () => {
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
       paths.forEach((path) => {
         const endX = path.x + Math.cos(path.angle) * path.length * path.progress;
         const endY = path.y + Math.sin(path.angle) * path.length * path.progress;
@@ -129,7 +221,6 @@ const Projects = () => {
         ctx.lineTo(endX, endY);
         ctx.stroke();
 
-        // Draw connection point
         if (path.progress > 0.5) {
           ctx.fillStyle = "rgba(139, 92, 246, 0.6)";
           ctx.beginPath();
@@ -145,21 +236,17 @@ const Projects = () => {
           path.angle = Math.random() * Math.PI * 2;
         }
       });
-
       animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
+    return () => { cancelAnimationFrame(animationFrameId); };
   }, []);
 
   return (
     <section id="projects" className="relative py-20 overflow-hidden">
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none opacity-20" />
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
@@ -171,7 +258,7 @@ const Projects = () => {
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex justify-center gap-4 mb-12">
+        <div className="flex justify-center gap-4 mb-12 flex-wrap">
           {filters.map((filter) => (
             <button
               key={filter}
@@ -198,19 +285,18 @@ const Projects = () => {
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
-                  <div className="flex items-center space-x-2 mb-2">
+                  <div className="flex items-center gap-2 mb-2 flex-wrap">
                     <h3 className="text-xl font-bold text-foreground group-hover:text-primary smooth-transition">
                       {project.title}
                     </h3>
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full ${
-                        project.category === "AI/ML"
-                          ? "bg-red-500/20 text-red-400"
-                          : "bg-blue-500/20 text-blue-400"
-                      }`}
-                    >
+                    <span className={`px-2 py-1 text-xs rounded-full whitespace-nowrap ${categoryColors[project.category]}`}>
                       {project.category}
                     </span>
+                    {project.status === "in-progress" && (
+                      <span className="px-2 py-1 text-xs rounded-full whitespace-nowrap bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                        In Progress
+                      </span>
+                    )}
                   </div>
                   <p className="text-muted-foreground">{project.description}</p>
                 </div>
@@ -219,10 +305,7 @@ const Projects = () => {
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.tags.map((tag, i) => (
-                  <span
-                    key={i}
-                    className="px-3 py-1 bg-secondary text-foreground rounded-md text-sm"
-                  >
+                  <span key={i} className="px-3 py-1 bg-secondary text-foreground rounded-md text-sm">
                     {tag}
                   </span>
                 ))}
@@ -244,7 +327,7 @@ const Projects = () => {
               <div className="mb-4">
                 <h4 className="text-sm font-semibold text-primary mb-2 flex items-center">
                   <Award className="w-4 h-4 mr-2" />
-                  Key Achievements
+                  Key Highlights
                 </h4>
                 <ul className="space-y-1">
                   {project.achievements.map((achievement, i) => (

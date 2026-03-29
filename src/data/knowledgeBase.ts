@@ -10,254 +10,297 @@ export interface KnowledgeItem {
 }
 
 const knowledgeBase: Record<string, KnowledgeItem> = {
+
   skills: {
     id: "skills",
     title: "Technical Skills",
     keywords: [
       "skill", "skills", "tech", "technology", "stack", "programming",
-      "language", "framework", "proficient", "tools", "coding", "abilities"
+      "language", "framework", "tools", "coding", "abilities", "languages"
     ],
     response: `💻 Technical Skillset
 
-• Languages: Python, JavaScript, TypeScript, C, C++, SQL  
-• Frontend: React, Next.js, HTML5, CSS3, Tailwind  
-• Backend: Node.js, Express.js, REST APIs  
-• Databases: MongoDB, PostgreSQL, Redis, Firebase  
-• AI/ML: TensorFlow, Keras, Scikit-learn, CNN, LSTM, NLP, Computer Vision  
-• Cloud & DevOps: AWS, Docker, Git, CI/CD, Postman, Unix CLI  
-• Core: Data Structures & Algorithms, OOP, System Design, Security, Cloud Deployment`,
+• Languages: Python, JavaScript, TypeScript, C/C++, SQL
+• Frontend: React, Next.js, HTML, CSS, Tailwind CSS
+• Backend: Node.js, Express.js, FastAPI, REST APIs
+• Databases: PostgreSQL, MySQL, MongoDB, Redis
+• AI/ML: TensorFlow, PyTorch, Scikit-learn, CNNs, LSTMs, NLP
+• NLP & LLMs: Transformers, BERT, DeBERTa, Hugging Face, Prompt Engineering, Gemini API, Vapi AI
+• Data Engineering: ETL Pipelines, Data Modeling, Batch Processing, Data Warehousing
+• Analytics: Pandas, NumPy, Matplotlib, Tableau, Chart.js
+• Cloud & DevOps: AWS, Docker, CI/CD, Git, Postman
+• Systems: System Design, Distributed Systems, Caching, Authentication, API Design
+• Business: KPI Analysis, A/B Testing, Data Storytelling, Stakeholder Communication`,
     suggestions: [
       "Tell me about his projects",
-      "What's his strongest skill?",
-      "What cloud experience does he have?",
-      "What AI frameworks does he use?"
+      "What AI/ML work has he done?",
+      "Does he have LLM experience?",
+      "What data engineering tools does he use?"
     ],
-    relatedTopics: ["projects", "experience", "certifications"],
-    metadata: {
-      Languages: ["Python", "JavaScript", "TypeScript", "C", "C++", "SQL"],
-      Frontend: ["React", "Next.js", "HTML5", "CSS3", "Tailwind"],
-      Backend: ["Node.js", "Express.js", "REST APIs"],
-      Databases: ["MongoDB", "PostgreSQL", "Redis", "Firebase"],
-      AI: ["TensorFlow", "Keras", "Scikit-learn", "CNN", "LSTM", "NLP", "Computer Vision"],
-      Cloud: ["AWS", "Docker", "Git", "CI/CD", "Postman", "Unix CLI"]
-    }
+    relatedTopics: ["projects", "ai_ml", "data"]
   },
 
   projects: {
     id: "projects",
     title: "Major Projects",
-    keywords: ["project", "projects", "portfolio", "build", "app", "application", "developed", "created", "made"],
+    keywords: ["project", "projects", "portfolio", "build", "application", "built", "work"],
     response: `🚀 Highlighted Projects
 
-🧠 AI Mock Interview Platform  
-• Built with Next.js, Firebase, Vapi AI, and Google Gemini.  
-• Realistic AI interviews with instant feedback.
+🎤 AI Mock Interview Platform
+• Full-stack AI system · Next.js, Firebase, Node.js, Vapi AI, Gemini API
+• Real-time voice interviews with LLM-driven question generation and feedback
+• Backend pipelines for performance tracking and structured insights
 
-📹 Video Sharing Platform  
-• Next.js + Bunny.net CDN + Better Auth + Xata + Drizzle + Arcjet.  
-• Secure video sharing with AI transcripts.
+📹 Screen Recording & Video Sharing Platform
+• Next.js, TypeScript, Bunny.net, Xata, Drizzle ORM
+• Secure uploads, CDN delivery, authentication, privacy controls, AI transcripts
 
-🧬 Brain Tumor Classification  
-• 99.84% accuracy on 7,023 MRI scans.  
-• CNN, VGG16, InceptionV3, EfficientNetB3. Published at IEEE 2024.
+🔐 Automated Secrets Scanner
+• Python, FastAPI, PostgreSQL
+• Detects hardcoded secrets via pattern matching and entropy analysis
+• Scans repositories and surfaces security vulnerabilities via dashboard
 
-📝 LLM Text Detector  
-• BERT model with 95.25% accuracy detecting AI-generated text.`,
+📊 Retail Analytics Platform
+• Next.js, PostgreSQL, Drizzle ORM, Chart.js
+• Normalized schema (10k+ records), ETL pipelines, business insight dashboards
+
+📈 Business Analytics Dashboard
+• React, Node.js, PostgreSQL, Tableau
+• KPI tracking, trend analysis, forecasting, scenario-based decision support
+
+🔄 User Behavior Analytics Pipeline
+• Python, PostgreSQL, Airflow, Tableau
+• ETL workflows ingesting simulated app logs; engagement and retention dashboards
+
+🧬 Brain Tumor Classification
+• Python, TensorFlow, CNNs · IEEE Publication 2024
+• 99.84% accuracy on 7,000+ MRI scans; benchmarked CNN, VGG16, InceptionV3, EfficientNet
+
+🧠 Aphasia Detection · DeBERTa-v3, NLP
+• Fine-tuned DeBERTa-v3 on clinical transcripts — F1 score: 0.90
+• Custom preprocessing pipeline for annotation cleaning and dysfluency handling
+
+🤖 LLM Text Detection · BERT, NLP
+• Transformer-based classifier — 95%+ accuracy on AI-generated text datasets
+• Cross-validation evaluation pipeline for reliable model comparison
+
+📈 Stock Market Prediction · LSTM, TensorFlow
+• LSTM time series model predicting stock price trends from historical data
+
+🗺️ Market Entry Strategy Simulator · Python, SQL, Tableau
+• Decision model evaluating market expansion strategies using simulated business data`,
     suggestions: [
-      "Tell me more about the AI interview platform",
-      "What was the brain tumor project?",
-      "How did he build the video platform?",
-      "Explain the LLM Text Detector"
+      "Tell me about his ML research",
+      "What full-stack projects has he built?",
+      "Does he have data engineering projects?",
+      "What is his IEEE publication?"
     ],
-    relatedTopics: ["skills", "publications", "experience"]
-  },
-
-  project_ai_interview: {
-    id: "project_ai_interview",
-    title: "AI Mock Interview Platform",
-    keywords: ["interview", "mock interview", "ai interview", "gemini", "vapi", "voice agent"],
-    response: `🧠 AI Mock Interview Platform
-
-Tech Stack: Next.js, Firebase, Tailwind CSS, Vapi AI, Google Gemini API
-
-Features:
-• Conducts realistic mock interviews using AI voice agents
-• Real-time scoring and feedback
-• Firebase handles authentication and session storage
-• Responsive design with Tailwind CSS
-
-This project demonstrates full-stack development and AI integration for a practical real-world use case.`,
-    suggestions: [
-      "What other AI projects has he done?",
-      "Tell me about his ML skills",
-      "Show me more projects"
-    ],
-    relatedTopics: ["skills", "projects"],
-    metadata: {
-      TechStack: ["Next.js", "Firebase", "Tailwind", "Vapi AI", "Google Gemini"]
-    }
-  },
-
-  project_video_platform: {
-    id: "project_video_platform",
-    title: "Video Sharing Platform",
-    keywords: ["video", "screen recording", "screen record", "video platform", "bunny", "better auth", "arcjet"],
-    response: `📹 Video Sharing Platform
-
-Tech Stack: Next.js, TypeScript, Bunny.net, Better Auth, Xata, Arcjet, Drizzle ORM
-
-Features:
-• Screen recording and secure upload
-• Global CDN delivery with Bunny.net
-• AI-generated transcripts for accessibility
-• Arcjet-powered advanced security
-
-A cloud-native, production-ready platform showcasing serverless architecture.`,
-    suggestions: [
-      "How does the AI transcript work?",
-      "What other full-stack projects?",
-      "Tell me about his cloud skills"
-    ],
-    relatedTopics: ["skills", "projects", "experience"]
-  },
-
-  project_brain_tumor: {
-    id: "project_brain_tumor",
-    title: "Brain Tumor Classification",
-    keywords: ["brain tumor", "tumor classification", "medical ai", "mri", "efficientnet", "cnn"],
-    response: `🧬 Brain Tumor Classification
-
-• Achieved 99.84% accuracy on 7,023 MRI scans
-• Benchmarked CNN, VGG16, InceptionV3, EfficientNetB3
-• Optimized EfficientNetB3 model for real-world clinical use
-• Published at IEEE 2024 International Conference on Cognitive Robotics and Intelligent Systems
-
-Demonstrates AI for healthcare, model optimization, and applied research.`,
-    suggestions: [
-      "What's his research background?",
-      "Tell me about other AI projects",
-      "What ML skills does he have?"
-    ],
-    relatedTopics: ["skills", "publications"]
-  },
-
-  project_llm_detector: {
-    id: "project_llm_detector",
-    title: "LLM Text Detector",
-    keywords: ["llm", "text detect", "ai detect", "bert", "gpt", "nlp"],
-    response: `📝 LLM Text Detector
-
-• Developed using BERT
-• 95.25% accuracy on detecting AI-generated content
-• Fine-tuned transformer model for linguistic pattern analysis
-• Applications in academic integrity and content moderation.`,
-    suggestions: [
-      "What other NLP work has he done?",
-      "Tell me about his AI skills",
-      "What are his research interests?"
-    ],
-    relatedTopics: ["skills", "projects"]
+    relatedTopics: ["ai_ml", "data", "skills"]
   },
 
   experience: {
     id: "experience",
     title: "Professional Experience",
-    keywords: ["experience", "job", "work", "role", "position", "consultant", "employment", "career"],
-    response: `💼 IT Consultant — Indiana University UITS  
-Aug 2025 – Present | Bloomington, IN
+    keywords: ["experience", "work", "job", "role", "employment", "career"],
+    response: `💼 Professional Experience
 
-• Troubleshot across Windows, macOS, and mobile platforms
-• Optimized enterprise authentication, cloud storage, and learning systems
-• Performed root-cause analysis and created documentation
-• Improved resolution times and user experience
+🏥 Software Engineer — Global Health Impact Project
+Indiana University | Feb 2026 – Present (Volunteer)
 
-Skills Applied: Cross-platform support, Identity Management, Cloud Systems, Communication, Debugging`,
+• Building a data-driven platform to analyze pharmaceutical interventions across populations
+• Developing full-stack features (React, TypeScript, Python) for forecasting and analytics
+• Designing scalable APIs and data pipelines to evaluate treatment coverage and health outcomes
+• Translating cross-functional research requirements into production-ready solutions
+
+🖥️ IT Consultant — UITS (Indiana University)
+Aug 2025 – Present
+
+• Resolved 100+ technical issues weekly across enterprise systems
+• Applied structured root-cause analysis to reduce recurring system issues
+• Managed identity and access systems ensuring secure, seamless authentication
+• Documented support workflows to improve operational efficiency and service delivery`,
     suggestions: [
-      "What kind of role is he seeking?",
-      "Tell me about his education",
-      "Can I contact him?"
+      "What kind of roles is he targeting?",
+      "Tell me about his projects",
+      "What is his education background?"
     ],
-    relatedTopics: ["skills", "education", "contact"]
+    relatedTopics: ["skills", "projects", "education"]
   },
 
   education: {
     id: "education",
     title: "Education",
-    keywords: ["education", "degree", "university", "college", "study", "academic", "school", "masters", "bachelor"],
-    response: `🎓 Master of Science in Computer Science  
-Indiana University Bloomington | Aug 2024 – May 2026  
-CGPA: 3.73 / 4.0
+    keywords: ["education", "degree", "university", "masters", "bachelor", "gpa", "school", "study"],
+    response: `🎓 Education
 
-Relevant Courses: Applied Algorithms, Software Engineering, Advanced Database Concepts, Applied ML, Computer Networks, Engineering Cloud Computing, Fundamentals & Applications of LLMs
+📘 Master of Science in Computer Science
+Indiana University Bloomington | Aug 2024 – May 2026
+GPA: 3.82 / 4.0
 
-🎓 Bachelor of Technology in CSE  
-KIIT University, India | Aug 2020 – May 2024  
-CGPA: 3.54 / 4.0
+Relevant Coursework:
+• Applied Machine Learning
+• Advanced Database Concepts
+• Applied Algorithms
+• Computer Networks
+• Engineering Cloud Computing
+• Fundamentals & Applications of LLMs
+• Software Engineering
 
-Achievement: Built a UAV with KIIT Robotics Society demonstrating practical engineering skills.`,
+📗 Bachelor of Technology in Computer Science & Engineering
+Kalinga Institute of Industrial Technology (KIIT University), India
+Aug 2020 – May 2024
+GPA: 8.85 / 10.0`,
     suggestions: [
-      "Tell me about his projects",
-      "What certifications does he have?",
-      "What LLM courses is he taking?"
+      "What projects has he done?",
+      "What are his technical skills?",
+      "Tell me about his work experience"
     ],
-    relatedTopics: ["projects", "certifications", "skills"]
+    relatedTopics: ["skills", "projects", "experience"]
   },
 
-  certifications: {
-    id: "certifications",
-    title: "Certifications",
-    keywords: ["certification", "certified", "certificate", "credential", "course", "training"],
-    response: `🏆 Certifications
+  ai_ml: {
+    id: "ai_ml",
+    title: "AI & Machine Learning Expertise",
+    keywords: ["ai", "ml", "machine learning", "deep learning", "nlp", "llm", "neural", "transformer", "bert", "model"],
+    response: `🤖 AI / ML Expertise
 
-• AWS Academy Graduate — Introduction to Cloud (Semester 1)  
-• DeepLearning.AI — Neural Networks & Deep Learning, Improving Deep Neural Networks  
-• UAV Workshop — Built UAV with KIIT Robotics Society (hands-on engineering)`,
+Deep Learning:
+• CNNs, LSTMs, EfficientNet, VGG16, InceptionV3
+• Brain Tumor Classification — 99.84% accuracy, IEEE publication
+
+NLP & Transformers:
+• BERT, DeBERTa-v3, Hugging Face
+• Aphasia Detection (F1: 0.90) on clinical transcripts
+• LLM Text Detection — 95%+ accuracy (BERT fine-tuned)
+
+LLMs & Generative AI:
+• Prompt Engineering, Gemini API, Vapi AI
+• AI Mock Interview Platform — real-time voice + LLM feedback
+
+Time Series & Forecasting:
+• LSTM-based stock price prediction
+• Forecasting pipelines for global health analytics
+
+MLOps:
+• Model evaluation, cross-validation, hyperparameter tuning
+• Experiment tracking, precision-recall trade-off analysis
+
+Frameworks: TensorFlow, PyTorch, Scikit-learn`,
     suggestions: [
-      "What cloud experience does he have?",
-      "Tell me about his AI skills",
-      "What courses has he completed?"
+      "Tell me about his NLP work",
+      "What is his IEEE publication?",
+      "What LLM tools has he used?",
+      "Show all his projects"
     ],
-    relatedTopics: ["skills", "education"]
+    relatedTopics: ["projects", "skills", "publications"]
+  },
+
+  data: {
+    id: "data",
+    title: "Data Engineering & Analytics",
+    keywords: ["data", "etl", "analytics", "pipeline", "dashboard", "sql", "tableau", "pandas", "warehouse"],
+    response: `📊 Data Engineering & Analytics
+
+Data Engineering:
+• ETL pipelines for structured and unstructured data (Python, Airflow, PostgreSQL)
+• Normalized database schema design (10k+ records)
+• Batch processing and data warehousing
+
+Analytics & Visualization:
+• Tableau dashboards for KPI tracking, retention, and trend analysis
+• Chart.js and Matplotlib for embedded and exploratory visualization
+• Statistical analysis and EDA using Pandas and NumPy
+
+Key Projects:
+• User Behavior Analytics Pipeline (Airflow + PostgreSQL + Tableau)
+• Retail Analytics Platform (ETL + dashboards + PostgreSQL)
+• Business Analytics Dashboard (KPI tracking, forecasting, scenario analysis)
+• Global Health Platform (forecasting models, population-level treatment analytics)
+
+Tools: Pandas, NumPy, Tableau, Chart.js, Matplotlib, PostgreSQL, MySQL, Airflow`,
+    suggestions: [
+      "What ML work has he done?",
+      "Does he have SQL experience?",
+      "Tell me about his analytics projects"
+    ],
+    relatedTopics: ["skills", "projects"]
   },
 
   publications: {
     id: "publications",
-    title: "Publications & Research",
-    keywords: ["publication", "paper", "research", "ieee", "conference", "article"],
+    title: "Research Publications",
+    keywords: ["publication", "research", "paper", "ieee", "journal", "published"],
     response: `📄 Research Publication
 
-"Identifying Various Types of Brain Tumors using Deep Neural Network based Image Features"  
-Published at IEEE International Conference on Cognitive Robotics and Intelligent Systems (2024)
+"Identifying Various Types of Brain Tumors using Deep Neural Networks"
+IEEE International Conference on Computing, Robotics and Informatics (ICC-ROBINS), 2024
 
-• 99.84% accuracy achieved using CNN and EfficientNetB3
-• Research focused on medical AI and computational efficiency`,
+DOI: 10.1109/ICC-ROBINS60238.2024.10533941
+
+• Achieved 99.84% accuracy on 7,000+ MRI scans
+• Benchmarked CNN, VGG16, InceptionV3, EfficientNet architectures
+• Focused on medical AI, model efficiency, and clinical applicability`,
     suggestions: [
-      "Tell me about the brain tumor project",
-      "What other AI projects has he done?"
+      "Tell me about his AI/ML projects",
+      "What are his deep learning skills?",
+      "Show all projects"
     ],
-    relatedTopics: ["projects", "skills"]
+    relatedTopics: ["projects", "ai_ml"]
   },
 
   contact: {
     id: "contact",
     title: "Contact Information",
-    keywords: ["contact", "email", "phone", "linkedin", "github", "reach", "connect", "hire", "portfolio", "website"],
-    response: `📬 Let's Connect
+    keywords: ["contact", "email", "linkedin", "github", "hire", "reach", "portfolio", "website"],
+    response: `📬 Contact
 
-Email: agarwaludit13@gmail.com  
-Phone: +1 (930) 904-4901  
-LinkedIn: linkedin.com/in/udit013  
-GitHub: github.com/Udit013  
-Portfolio: udit-portfolio-website.vercel.app
+Email:     agarwaludit13@gmail.com
+Phone:     +1 (930) 904-4901
+LinkedIn:  linkedin.com/in/udit013
+GitHub:    github.com/Udit013
+Portfolio: uditagarwal-website.vercel.app
+Location:  Bloomington, IN (EST)
 
-Actively seeking full-time roles starting May 2026.`,
+🎯 Actively seeking Software Engineering, AI/ML, and Data roles
+   Available from May 2026`,
     suggestions: [
       "Tell me about his experience",
       "What are his skills?",
-      "What roles is he seeking?"
+      "Show his projects"
     ],
-    relatedTopics: ["experience", "projects", "skills"]
+    relatedTopics: ["experience", "projects"]
+  },
+
+  about: {
+    id: "about",
+    title: "About Udit",
+    keywords: ["about", "who", "whoami", "intro", "introduction", "udit", "background"],
+    response: `👋 About Udit Agarwal
+
+AI Engineer & Full-Stack Developer currently pursuing an MS in Computer Science
+at Indiana University Bloomington (GPA: 3.82 / 4.0).
+
+Passionate about building intelligent, scalable systems — from deep learning models
+achieving 99%+ accuracy to production full-stack platforms with modern architectures.
+
+Background spans:
+• AI/ML research (IEEE-published, NLP, LLMs, Computer Vision)
+• Full-stack development (React, Next.js, Node.js, Python)
+• Data engineering & analytics (ETL, PostgreSQL, Tableau)
+• Cloud & systems design (AWS, Docker, distributed systems)
+
+Currently working as a Software Engineer on a Global Health Impact research platform
+at Indiana University, and as an IT Consultant at UITS.
+
+🎯 Seeking full-time roles in SWE · AI/ML · Data — available May 2026`,
+    suggestions: [
+      "Show his projects",
+      "What are his skills?",
+      "Tell me about his experience"
+    ],
+    relatedTopics: ["skills", "projects", "experience"]
   }
+
 };
 
 export default knowledgeBase;

@@ -423,13 +423,27 @@ const initTyping = () => {
 const initBadge = () => {
   const badge = qs('#badgeCenter');
   if (!badge) return;
+
   const ids = ['home', 'about', 'skills', 'journey', 'projects', 'contact'];
-  ids.forEach((id, i) => {
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        const index = entry.target.dataset.index;
+
+        badge.innerHTML =
+          `${String(+index).padStart(2, '0')}<br>${id.toUpperCase()}`;
+      }
+    });
+  }, { threshold: 0.4 });
+
+  ids.forEach((id, index) => {
     const el = qs('#' + id);
-    if (!el) return;
-    new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) badge.innerHTML = `00<br>${id.toUpperCase()}`;
-    }, { threshold: .4 }).observe(el);
+    if (el) {
+      el.dataset.index = index;
+      observer.observe(el);
+    }
   });
 };
 // ────────────────────────────────────────────

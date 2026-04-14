@@ -1,93 +1,603 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Basic -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Udit Agarwal — Software Engineer & AI/ML Researcher. MS CS Indiana University. Building intelligent, scalable systems." />
+  <title>Udit Agarwal — Software Engineer & AI/ML</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;500;700;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/css/main.css" />
+</head>
+<body>
 
-    <!-- Title (UPDATED) -->
-    <title>Udit Agarwal | Software Engineer | Machine Learning & Systems</title>
+<!-- CURSOR -->
+<div id="cur-dot" aria-hidden="true"></div>
+<div id="cur-ring" aria-hidden="true">
+  <span class="cur-label" id="curLabel"></span>
+</div>
 
-    <!-- SEO -->
-    <meta
-      name="description"
-      content="Udit Agarwal - MS CS @ Indiana University. Software Engineer specializing in machine learning, scalable systems, and full-stack development."
-    />
-    <meta
-      name="keywords"
-      content="Udit Agarwal, Software Engineer, Machine Learning, Systems, Full Stack, React, Node.js, Python, Portfolio"
-    />
-    <meta name="author" content="Udit Agarwal" />
+<!-- SCROLL PROGRESS -->
+<div id="scroll-prog" aria-hidden="true"><div id="scroll-fill"></div></div>
 
-    <!-- Canonical -->
-    <link rel="canonical" href="https://uditagarwal-website.vercel.app/" />
+<!-- ══════════ NAV ══════════ -->
+<header id="site-nav">
+  <a href="#home" class="nav-logo">
+    <span class="nav-logo-mark">U</span>
+    <span class="nav-logo-text">Udit.dev</span>
+  </a>
+  <nav class="nav-links" aria-label="Main navigation">
+    <a class="nav-link" href="#about"    data-nav="about">About</a>
+    <a class="nav-link" href="#skills"   data-nav="skills">Skills</a>
+    <a class="nav-link" href="#journey"  data-nav="journey">Journey</a>
+    <a class="nav-link" href="#projects" data-nav="projects">Projects</a>
+    <a class="nav-link" href="#contact"  data-nav="contact">Contact</a>
+  </nav>
+  <div class="nav-actions">
+    <a class="nav-resume" href="/resume.pdf" target="_blank" rel="noopener" data-cursor="Open">Resume ↗</a>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme"><span class="theme-icon">🌙</span></button>
+    <button class="burger" id="burgerBtn" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/udit_agarwal_favicon.ico" />
-    <link rel="apple-touch-icon" href="/udit_agarwal_favicon.png" />
+<!-- Mobile drawer -->
+<div id="mobile-drawer" aria-hidden="true">
+  <div class="drawer-inner">
+    <a class="drawer-link" href="#about">About</a>
+    <a class="drawer-link" href="#skills">Skills</a>
+    <a class="drawer-link" href="#journey">Journey</a>
+    <a class="drawer-link" href="#projects">Projects</a>
+    <a class="drawer-link" href="#contact">Contact</a>
+    <a class="drawer-link drawer-resume" href="/resume.pdf" target="_blank">Resume ↗</a>
+  </div>
+</div>
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Udit Agarwal | Software Engineer | Machine Learning & Systems" />
-    <meta
-      property="og:description"
-      content="Building scalable systems, machine learning models, and data-driven applications."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://uditagarwal-website.vercel.app/" />
-    <meta property="og:image" content="https://uditagarwal-website.vercel.app/preview.png" />
+<!-- ══════════ HERO ══════════ -->
+<section id="home" class="hero">
+  <div class="hero-inner">
+    <!-- Eyebrow -->
+    <div class="hero-eyebrow" id="heroEyebrow">
+      <span class="eyebrow-line"></span>
+      <span class="avail-dot"></span>
+      <span>Available · Full-time · June 2026</span>
+      <span class="eyebrow-line"></span>
+      <span class="eyebrow-loc">Bloomington, IN, USA · EST</span>
+    </div>
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Udit Agarwal | Software Engineer | Machine Learning & Systems" />
-    <meta
-      name="twitter:description"
-      content="Software Engineer building intelligent systems, scalable applications, and ML-driven solutions."
-    />
-    <meta name="twitter:image" content="https://uditagarwal-website.vercel.app/preview.png" />
+    <!-- Spinning badge — does NOT overflow hero-inner -->
+    <div class="hero-badge" id="heroBadge" aria-hidden="true">
+      <svg viewBox="0 0 120 120" class="badge-svg">
+        <defs><path id="bp" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
+        <text class="badge-text"><textPath href="#bp">
+  SOFTWARE ENGINEER • AI/ML • DATA • SYSTEMS • SOFTWARE ENGINEER •
+</textPath></text>
+      </svg>
+      <div class="hero-badge-center" id="badgeCenter"><br>INTRO</div>
+    </div>
 
-    <!-- Theme -->
-    <meta name="theme-color" content="#0f172a" />
+    <!--
+      NAME — THE FIX:
+      .name-row has overflow:hidden for the slide-up clip.
+      padding-bottom + negative margin-bottom prevent letter clipping.
+      .hero-name has NO overflow:hidden.
+    -->
+    <h1 class="hero-name" aria-label="Udit Agarwal">
+      <span class="name-row"><span class="name-inner" id="nameRow1">UDIT</span></span>
+      <span class="name-row"><span class="name-inner name-ghost" id="nameRow2">AGARWAL</span></span>
+    </h1>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Typing role — NO overflow hidden, white-space: nowrap on role text -->
+    <div class="hero-role-wrap" id="heroRole">
+      <span class="role-bar"></span>
+      <p class="hero-role"><span id="typingText"></span><span class="type-cursor"></span></p>
+    </div>
+  </div>
 
-    <link
-      rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      as="style"
-    />
+  <!-- Bottom meta bar -->
+  <div class="hero-meta" id="heroMeta">
+    <div class="hero-meta-left">
+      <p class="hero-desc">Building intelligent systems and interfaces that <em>feel alive</em> — from IEEE‑published deep learning research to production full‑stack platforms.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary" data-magnetic data-cursor="Connect">Let's Connect →</a>
+        <a href="https://github.com/Udit013"      target="_blank" rel="noopener" class="hero-pill" data-cursor="GitHub">GitHub ↗</a>
+        <a href="https://linkedin.com/in/udit013" target="_blank" rel="noopener" class="hero-pill" data-cursor="LinkedIn">LinkedIn ↗</a>
+        <a href="mailto:agarwaludit13@gmail.com"  class="hero-pill" data-cursor="Email">Email ↗</a>
+      </div>
+      <div class="hero-stat-row">
+        <span>📍 Bloomington, IN, USA</span>
+        <span>📞 +1 (930) 904-4901</span>
+        <span><span class="live-dot"></span> Responds &lt; 24h</span>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span class="scroll-line"></span>
+      <span>Scroll</span>
+    </div>
+  </div>
+</section>
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+<!-- MARQUEE -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="mq hi">Full-Stack Engineering</span><span class="mq">Python · React · Next.js</span>
+    <span class="mq hi">AI / ML Research</span><span class="mq">IEEE Published · ICC-ROBINS 2024</span>
+    <span class="mq hi">Cloud Native</span><span class="mq">PostgreSQL · Docker · AWS</span>
+    <span class="mq hi">NLP · Transformers · LLMs</span><span class="mq">Data Engineering · ETL</span>
+    <span class="mq hi">Full-Stack Engineering</span><span class="mq">Python · React · Next.js</span>
+    <span class="mq hi">AI / ML Research</span><span class="mq">IEEE Published · ICC-ROBINS 2024</span>
+    <span class="mq hi">Cloud Native</span><span class="mq">PostgreSQL · Docker · AWS</span>
+    <span class="mq hi">NLP · Transformers · LLMs</span><span class="mq">Data Engineering · ETL</span>
+  </div>
+</div>
 
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Udit Agarwal",
-        "url": "https://uditagarwal-website.vercel.app/",
-        "sameAs": [
-          "https://github.com/Udit013",
-          "https://linkedin.com/in/udit013"
-        ],
-        "jobTitle": "Software Engineer",
-        "description": "Software Engineer specializing in machine learning and scalable systems",
-        "alumniOf": {
-          "@type": "CollegeOrUniversity",
-          "name": "Indiana University Bloomington"
-        }
-      }
-    </script>
-  </head>
+<!-- ══════════ ABOUT ══════════ -->
+<section id="about" class="section">
+  <div class="sec-label"><span class="sec-num">01</span> About</div>
+  <div class="about-layout">
+    <!-- Left sticky -->
+    <div class="about-sticky">
+      <h2 class="display-h split-h">Code<br><span class="stroke-text">meets</span><br>Intel&shy;li&shy;gence</h2>
+      <p class="serif-intro">Software engineer and graduate student at Indiana University Bloomington. Building intelligent, scalable systems — from production full-stack apps to IEEE-published AI/ML research. Purposeful code. Genuinely useful solutions.</p>
+      <p class="serif-now">Currently exploring: <span>LLM Agents</span> · <span>Health AI</span> · <span>Real-time Voice AI</span></p>
 
-  <body>
-    <div id="root"></div>
+      <div class="philosophy-block reveal-up" style="--d:.1s">
+        <div class="philo-item"><span class="philo-icon">⟳</span><span>Iterate fast, ship with care</span></div>
+        <div class="philo-item"><span class="philo-icon">◎</span><span>Systems thinking, not just features</span></div>
+        <div class="philo-item"><span class="philo-icon">△</span><span>Research-informed engineering</span></div>
+      </div>
 
-    <!-- Main App -->
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+      <!-- Education -->
+      <div class="edu-stack" style="margin-top:2rem">
+
+  <!-- MS -->
+  <div class="edu-card glass-card reveal-up" style="--d:.15s">
+    <div class="edu-left">
+      <div class="edu-deg">M.S. Computer Science</div>
+      <div class="edu-school">Indiana University Bloomington, IN, USA</div>
+      <div class="edu-period">Aug 2024 – May 2026</div>
+
+      <div class="edu-coursework">
+        <div class="edu-cw-label">Relevant Coursework</div>
+        <div class="edu-cw-grid">
+          <span>Applied Machine Learning</span>
+          <span>Advanced Database Concepts</span>
+          <span>Applied Algorithms</span>
+          <span>Engineering Cloud Computing</span>
+          <span>Fundamentals of LLMs</span>
+          <span>Software Engineering</span>
+          <span>Computer Networks</span>
+          <span>Distributed Systems</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="edu-gpa" data-count="3.82/4.0">0</div>
+  </div>
+
+  <!-- BTECH -->
+  <div class="edu-card glass-card reveal-up" style="--d:.22s">
+    <div class="edu-left">
+      <div class="edu-deg">B.Tech CS & Engineering</div>
+      <div class="edu-school">Kalinga Institute of Industrial Technology (KIIT University), India</div>
+      <div class="edu-period">Aug 2020 – May 2024</div>
+
+      <div class="edu-coursework">
+        <div class="edu-cw-label">Relevant Coursework</div>
+        <div class="edu-cw-grid">
+          <span>Data Structures & Algorithms</span>
+          <span>Operating Systems</span>
+          <span>Database Management Systems</span>
+          <span>Computer Networks</span>
+          <span>Object-Oriented Programming</span>
+          <span>Machine Learning</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="edu-gpa" data-count="8.85/10.0">0</div>
+  </div>
+
+</div>
+
+      <!-- Certifications -->
+      <div class="cert-block reveal-up" style="--d:.28s">
+        <div class="cert-label">Certifications</div>
+        <div class="cert-list">
+          <div class="cert-item"><span class="cert-issuer">DeepLearning.AI</span><span class="cert-name">Neural Networks &amp; Deep Learning</span></div>
+          <div class="cert-item"><span class="cert-issuer">DeepLearning.AI</span><span class="cert-name">Improving DNNs: Hyperparameter Tuning</span></div>
+          <div class="cert-item"><span class="cert-issuer">Amazon Web Services</span><span class="cert-name">AWS Academy Graduate — Cloud Introduction</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right — pillars -->
+    <div class="pillar-stack glass-card reveal-up" style="--d:.08s">
+      <div class="pillar">
+        <div class="pillar-row"><h3 class="pillar-title">Full-Stack Engineering</h3><span class="pillar-num">01</span></div>
+        <p class="pillar-desc">End-to-end systems from API design to production UIs. React, Next.js, Node.js, PostgreSQL, FastAPI — shipped at scale.</p>
+        <div class="chip-row"><span class="chip">React</span><span class="chip">Next.js</span><span class="chip">Node.js</span><span class="chip">TypeScript</span><span class="chip">PostgreSQL</span><span class="chip">FastAPI</span><span class="chip">Drizzle ORM</span></div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-row"><h3 class="pillar-title">AI / ML Research</h3><span class="pillar-num">02</span></div>
+        <p class="pillar-desc">IEEE-published research in medical imaging. CNNs, LSTMs, NLP pipelines, transformers, fine-tuned LLMs, and real-time voice AI in production.</p>
+        <div class="chip-row"><span class="chip">TensorFlow</span><span class="chip">PyTorch</span><span class="chip">BERT</span><span class="chip">DeBERTa</span><span class="chip">Hugging Face</span><span class="chip">Gemini API</span><span class="chip">Vapi AI</span></div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-row"><h3 class="pillar-title">Data Engineering &amp; Analytics</h3><span class="pillar-num">03</span></div>
+        <p class="pillar-desc">ETL pipelines, normalized schema design, batch processing, and dashboards that transform raw datasets into actionable decisions.</p>
+        <div class="chip-row"><span class="chip">ETL</span><span class="chip">Airflow</span><span class="chip">Tableau</span><span class="chip">SQL</span><span class="chip">Pandas</span><span class="chip">NumPy</span><span class="chip">Chart.js</span></div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-row"><h3 class="pillar-title">Cloud &amp; Systems Design</h3><span class="pillar-num">04</span></div>
+        <p class="pillar-desc">Distributed systems, cloud infrastructure, containerization, auth flows, and API design with a focus on reliability at scale.</p>
+        <div class="chip-row"><span class="chip">AWS</span><span class="chip">Docker</span><span class="chip">CI/CD</span><span class="chip">Redis</span><span class="chip">Vercel</span><span class="chip">Firebase</span><span class="chip">System Design</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="section section-alt">
+  <div class="sec-label"><span class="sec-num">02</span> Skills</div>
+  <h2 class="display-h split-h" style="margin-bottom:2rem">The <span class="stroke-text">Tool</span>kit</h2>
+ 
+  <!-- ALL is default active -->
+  <div class="toolkit-filters" id="toolkitFilters">
+    <button class="tool-filter active" data-filter="all">All</button>
+    <button class="tool-filter" data-filter="frontend">Frontend</button>
+    <button class="tool-filter" data-filter="backend">Backend</button>
+    <button class="tool-filter" data-filter="ai">AI / ML</button>
+    <button class="tool-filter" data-filter="data">Data</button>
+    <button class="tool-filter" data-filter="cloud">Cloud</button>
+  </div>
+ 
+  <div class="skills-grid" id="skillsGrid">
+    <div class="skill-card glass-card" data-type="frontend">React</div>
+    <div class="skill-card glass-card" data-type="frontend">Next.js</div>
+    <div class="skill-card glass-card" data-type="frontend">TypeScript</div>
+    <div class="skill-card glass-card" data-type="frontend">JavaScript</div>
+    <div class="skill-card glass-card" data-type="frontend">HTML5</div>
+    <div class="skill-card glass-card" data-type="frontend">CSS3</div>
+    <div class="skill-card glass-card" data-type="frontend">Tailwind CSS</div>
+    <div class="skill-card glass-card" data-type="frontend">GSAP</div>
+    <div class="skill-card glass-card" data-type="backend">Node.js</div>
+    <div class="skill-card glass-card" data-type="backend">Express.js</div>
+    <div class="skill-card glass-card" data-type="backend">FastAPI</div>
+    <div class="skill-card glass-card" data-type="backend">REST APIs</div>
+    <div class="skill-card glass-card" data-type="backend">GraphQL</div>
+    <div class="skill-card glass-card" data-type="backend">API Design</div>
+    <div class="skill-card glass-card" data-type="backend">Authentication</div>
+    <div class="skill-card glass-card" data-type="backend">System Design</div>
+    <div class="skill-card glass-card" data-type="backend">Distributed Systems</div>
+    <div class="skill-card glass-card" data-type="ai">Python</div>
+    <div class="skill-card glass-card" data-type="ai">TensorFlow</div>
+    <div class="skill-card glass-card" data-type="ai">PyTorch</div>
+    <div class="skill-card glass-card" data-type="ai">Scikit-learn</div>
+    <div class="skill-card glass-card" data-type="ai">BERT</div>
+    <div class="skill-card glass-card" data-type="ai">DeBERTa</div>
+    <div class="skill-card glass-card" data-type="ai">Transformers</div>
+    <div class="skill-card glass-card" data-type="ai">Hugging Face</div>
+    <div class="skill-card glass-card" data-type="ai">NLP</div>
+    <div class="skill-card glass-card" data-type="ai">Prompt Engineering</div>
+    <div class="skill-card glass-card" data-type="ai">LLM APIs</div>
+    <div class="skill-card glass-card" data-type="ai">Gemini API</div>
+    <div class="skill-card glass-card" data-type="ai">Vapi AI</div>
+    <div class="skill-card glass-card" data-type="ai">Deep Learning</div>
+    <div class="skill-card glass-card" data-type="ai">Time Series</div>
+    <div class="skill-card glass-card" data-type="data">SQL</div>
+    <div class="skill-card glass-card" data-type="data">PostgreSQL</div>
+    <div class="skill-card glass-card" data-type="data">MySQL</div>
+    <div class="skill-card glass-card" data-type="data">MongoDB</div>
+    <div class="skill-card glass-card" data-type="data">Redis</div>
+    <div class="skill-card glass-card" data-type="data">Firebase</div>
+    <div class="skill-card glass-card" data-type="data">Drizzle ORM</div>
+    <div class="skill-card glass-card" data-type="data">Pandas</div>
+    <div class="skill-card glass-card" data-type="data">NumPy</div>
+    <div class="skill-card glass-card" data-type="data">Matplotlib</div>
+    <div class="skill-card glass-card" data-type="data">Tableau</div>
+    <div class="skill-card glass-card" data-type="data">Chart.js</div>
+    <div class="skill-card glass-card" data-type="data">Airflow</div>
+    <div class="skill-card glass-card" data-type="data">ETL Pipelines</div>
+    <div class="skill-card glass-card" data-type="data">Data Modeling</div>
+    <div class="skill-card glass-card" data-type="cloud">AWS</div>
+    <div class="skill-card glass-card" data-type="cloud">Docker</div>
+    <div class="skill-card glass-card" data-type="cloud">CI/CD</div>
+    <div class="skill-card glass-card" data-type="cloud">Git</div>
+    <div class="skill-card glass-card" data-type="cloud">Vercel</div>
+    <div class="skill-card glass-card" data-type="cloud">Postman</div>
+  </div>
+</section>
+<!-- ══════════ JOURNEY — Card-based ══════════ -->
+<section id="journey" class="section">
+  <div class="sec-label"><span class="sec-num">03</span> Journey</div>
+  <div class="journey-header">
+    <h2 class="display-h split-h">Professional<br><span class="accent-text"><span class="stroke-text">Journey</span></span></h2>
+  </div>
+  <div class="journey-layout">
+
+    <div class="journey-card glass-card reveal-up">
+      <div class="journey-card-top">
+        <div>
+          <div class="journey-period">Feb 2026 → Present</div>
+          <div class="journey-role">Software Engineer</div>
+          <div class="journey-company">Global Health Impact Project · Indiana University</div>
+        </div>
+        <span class="journey-type">Part-Time · Hybrid</span>
+      </div>
+      <ul class="journey-bullets">
+        <li>Building a data-driven global health platform (Python, React, SQL) analyzing pharmaceutical impact across populations</li>
+        <li>Contributing to a forecasting tool modeling treatment coverage, efficacy, and disease trend outcomes</li>
+        <li>Designing scalable APIs and data pipelines to evaluate health outcomes and treatment coverage</li>
+        <li>Translating cross-functional research requirements into production-ready full-stack solutions</li>
+        <li>Collaborating with research teams to improve data accessibility and usability</li>
+      </ul>
+      <div class="chip-row"><span class="chip">Python</span><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">SQL</span><span class="chip">FastAPI</span><span class="chip">Data Analysis</span></div>
+    </div>
+
+    <div class="journey-card glass-card reveal-up" style="--d:.12s">
+      <div class="journey-card-top">
+        <div>
+          <div class="journey-period">Aug 2025 → Present</div>
+          <div class="journey-role">Consultant</div>
+          <div class="journey-company">UITS · Indiana University Bloomington</div>
+        </div>
+        <span class="journey-type">Part-Time · On-site</span>
+      </div>
+      <ul class="journey-bullets">
+        <li>Resolved 100+ technical issues weekly across desktop, mobile, and enterprise systems for a large campus user base</li>
+        <li>Applied structured root-cause analysis to reduce recurring system issues and improve reliability</li>
+        <li>Managed identity and access systems ensuring secure and seamless user authentication</li>
+        <li>Assisted with network connectivity and system access across campus environments</li>
+        <li>Documented support workflows to improve operational efficiency and service delivery</li>
+      </ul>
+      <div class="chip-row"><span class="chip">Enterprise IT</span><span class="chip">Identity & Access</span><span class="chip">Troubleshooting</span><span class="chip">Problem Solving</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ PROJECTS ══════════ -->
+<section id="projects" class="section section-alt">
+  <div class="sec-label"><span class="sec-num">04</span> Projects</div>
+  <div class="proj-header">
+    <h2 class="display-h split-h">Selected<br><span class="accent-text"><span class="stroke-text">Work</span></span></h2>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="fs">Full-Stack</button>
+      <button class="filter-btn" data-filter="ml">AI / ML</button>
+      <button class="filter-btn" data-filter="dt">Data</button>
+    </div>
+  </div>
+ 
+  <div class="proj-grid" id="projGrid">
+    <article class="proj-card glass-card reveal-up" data-type="fs">
+      <div class="proj-card-top">
+        <div class="proj-tags-wrap"><span class="proj-badge fs">Full-Stack</span></div>
+        <a href="https://github.com/Udit013" target="_blank" rel="noopener" class="proj-card-link" data-cursor="View">↗</a>
+      </div>
+      <div class="proj-card-num">01</div>
+      <h3 class="proj-card-title">AI Mock Interview Platform</h3>
+      <p class="proj-card-desc">Full-stack AI system with real-time voice interviews, LLM-driven question generation via Gemini API, and structured feedback evaluation pipelines.</p>
+      <div class="proj-card-chips"><span class="chip">Next.js</span><span class="chip">Firebase</span><span class="chip">Node.js</span><span class="chip">Vapi AI</span><span class="chip">Gemini API</span></div>
+    </article>
+ 
+    <article class="proj-card glass-card reveal-up" data-type="ml" style="--d:.06s">
+      <div class="proj-card-top">
+        <div class="proj-tags-wrap"><span class="proj-badge ml">AI / ML</span><span class="proj-badge pub">IEEE 2024</span></div>
+        <a href="https://doi.org/10.1109/ICC-ROBINS60238.2024.10533941" target="_blank" rel="noopener" class="proj-card-link" data-cursor="Paper">↗</a>
+      </div>
+      <div class="proj-card-num">02</div>
+      <h3 class="proj-card-title">Brain Tumor Classification</h3>
+      <p class="proj-card-desc">Deep learning model published at ICC-ROBINS 2024. Benchmarked CNN, VGG16, InceptionV3, and EfficientNet on 7,000+ MRI scans.</p>
+      <div class="proj-card-stats">
+        <div class="proj-stat"><span class="proj-stat-val" data-count="99.84">0</span><small>%</small><span class="proj-stat-lbl">Accuracy</span></div>
+        <div class="proj-stat"><span class="proj-stat-val" data-count="7023">0</span><span class="proj-stat-lbl">MRI Scans</span></div>
+      </div>
+      <div class="proj-card-chips"><span class="chip">TensorFlow</span><span class="chip">Keras</span><span class="chip">EfficientNetB3</span><span class="chip">CNN</span></div>
+    </article>
+ 
+    <article class="proj-card glass-card reveal-up" data-type="fs" style="--d:.12s">
+      <div class="proj-card-top">
+        <div class="proj-tags-wrap"><span class="proj-badge fs">Full-Stack</span></div>
+        <a href="https://github.com/Udit013" target="_blank" rel="noopener" class="proj-card-link" data-cursor="View">↗</a>
+      </div>
+      <div class="proj-card-num">03</div>
+      <h3 class="proj-card-title">Screen Recording &amp; Video Platform</h3>
+      <p class="proj-card-desc">Serverless platform with screen recording, CDN delivery via Bunny.net, AI-generated transcripts, privacy controls, and Arcjet rate limiting.</p>
+      <div class="proj-card-chips"><span class="chip">Next.js</span><span class="chip">TypeScript</span><span class="chip">Bunny.net</span><span class="chip">Xata</span><span class="chip">Drizzle ORM</span><span class="chip">Arcjet</span></div>
+    </article>
+ 
+    <article class="proj-card glass-card reveal-up" data-type="ml" style="--d:.18s">
+      <div class="proj-card-top">
+        <div class="proj-tags-wrap"><span class="proj-badge ml">AI / ML</span></div>
+        <a href="https://github.com/Udit013" target="_blank" rel="noopener" class="proj-card-link" data-cursor="View">↗</a>
+      </div>
+      <div class="proj-card-num">04</div>
+      <h3 class="proj-card-title">LLM Generated Text Detection</h3>
+      <p class="proj-card-desc">BERT-based classifier fine-tuned to distinguish human vs. AI-generated text with a cross-validation evaluation pipeline for reliable comparison.</p>
+      <div class="proj-card-stats">
+        <div class="proj-stat"><span class="proj-stat-val" data-count="95.25">0</span><small>%</small><span class="proj-stat-lbl">Accuracy</span></div>
+      </div>
+      <div class="proj-card-chips"><span class="chip">BERT</span><span class="chip">Hugging Face</span><span class="chip">PyTorch</span><span class="chip">NLP</span></div>
+    </article>
+ 
+    <article class="proj-card glass-card reveal-up" data-type="fs" style="--d:.24s">
+      <div class="proj-card-top">
+        <div class="proj-tags-wrap"><span class="proj-badge fs">Full-Stack</span></div>
+        <a href="https://github.com/Udit013" target="_blank" rel="noopener" class="proj-card-link" data-cursor="View">↗</a>
+      </div>
+      <div class="proj-card-num">05</div>
+      <h3 class="proj-card-title">Automated Secrets Scanner</h3>
+      <p class="proj-card-desc">Security tool detecting hardcoded credentials via entropy-based analysis and regex pattern matching with a full vulnerability dashboard.</p>
+      <div class="proj-card-chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">React</span><span class="chip">PostgreSQL</span></div>
+    </article>
+ 
+    <article class="proj-card glass-card reveal-up" data-type="ml" style="--d:.30s">
+      <div class="proj-card-top">
+        <div class="proj-tags-wrap"><span class="proj-badge ml">AI / ML</span></div>
+        <a href="https://github.com/Udit013" target="_blank" rel="noopener" class="proj-card-link" data-cursor="View">↗</a>
+      </div>
+      <div class="proj-card-num">06</div>
+      <h3 class="proj-card-title">Aphasia Detection — DeBERTa-v3</h3>
+      <p class="proj-card-desc">Clinical NLP system using fine-tuned DeBERTa-v3 on speech transcripts with custom preprocessing for dysfluency and annotation handling.</p>
+      <div class="proj-card-stats">
+        <div class="proj-stat"><span class="proj-stat-val" data-count="0.90">0</span><span class="proj-stat-lbl">F1-Score</span></div>
+      </div>
+      <div class="proj-card-chips"><span class="chip">DeBERTa-v3</span><span class="chip">Hugging Face</span><span class="chip">Clinical NLP</span><span class="chip">PyTorch</span></div>
+    </article>
+ 
+    <article class="proj-card glass-card reveal-up" data-type="dt" style="--d:.36s">
+      <div class="proj-card-top">
+        <div class="proj-tags-wrap"><span class="proj-badge dt">Data</span></div>
+        <a href="https://github.com/Udit013" target="_blank" rel="noopener" class="proj-card-link" data-cursor="View">↗</a>
+      </div>
+      <div class="proj-card-num">07</div>
+      <h3 class="proj-card-title">Retail Analytics Platform</h3>
+      <p class="proj-card-desc">Normalized schema handling 10K+ records, SQL-based ETL pipelines, and interactive KPI dashboards for business performance. Deployed on Vercel + Supabase.</p>
+      <div class="proj-card-chips"><span class="chip">Next.js</span><span class="chip">PostgreSQL</span><span class="chip">Drizzle ORM</span><span class="chip">Chart.js</span><span class="chip">ETL</span></div>
+    </article>
+ 
+    <article class="proj-card glass-card reveal-up" data-type="dt" style="--d:.42s">
+      <div class="proj-card-top">
+        <div class="proj-tags-wrap"><span class="proj-badge dt">Data</span><span class="proj-badge wip">In Progress</span></div>
+        <a href="https://github.com/Udit013" target="_blank" rel="noopener" class="proj-card-link" data-cursor="View">↗</a>
+      </div>
+      <div class="proj-card-num">08</div>
+      <h3 class="proj-card-title">User Behavior Analytics Pipeline</h3>
+      <p class="proj-card-desc">End-to-end ETL pipeline ingesting app logs for engagement and retention analysis with Airflow orchestration and Tableau dashboards.</p>
+      <div class="proj-card-chips"><span class="chip">Python</span><span class="chip">PostgreSQL</span><span class="chip">Airflow</span><span class="chip">Tableau</span></div>
+    </article>
+ 
+    <article class="proj-card glass-card reveal-up" data-type="ml" style="--d:.48s">
+      <div class="proj-card-top">
+        <div class="proj-tags-wrap"><span class="proj-badge ml">AI / ML</span></div>
+        <a href="https://github.com/Udit013" target="_blank" rel="noopener" class="proj-card-link" data-cursor="View">↗</a>
+      </div>
+      <div class="proj-card-num">09</div>
+      <h3 class="proj-card-title">Stock Market Prediction — LSTM</h3>
+      <p class="proj-card-desc">LSTM time series model predicting stock price trends from historical financial data with attention-based feature extraction and backtesting pipeline.</p>
+      <div class="proj-card-chips"><span class="chip">Python</span><span class="chip">TensorFlow</span><span class="chip">LSTM</span><span class="chip">Pandas</span><span class="chip">Time Series</span></div>
+    </article>
+ 
+    <article class="proj-card glass-card reveal-up" data-type="dt" style="--d:.54s">
+      <div class="proj-card-top">
+        <div class="proj-tags-wrap"><span class="proj-badge dt">Data</span></div>
+        <a href="https://github.com/Udit013" target="_blank" rel="noopener" class="proj-card-link" data-cursor="View">↗</a>
+      </div>
+      <div class="proj-card-num">10</div>
+      <h3 class="proj-card-title">Market Entry Strategy Simulator</h3>
+      <p class="proj-card-desc">Decision model evaluating market expansion strategies using simulated business data, SQL analytics, and scenario-based Tableau visualizations.</p>
+      <div class="proj-card-chips"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">Tableau</span><span class="chip">Simulation</span></div>
+    </article>
+  </div>
+ 
+  <div class="pub-block glass-card reveal-up" style="margin-top:2rem">
+    <div><div class="pub-label">📄 IEEE Publication</div></div>
+    <div class="pub-content">
+      <div class="pub-title">"Identifying Various Types of Brain Tumors using Deep Neural Networks"</div>
+      <div class="pub-venue">ICC-ROBINS 2024 · DOI: 10.1109/ICC-ROBINS60238.2024.10533941</div>
+      <div class="pub-stats">
+        <span>99.84% Accuracy</span><span>7,023 MRI Scans</span><span>EfficientNetB3</span><span>Co-authored</span>
+      </div>
+    </div>
+    <a href="https://doi.org/10.1109/ICC-ROBINS60238.2024.10533941" target="_blank" rel="noopener" class="pub-link" data-cursor="Read">Read Paper ↗</a>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact" class="section">
+  <div class="sec-label"><span class="sec-num">05</span> Contact</div>
+  <div class="contact-bg-text" aria-hidden="true">CONNECT</div>
+
+  <div class="contact-layout">
+    <div class="contact-left">
+      <h2 class="display-h split-h contact-h">Let's<br><span class="stroke-text">build</span><br>something</h2>
+      <p class="serif-body" style="margin-top:1.75rem;max-width:380px">Open to full-time roles in SWE, AI/ML, and Data Engineering. Research collaborations and interesting projects welcome.</p>
+
+      <div class="contact-links">
+        <a href="mailto:agarwaludit13@gmail.com" class="clink glass-card" data-magnetic data-cursor="Email">
+          <div class="clink-icon">✉</div>
+          <div class="clink-info"><span class="clink-label">Email</span><span class="clink-val">agarwaludit13@gmail.com</span></div>
+          <span class="clink-arr">↗</span>
+        </a>
+        <a href="tel:+19309044901" class="clink glass-card" data-magnetic data-cursor="Call">
+          <div class="clink-icon">📞</div>
+          <div class="clink-info"><span class="clink-label">Phone</span><span class="clink-val">+1 (930) 904-4901</span></div>
+          <span class="clink-arr">↗</span>
+        </a>
+        <a href="https://linkedin.com/in/udit013" target="_blank" rel="noopener" class="clink glass-card" data-magnetic data-cursor="LinkedIn">
+          <div class="clink-icon">in</div>
+          <div class="clink-info"><span class="clink-label">LinkedIn</span><span class="clink-val">linkedin.com/in/udit013</span></div>
+          <span class="clink-arr">↗</span>
+        </a>
+        <a href="https://github.com/Udit013" target="_blank" rel="noopener" class="clink glass-card" data-magnetic data-cursor="GitHub">
+          <div class="clink-icon">⌥</div>
+          <div class="clink-info"><span class="clink-label">GitHub</span><span class="clink-val">github.com/Udit013</span></div>
+          <span class="clink-arr">↗</span>
+        </a>
+      </div>
+
+      <div class="avail-block reveal-up">
+        <span class="live-dot"></span>
+        <p>Available for full-time opportunities starting June 2026. Bloomington, IN — open to remote and relocation. Seeking SWE · AI/ML · Data roles.</p>
+      </div>
+    </div>
+
+    <div class="contact-form glass-card reveal-up" id="contactFormWrap">
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label" for="fname">Name *</label>
+            <input class="form-input" id="fname" type="text" placeholder="Your name" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="femail">Email *</label>
+            <input class="form-input" id="femail" type="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="fcompany">Company</label>
+          <input class="form-input" id="fcompany" type="text" placeholder="Optional" />
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="fmsg">Message *</label>
+          <textarea class="form-input form-textarea" id="fmsg" placeholder="Tell me about the role, project, or collaboration…" required></textarea>
+        </div>
+        <button class="form-submit" type="submit" data-magnetic data-cursor="Send">Send Message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="foot-logo">UDIT<span>.</span>DEV</div>
+  <div class="foot-note">© 2026 · Vite · GSAP · Lenis · SplitType · Glassmorphism</div>
+  <div class="foot-links">
+    <a href="https://github.com/Udit013" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/udit013" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:agarwaludit13@gmail.com">Email</a>
+  </div>
+</footer>
+
+<!-- TERMINAL — bottom-right floater -->
+<button class="term-toggle" id="termToggle" aria-label="Open terminal" title="Press ` to toggle">&gt;_</button>
+<div class="term-panel" id="termPanel" aria-hidden="true">
+  <div class="term-titlebar">
+    <div class="term-traffic"><span style="background:#ff5f57"></span><span style="background:#ffbd2e"></span><span style="background:#28ca42"></span></div>
+    <span class="term-title">portfolio@udit:~</span>
+    <button class="term-close" id="termClose" aria-label="Close">×</button>
+  </div>
+  <div class="term-output" id="termOutput" role="log" aria-live="polite"></div>
+  <div class="term-inputbar">
+    <span class="term-prompt-label">$&nbsp;</span>
+    <input class="term-input" id="termInput" autocomplete="off" spellcheck="false" placeholder="type 'help'…" aria-label="Terminal input" />
+    <span class="term-cursor" aria-hidden="true"></span>
+  </div>
+</div>
+
+<script type="module" src="/src/js/main.js"></script>
+</body>
 </html>

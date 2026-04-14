@@ -18,7 +18,7 @@ const lerp = (a, b, t) => a + (b - a) * t;
 // ────────────────────────────────────────────
 const initTheme = () => {
   const html = document.documentElement;
-  const stored = localStorage.getItem('udit-theme') ?? 'light';
+  const stored = localStorage.getItem('udit-theme') ?? 'dark';
   html.setAttribute('data-theme', stored);
 
   const icon = qs('.theme-icon');
@@ -428,7 +428,7 @@ const initBadge = () => {
     const el = qs('#' + id);
     if (!el) return;
     new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) badge.innerHTML = `0${i+1}<br>${id.toUpperCase()}`;
+      if (entries[0].isIntersecting) badge.innerHTML = `00<br>${id.toUpperCase()}`;
     }, { threshold: .4 }).observe(el);
   });
 };

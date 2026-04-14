@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;500;700;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/css/main.css" />
+  <script>
+  const t = localStorage.getItem('udit-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  </script>
 </head>
 <body>
 
@@ -24,7 +28,7 @@
 <!-- ══════════ NAV ══════════ -->
 <header id="site-nav">
   <a href="#home" class="nav-logo">
-    <span class="nav-logo-mark">U</span>
+    <span class="nav-logo-mark">𐌵𐌀</span>
     <span class="nav-logo-text">Udit.dev</span>
   </a>
   <nav class="nav-links" aria-label="Main navigation">
@@ -75,7 +79,7 @@
   SOFTWARE ENGINEER • AI/ML • DATA • SYSTEMS • SOFTWARE ENGINEER •
 </textPath></text>
       </svg>
-      <div class="hero-badge-center" id="badgeCenter"><br>INTRO</div>
+      <div class="hero-badge-center" id="badgeCenter"><br>HOME</div>
     </div>
 
     <!--

@@ -21,12 +21,13 @@
   --bg:          #f2f0eb;
   --bg-alt:      #e9e6df;
   --bg-deep:     #e0ddd6;
-  --surface:     rgba(255,255,255,0.72);
+  --surface:     rgba(255,255,255,0.65);
   --surface-solid: #ffffff;
-  --glass:       rgba(255,255,255,0.55);
-  --glass-border: rgba(255,255,255,0.75);
-  --glass-shadow: 0 8px 32px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04);
-  --glass-shadow-hover: 0 16px 48px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.06);
+  --glass:       rgba(255, 255, 255, 0.35);
+  --glass-strong:rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(255,255,255,0.55);
+  --glass-shadow: 0 10px 32px rgba(0,0,0,0.08), 0 2px 10px rgba(0,0,0,0.04);
+  --glass-shadow-hover: 0 20px 60px rgba(0,0,0,0.1), 0 6px 20px rgba(0,0,0,0.06);
   --border:      rgba(0,0,0,0.08);
   --border2:     rgba(0,0,0,0.16);
   --fg:          #121010;
@@ -36,7 +37,7 @@
   --accent2:     #c05020;  /* warm terracotta — main CTA */
   --accent3:     #2d6a3f;  /* forest green — used on stats */
   --accent-light: rgba(192,80,32,0.08);
-  --nav-bg:      rgba(242,240,235,0.88);
+  --nav-bg:      rgba(242,240,235,0.75);
   --nav-border:  rgba(0,0,0,0.08);
   /* Gradient mesh blobs */
   --blob1: radial-gradient(ellipse 60% 50% at 15% 40%, rgba(192,160,120,0.18) 0%, transparent 70%);

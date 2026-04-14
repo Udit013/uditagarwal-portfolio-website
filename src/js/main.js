@@ -22,7 +22,7 @@ const initTheme = () => {
   html.setAttribute('data-theme', stored);
 
   const icon = qs('.theme-icon');
-  const setIcon = t => { icon.textContent = t === 'dark' ? '☀' : '🌙'; };
+  const setIcon = t => { icon.textContent = t === 'dark' ? '🔆' : '🌒'; };
   setIcon(stored);
 
   qs('#themeBtn').addEventListener('click', () => {

@@ -703,36 +703,38 @@ body.cur-label-show .cur-label { opacity: 1; }
 }
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(110px, 14vw, 150px), 1fr));
+  gap: 12px;
+  /* Reserve space so layout doesn't shift when cards hide/show */
+  min-height: 200px;
 }
 
 .skill-card {
-  padding: 12px;
+  padding: 11px 10px;
   border-radius: 12px;
   text-align: center;
-  font-size: clamp(0.75rem, 2vw, 0.9rem); /* responsive text */
+  font-size: clamp(0.72rem, 1.1vw, 0.87rem);
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-height: 50px;
-  line-height: 1.2; /* better readability */
-
+  cursor: default;
+  transition: transform 0.28s var(--ease-expo), box-shadow 0.28s var(--ease-expo);
+  min-height: 48px;
+  line-height: 1.25;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* word wrapping */
   word-break: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
 }
 
 .skill-card:hover {
-  transform: translateY(-4px) scale(1.03);
+  transform: translateY(-3px) scale(1.04);
 }
+
+/* Hidden state uses visibility + pointer-events so GSAP can still animate opacity/scale */
 .skill-card.sc-hidden {
-  display: none;
+  visibility: hidden;
+  pointer-events: none;
 }
 .skills-grid-cats {
   display: grid;
@@ -886,6 +888,10 @@ body.cur-label-show .cur-label { opacity: 1; }
 .proj-card { position: relative; overflow: hidden; padding: 24px 22px; display: flex; flex-direction: column; gap: 12px; }
 .proj-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent2), var(--accent3)); transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ease-expo); }
 .proj-card:hover::after { transform: scaleX(1); }
+/* Filtered-out cards: invisible but still occupying grid slots on desktop,
+   so the remaining cards don't rearrange (preserves the fade-in-place effect).
+   Mobile overrides this to display:none to avoid blank gaps in single-column. */
+.proj-card.pc-hidden { visibility: hidden; pointer-events: none; }
 
 .proj-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
 .proj-tags-wrap { display: flex; gap: 5px; flex-wrap: wrap; }
@@ -1380,7 +1386,8 @@ body.cur-label-show .cur-label { opacity: 1; }
   .pillar-stack { position: static; }
 
   /* ── Skills ── */
-  .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .skills-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .skill-card { font-size: 0.72rem; padding: 10px 6px; min-height: 44px; }
   .skills-grid-cats { grid-template-columns: 1fr; }
   .toolkit-filters { gap: 6px; }
   .tool-filter { padding: 5px 12px; font-size: .75rem; }
@@ -1391,10 +1398,16 @@ body.cur-label-show .cur-label { opacity: 1; }
   .jtl-content { padding: 16px 14px; margin-bottom: 14px; }
 
   /* ── Projects ── */
-  .proj-grid { grid-template-columns: 1fr; }
+  .proj-grid { grid-template-columns: 1fr; gap: 12px; }
+  .proj-card.pc-hidden { display: none; } /* collapse gaps on single-column mobile */
   .proj-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  .filter-bar { gap: 4px; flex-wrap: wrap; }
-  .filter-btn { padding: 5px 12px; font-size: 9px; }
+  .filter-bar { gap: 6px; flex-wrap: wrap; }
+  .filter-btn { padding: 7px 14px; font-size: 10px; }
+  .proj-card { padding: 18px 16px; gap: 10px; }
+  .proj-card-title { font-size: .88rem; } /* restore legible size — 1.5vw at 390px is only ~6px */
+  .proj-card-desc { font-size: 12.5px; }
+  .proj-stat-val { font-size: 1.35rem; }
+  .chip { font-size: 9.5px; padding: 4px 9px; }
 
   /* ── Contact ── */
   .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -1447,6 +1460,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   .hero-name { font-size: clamp(2.6rem, 16vw, 3.5rem); }
   .section { padding: 3rem 1rem; }
   .display-h { font-size: clamp(1.8rem, 8vw, 2.5rem); }
-  .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 7px; }
+  .skill-card { font-size: 0.68rem; padding: 9px 5px; }
   .nav-resume { display: none; }
 }

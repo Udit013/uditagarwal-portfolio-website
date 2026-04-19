@@ -463,34 +463,41 @@ const initBadge = () => {
 const initToolkitFilter = () => {
   const btns  = qsa('.tool-filter');
   const cards = qsa('.skill-card');
- 
-  // All cards visible by default (no cards hidden on load)
-  // "all" button is already .active in HTML
- 
+
   const applyFilter = (filter) => {
-    cards.forEach((card, i) => {
+    const showing = [];
+    const hiding  = [];
+
+    cards.forEach(card => {
       const show = filter === 'all' || card.dataset.type === filter;
-      if (show) {
-        card.classList.remove('sc-hidden');
-        card.style.pointerEvents = 'auto';
-        gsap.to(card, {
-          opacity: 1, scale: 1, y: 0,
-          duration: 0.32, delay: i * 0.015,
-          ease: 'power2.out',
-          overwrite: true,
-        });
-      } else {
-        card.style.pointerEvents = 'none';
-        gsap.to(card, {
-          opacity: 0, scale: 0.88, y: 10,
-          duration: 0.22, ease: 'power2.in',
-          overwrite: true,
-          onComplete: () => card.classList.add('sc-hidden'),
-        });
-      }
+      (show ? showing : hiding).push(card);
+    });
+
+    // Animate out first
+    hiding.forEach(card => {
+      card.style.pointerEvents = 'none';
+      gsap.to(card, {
+        opacity: 0, scale: 0.88, y: 8,
+        duration: 0.18, ease: 'power2.in',
+        overwrite: true,
+        onComplete: () => card.classList.add('sc-hidden'),
+      });
+    });
+
+    // Animate in — stagger index only counts visible cards
+    showing.forEach((card, i) => {
+      card.classList.remove('sc-hidden');
+      card.style.pointerEvents = 'auto';
+      gsap.to(card, {
+        opacity: 1, scale: 1, y: 0,
+        duration: 0.28,
+        delay: i * 0.018,
+        ease: 'power2.out',
+        overwrite: true,
+      });
     });
   };
- 
+
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
       btns.forEach(b => b.classList.remove('active'));
@@ -498,8 +505,7 @@ const initToolkitFilter = () => {
       applyFilter(btn.dataset.filter);
     });
   });
- 
-  // Apply "all" on load (already all visible, but ensure state is clean)
+
   applyFilter('all');
 };
 // ────────────────────────────────────────────
@@ -509,22 +515,47 @@ const initProjects = () => {
   const btns  = qsa('.filter-btn');
   const cards = qsa('.proj-card');
 
+  const applyFilter = (filter) => {
+    const showing = [];
+    const hiding  = [];
+
+    cards.forEach(card => {
+      const show = filter === 'all' || card.dataset.type === filter;
+      (show ? showing : hiding).push(card);
+    });
+
+    // Fade out — add pc-hidden after so mobile CSS can collapse the slot.
+    // On desktop pc-hidden = visibility:hidden, so the grid slot is kept.
+    hiding.forEach(card => {
+      card.style.pointerEvents = 'none';
+      gsap.to(card, {
+        opacity: 0, y: 6, scale: 0.97,
+        duration: 0.22, ease: 'power2.in',
+        overwrite: true,
+        onComplete: () => card.classList.add('pc-hidden'),
+      });
+    });
+
+    // Fade in — remove pc-hidden first so the card is renderable, then animate.
+    // Stagger index only over visible cards so delays stay short.
+    showing.forEach((card, i) => {
+      card.classList.remove('pc-hidden');
+      card.style.pointerEvents = 'auto';
+      gsap.to(card, {
+        opacity: 1, y: 0, scale: 1,
+        duration: 0.32,
+        delay: i * 0.04,
+        ease: 'power2.out',
+        overwrite: true,
+      });
+    });
+  };
+
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
       btns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const f = btn.dataset.filter;
-
-      cards.forEach((card, i) => {
-        const show = f === 'all' || card.dataset.type === f;
-        card.style.pointerEvents = show ? 'auto' : 'none';
-        gsap.to(card, {
-          opacity: show ? 1 : 0,
-          y:       show ? 0 : 8,
-          scale:   show ? 1 : 0.97,
-          duration: .35, delay: show ? i * .04 : 0, ease: 'power2.out',
-        });
-      });
+      applyFilter(btn.dataset.filter);
     });
   });
 };
@@ -866,7 +897,7 @@ const initTerminal = () => {
     panel.setAttribute('aria-hidden', 'false');
     if (!booted) {
       setTimeout(() => {
-        print(`<span class="t-sys">\u25b8 portfolio terminal v2.0 \u2014 ${new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>`);
+        print(`<span class="t-sys">\u25b8 portfolio terminal \u2014 ${new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>`);
         print(`<span class="t-sys">type <span class="t-hi">help</span> \u00b7 tab autocomplete \u00b7 \u2191\u2193 history \u00b7 \` toggle</span>`);
         booted = true;
         input.focus();

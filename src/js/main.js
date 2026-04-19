@@ -37,7 +37,10 @@ const initTheme = () => {
 // LENIS
 // ────────────────────────────────────────────
 let lenis;
+const isTouchDevice = () => !window.matchMedia('(hover: hover)').matches;
+
 const initLenis = () => {
+  if (isTouchDevice()) return; // native scroll is smoother on mobile
   lenis = new Lenis({
     duration: 1.25,
     easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -72,18 +75,15 @@ const initNav = () => {
 
   // Glass on scroll
   const checkScroll = () => nav.classList.toggle('scrolled', window.scrollY > 50);
-  // window.addEventListener('scroll', checkScroll, { passive: true });
-  // checkScroll();
-  lenis.on('scroll', () => {
-  checkScroll();
-  });
+  if (lenis) {
+    lenis.on('scroll', checkScroll);
+  } else {
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    checkScroll();
+  }
 
   // Active section via IntersectionObserver
   const setActive = id => links.forEach(l => l.classList.toggle('active', l.dataset.nav === id));
-  new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
-  }, { rootMargin: '-52px 0px -55% 0px' })
-    .observe.bind(null); // placeholder — re-init per section below
   qsa('section[id]').forEach(sec => {
     new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) setActive(sec.id);
@@ -109,7 +109,14 @@ const initNav = () => {
     if (anchor) {
       e.preventDefault();
       const target = qs(anchor.getAttribute('href'));
-      if (target) lenis?.scrollTo(target, { offset: -70, duration: 1.4 });
+      if (target) {
+        if (lenis) {
+          lenis.scrollTo(target, { offset: -70, duration: 1.4 });
+        } else {
+          const y = target.getBoundingClientRect().top + window.scrollY - 70;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }
       closeDrawer();
     }
     if (drawer.classList.contains('open') && !drawer.contains(e.target) && !burger.contains(e.target)) {
@@ -129,12 +136,11 @@ const initCursor = () => {
   if (!dot || !ring) return;
   if (!window.matchMedia('(hover: hover)').matches) return;
 
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  let rx = 0, ry = 0;
 
   (function tick() {
-    rx = lerp(rx, mx, 0.11); ry = lerp(ry, my, 0.11);
-    dot.style.left  = mx + 'px'; dot.style.top  = my + 'px';
+    rx = lerp(rx, mouse.x, 0.11); ry = lerp(ry, mouse.y, 0.11);
+    dot.style.left  = mouse.x + 'px'; dot.style.top  = mouse.y + 'px';
     ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
     requestAnimationFrame(tick);
   })();
@@ -183,21 +189,35 @@ const initMagnetic = () => {
   });
 };
 // ────────────────────────────────────────────
+// UNIFIED MOUSE STATE — single mousemove listener shared by all consumers
+// ────────────────────────────────────────────
+const mouse = { x: 0, y: 0, nx: 0, ny: 0 }; // nx/ny = normalised -0.5..0.5
+window.addEventListener('mousemove', e => {
+  mouse.x  = e.clientX;
+  mouse.y  = e.clientY;
+  mouse.nx = e.clientX / window.innerWidth  - 0.5;
+  mouse.ny = e.clientY / window.innerHeight - 0.5;
+}, { passive: true });
+
+// ────────────────────────────────────────────
 // BACKGROUND INTERACTION (mouse reactive)
 // ────────────────────────────────────────────
 const initBackgroundInteraction = () => {
-  document.addEventListener('mousemove', (e) => {
-    const x = e.clientX / window.innerWidth * 100;
-    const y = e.clientY / window.innerHeight * 100;
-
-    document.documentElement.style.setProperty('--mx', `${x}%`);
-    document.documentElement.style.setProperty('--my', `${y}%`);
-  });
+  if (isTouchDevice()) return;
+  // Throttle to rAF — no separate mousemove listener
+  let raf;
+  const tick = () => {
+    document.documentElement.style.setProperty('--mx', `${(mouse.nx + 0.5) * 100}%`);
+    document.documentElement.style.setProperty('--my', `${(mouse.ny + 0.5) * 100}%`);
+    raf = requestAnimationFrame(tick);
+  };
+  raf = requestAnimationFrame(tick);
 };
 // ────────────────────────────────────────────
 // HERO PARALLAX DEPTH (Apple-style)
 // ────────────────────────────────────────────
 const initHeroParallax = () => {
+  if (isTouchDevice()) return;
   const hero = qs('#home');
   if (!hero) return;
 
@@ -208,22 +228,16 @@ const initHeroParallax = () => {
     { el: qs('#heroMeta'), strength: 10 },
   ];
 
-  let mx = 0, my = 0;
-
-  window.addEventListener('mousemove', (e) => {
-    mx = (e.clientX / window.innerWidth - 0.5);
-    my = (e.clientY / window.innerHeight - 0.5);
-  });
-
+  // Reuse gsap ticker — no extra mousemove
   gsap.ticker.add(() => {
     layers.forEach(({ el, strength }) => {
       if (!el) return;
-
       gsap.to(el, {
-        x: mx * strength,
-        y: my * strength,
+        x: mouse.nx * strength,
+        y: mouse.ny * strength,
         duration: 0.6,
         ease: 'power3.out',
+        overwrite: 'auto',
       });
     });
   });
@@ -232,27 +246,20 @@ const initHeroParallax = () => {
 // HERO 3D TILT
 // ────────────────────────────────────────────
 const initHeroTilt = () => {
+  if (isTouchDevice()) return;
   const hero = qs('.hero-inner');
   if (!hero) return;
 
-  let rx = 0, ry = 0;
-
-  window.addEventListener('mousemove', (e) => {
-    const x = e.clientX / window.innerWidth - 0.5;
-    const y = e.clientY / window.innerHeight - 0.5;
-
-    rx = y * -6; // tilt X
-    ry = x * 8;  // tilt Y
-  });
-
+  // Reuse gsap ticker — no extra mousemove
   gsap.ticker.add(() => {
     gsap.to(hero, {
-      rotateX: rx,
-      rotateY: ry,
+      rotateX: mouse.ny * -6,
+      rotateY: mouse.nx * 8,
       transformPerspective: 1200,
       transformOrigin: 'center',
       duration: 0.8,
       ease: 'power3.out',
+      overwrite: 'auto',
     });
   });
 };
@@ -261,7 +268,6 @@ const initHeroTilt = () => {
 // Critical: sets transform on .name-inner, NOT overflow on .hero-name
 // ────────────────────────────────────────────
 const initHeroEntrance = () => {
-  // Set initial state — translateY on inner span, NOT on container
   gsap.set(['#nameRow1', '#nameRow2'], { y: '105%' });
   gsap.set('#heroEyebrow', { opacity: 0, y: 14 });
   gsap.set('#heroRole',    { opacity: 0 });
@@ -279,20 +285,14 @@ const initHeroEntrance = () => {
     .to('#heroMeta',    { opacity: 1, y: 0, duration: .75, ease: 'power3.out' }, '-=.5')
     .to('#heroBadge',   { opacity: 1, scale: 1, duration: .6,  ease: 'back.out(2)' }, '-=.65');
 
-  // Subtle parallax — name translates up slowly on scroll
-  gsap.to('.hero-name', {
-  y: 8,
-  duration: 4,
-  repeat: -1,
-  yoyo: true,
-  ease: 'sine.inOut'
-  });
+  // Name scrolls up as user leaves hero section
   gsap.to('.hero-name', {
     y: -70, ease: 'none',
     scrollTrigger: {
       trigger: '#home', start: 'top top', end: 'bottom top', scrub: 1.4,
     },
   });
+
   // Eyebrow fades as you scroll
   gsap.to('#heroEyebrow', {
     opacity: 0, y: -16, ease: 'none',
@@ -308,15 +308,20 @@ const initHeroEntrance = () => {
 const initSplitText = () => {
   document.fonts.ready.then(() => {
     qsa('.split-h').forEach(el => {
-      const split = new SplitType(el, { types: 'lines,words' });
-      // Add overflow: hidden + extra padding on each line to prevent clipping
-      if (split.lines) {
-        split.lines.forEach(line => {
-          line.style.overflow = 'hidden';
-          line.style.paddingBottom = '.06em';
-          line.style.marginBottom = '-.06em';
-        });
-      }
+      let split = new SplitType(el, { types: 'lines,words' });
+
+      const applyLineStyles = () => {
+        if (split.lines) {
+          split.lines.forEach(line => {
+            line.style.overflow = 'hidden';
+            line.style.paddingBottom = '.06em';
+            line.style.marginBottom = '-.06em';
+          });
+        }
+      };
+
+      applyLineStyles();
+
       gsap.from(split.words, {
         y: '105%', opacity: 0,
         stagger: .04, duration: 1.05, ease: 'power4.out',
@@ -325,6 +330,18 @@ const initSplitText = () => {
           toggleActions: 'play none none reverse',
         },
       });
+
+      // Re-split on resize (handles orientation changes on mobile)
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          split.revert();
+          split = new SplitType(el, { types: 'lines,words' });
+          applyLineStyles();
+          ScrollTrigger.refresh();
+        }, 250);
+      }, { passive: true });
     });
   });
 };
@@ -340,11 +357,13 @@ const initReveals = () => {
     });
   });
 
-  // Pillar hover push
-  qsa('.pillar').forEach(el => {
-    el.addEventListener('mouseenter', () => gsap.to(el, { x: 4, duration: .35, ease: 'power3.out' }));
-    el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, duration: .55, ease: 'elastic.out(1,.55)' }));
-  });
+  // Pillar hover push — desktop only
+  if (window.matchMedia('(hover: hover)').matches) {
+    qsa('.pillar').forEach(el => {
+      el.addEventListener('mouseenter', () => gsap.to(el, { x: 4, duration: .35, ease: 'power3.out' }));
+      el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, duration: .55, ease: 'elastic.out(1,.55)' }));
+    });
+  }
 };
 
 // ────────────────────────────────────────────
@@ -352,8 +371,10 @@ const initReveals = () => {
 // ────────────────────────────────────────────
 const initCounters = () => {
   qsa('[data-count]').forEach(el => {
-    const target   = parseFloat(el.dataset.count);
-    const decimals = target % 1 !== 0 ? 2 : 0;
+    const raw     = el.dataset.count;           // e.g. "99.84", "7023", "3.82/4.0"
+    const numeric = raw.split('/')[0];           // take only the part before any "/"
+    const target  = parseFloat(numeric);
+    const decimals = numeric.includes('.') ? 2 : 0;
 
     ScrollTrigger.create({
       trigger: el, start: 'top 90%', once: true,
@@ -426,24 +447,14 @@ const initBadge = () => {
 
   const ids = ['home', 'about', 'skills', 'journey', 'projects', 'contact'];
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        const index = entry.target.dataset.index;
-
-        badge.innerHTML =
-          `${String(+index).padStart(2, '0')}<br>${id.toUpperCase()}`;
-      }
-    });
-  }, { threshold: 0.4 });
-
   ids.forEach((id, index) => {
     const el = qs('#' + id);
-    if (el) {
-      el.dataset.index = index;
-      observer.observe(el);
-    }
+    if (!el) return;
+    new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        badge.innerHTML = `${String(index).padStart(2, '0')}<br>${id.toUpperCase()}`;
+      }
+    }, { threshold: 0.3 }).observe(el);
   });
 };
 // ────────────────────────────────────────────
@@ -460,20 +471,20 @@ const initToolkitFilter = () => {
     cards.forEach((card, i) => {
       const show = filter === 'all' || card.dataset.type === filter;
       if (show) {
-        // Remove hidden class and animate in
         card.classList.remove('sc-hidden');
+        card.style.pointerEvents = 'auto';
         gsap.to(card, {
           opacity: 1, scale: 1, y: 0,
           duration: 0.32, delay: i * 0.015,
-          ease: 'power2.out', pointerEvents: 'auto',
+          ease: 'power2.out',
           overwrite: true,
         });
       } else {
-        // Hide with animation then add class
+        card.style.pointerEvents = 'none';
         gsap.to(card, {
           opacity: 0, scale: 0.88, y: 10,
           duration: 0.22, ease: 'power2.in',
-          pointerEvents: 'none', overwrite: true,
+          overwrite: true,
           onComplete: () => card.classList.add('sc-hidden'),
         });
       }
@@ -506,11 +517,11 @@ const initProjects = () => {
 
       cards.forEach((card, i) => {
         const show = f === 'all' || card.dataset.type === f;
+        card.style.pointerEvents = show ? 'auto' : 'none';
         gsap.to(card, {
           opacity: show ? 1 : 0,
           y:       show ? 0 : 8,
           scale:   show ? 1 : 0.97,
-          pointerEvents: show ? 'auto' : 'none',
           duration: .35, delay: show ? i * .04 : 0, ease: 'power2.out',
         });
       });
@@ -522,7 +533,9 @@ const initProjects = () => {
 // CONTACT PARALLAX
 // ────────────────────────────────────────────
 const initContactParallax = () => {
-  gsap.to('.contact-bg-text', {
+  const bgText = qs('.contact-bg-text');
+  if (!bgText) return;
+  gsap.to(bgText, {
     y: -50, ease: 'none',
     scrollTrigger: {
       trigger: '#contact', start: 'top bottom', end: 'bottom top', scrub: 2,
@@ -534,11 +547,18 @@ const initContactParallax = () => {
 // CONTACT FORM
 // ────────────────────────────────────────────
 const initForm = () => {
-  qs('#contactForm')?.addEventListener('submit', e => {
+  const form = qs('#contactForm');
+  if (!form) return;
+  form.addEventListener('submit', e => {
     e.preventDefault();
+    const name    = (qs('#fname')?.value    ?? '').trim();
+    const email   = (qs('#femail')?.value   ?? '').trim();
+    const company = (qs('#fcompany')?.value ?? '').trim();
+    const msg     = (qs('#fmsg')?.value     ?? '').trim();
+    if (!name || !email || !msg) return; // basic guard
     const sub  = encodeURIComponent('Portfolio Inquiry — Udit Agarwal');
     const body = encodeURIComponent(
-      `Name: ${qs('#fname').value}\nEmail: ${qs('#femail').value}\nCompany: ${qs('#fcompany').value}\n\n${qs('#fmsg').value}`
+      `Name: ${name}\nEmail: ${email}\nCompany: ${company}\n\n${msg}`
     );
     window.location.href = `mailto:agarwaludit13@gmail.com?subject=${sub}&body=${body}`;
   });
@@ -563,8 +583,10 @@ const KB = {
 <span class="t-hi">resume</span>         Open resume PDF
 <span class="t-hi">linkedin</span>       Open LinkedIn
 <span class="t-hi">chat</span>           Ask me anything
+<span class="t-hi">history</span>        Show command history
+<span class="t-hi">date</span>           Show current date/time
 <span class="t-hi">clear</span>          Clear output
-<span class="t-sys">Tip: press \` to toggle terminal  ·  Tab autocompletes</span>`,
+<span class="t-sys">Tip: press \` to toggle  ·  Tab autocompletes  ·  ↑↓ history</span>`,
 
   about: `<span class="t-hi">Udit Agarwal</span>  ·  Software Engineer & AI/ML Researcher
 
@@ -722,26 +744,130 @@ const initTerminal = () => {
 
   let booted = false, history = [], hIdx = -1, chatMode = false;
 
-  // Inject fadeUp animation
+  // ── Inject tFadeUp animation ──
   const sty = document.createElement('style');
-  sty.textContent = '@keyframes tFadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}';
+  sty.textContent = '@keyframes tFadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}';
   document.head.appendChild(sty);
 
-  const print = html => {
+  // ── Resize handle (drag top edge to resize) ──
+  const resizeHandle = document.createElement('div');
+  resizeHandle.className = 'term-resize-handle';
+  panel.prepend(resizeHandle);
+
+  let isResizing = false, resizeStartY = 0, resizeStartH = 0;
+  resizeHandle.addEventListener('mousedown', e => {
+    isResizing = true;
+    resizeStartY = e.clientY;
+    resizeStartH = panel.getBoundingClientRect().height;
+    document.body.style.userSelect = 'none';
+  });
+  window.addEventListener('mousemove', e => {
+    if (!isResizing) return;
+    const delta = resizeStartY - e.clientY;
+    const newH  = Math.min(Math.max(resizeStartH + delta, 240), window.innerHeight * 0.85);
+    panel.style.height = newH + 'px';
+  });
+  window.addEventListener('mouseup', () => {
+    if (isResizing) { isResizing = false; document.body.style.userSelect = ''; }
+  });
+
+  // ── Toolbar: clear + copy-all buttons ──
+  const toolbar = qs('.term-toolbar');
+  if (toolbar) {
+    const clearBtn = document.createElement('button');
+    clearBtn.className = 'term-action-btn';
+    clearBtn.title = 'Clear terminal';
+    clearBtn.textContent = '\u232b';
+    clearBtn.addEventListener('click', () => { output.innerHTML = ''; });
+
+    const copyAllBtn = document.createElement('button');
+    copyAllBtn.className = 'term-action-btn';
+    copyAllBtn.title = 'Copy all output';
+    copyAllBtn.textContent = '\u29c9';
+    copyAllBtn.addEventListener('click', () => {
+      navigator.clipboard?.writeText(output.innerText).then(() => {
+        copyAllBtn.textContent = '\u2713';
+        setTimeout(() => { copyAllBtn.textContent = '\u29c9'; }, 1200);
+      });
+    });
+    toolbar.prepend(copyAllBtn);
+    toolbar.prepend(clearBtn);
+  }
+
+  // ── Autocomplete dropdown ──
+  const acBox = document.createElement('div');
+  acBox.className = 'term-autocomplete';
+  qs('.term-inputbar')?.appendChild(acBox);
+  let acItems = [], acIdx = -1;
+
+  const hideAc = () => { acBox.classList.remove('visible'); acItems = []; acIdx = -1; };
+  const showAc = matches => {
+    acBox.innerHTML = '';
+    acItems = matches;
+    acIdx = -1;
+    matches.forEach((m) => {
+      const d = document.createElement('div');
+      d.className = 'term-ac-item';
+      d.textContent = m;
+      d.addEventListener('mousedown', e => { e.preventDefault(); input.value = m; hideAc(); input.focus(); });
+      acBox.appendChild(d);
+    });
+    acBox.classList.toggle('visible', matches.length > 0);
+  };
+
+  // ── Timestamp helper ──
+  const ts = () => {
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    const ss = String(now.getSeconds()).padStart(2,'0');
+    return `${hh}:${mm}:${ss}`;
+  };
+
+  const escHtml = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  // ── Print helpers ──
+  const print = (html) => {
     const div = document.createElement('div');
     div.innerHTML = html;
-    div.style.cssText = 'margin-bottom:4px;animation:tFadeUp .18s ease forwards';
+    div.style.cssText = 'animation:tFadeUp .16s ease forwards;margin-bottom:2px;';
     output.appendChild(div);
     output.scrollTop = output.scrollHeight;
   };
 
+  const printCmd = raw => {
+    print(`<span class="t-ts">${ts()}</span><span class="t-prompt">$</span>&nbsp;<span class="t-cmd">${escHtml(raw)}</span>`);
+  };
+
+  const printOut = html => {
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'animation:tFadeUp .16s ease forwards;';
+    const out = document.createElement('span');
+    out.className = 't-out';
+    out.innerHTML = html;
+    const cpBtn = document.createElement('button');
+    cpBtn.className = 't-copy-btn';
+    cpBtn.textContent = '\u29c9 copy';
+    cpBtn.addEventListener('click', () => {
+      navigator.clipboard?.writeText(out.innerText).then(() => {
+        cpBtn.textContent = '\u2713 copied';
+        setTimeout(() => { cpBtn.textContent = '\u29c9 copy'; }, 1200);
+      });
+    });
+    out.appendChild(cpBtn);
+    wrapper.appendChild(out);
+    output.appendChild(wrapper);
+    output.scrollTop = output.scrollHeight;
+  };
+
+  // ── Open / Close ──
   const openPanel = () => {
     panel.classList.add('open');
     panel.setAttribute('aria-hidden', 'false');
     if (!booted) {
       setTimeout(() => {
-        print(`<span class="t-sys">portfolio terminal chatbot ready</span>`);
-        print(`<span class="t-sys">type <span class="t-hi">help</span> for commands  ·  <span class="t-hi">chat</span> to ask anything  ·  press <span class="t-hi">\`</span> to toggle</span>`);
+        print(`<span class="t-sys">\u25b8 portfolio terminal v2.0 \u2014 ${new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>`);
+        print(`<span class="t-sys">type <span class="t-hi">help</span> \u00b7 tab autocomplete \u00b7 \u2191\u2193 history \u00b7 \` toggle</span>`);
         booted = true;
         input.focus();
       }, 200);
@@ -749,101 +875,150 @@ const initTerminal = () => {
       setTimeout(() => input.focus(), 80);
     }
   };
-
   const closePanel = () => {
     panel.classList.remove('open');
     panel.setAttribute('aria-hidden', 'true');
+    hideAc();
   };
 
   toggle.addEventListener('click', () => panel.classList.contains('open') ? closePanel() : openPanel());
   close?.addEventListener('click', closePanel);
 
-  // ` key toggle
   document.addEventListener('keydown', e => {
     if ((e.key === '`' || e.key === '~') && document.activeElement !== input) {
       e.preventDefault();
       panel.classList.contains('open') ? closePanel() : openPanel();
     }
-    if (e.key === 'Escape') closePanel();
+    if (e.key === 'Escape') { closePanel(); }
   });
 
+  // ── Command runner ──
   const runCmd = raw => {
     const cmd = raw.trim().toLowerCase();
     if (!cmd) return;
     history.unshift(raw.trim()); hIdx = -1;
-
-    print(`<span class="t-prompt">$</span> <span class="t-cmd">${raw.trim()}</span>`);
+    hideAc();
+    printCmd(raw.trim());
 
     // Chat mode
     if (chatMode) {
       if (cmd === 'exit' || cmd === 'quit') {
         chatMode = false;
-        print(`<span class="t-sys">returned to terminal mode</span>`);
+        print(`<span class="t-sys">\u2190 returned to terminal mode</span>`);
         return;
       }
       const match = CHAT_FAQ.find(f => f.q.test(raw));
-      print(match
-        ? `<span class="t-out">${match.a}</span>`
-        : `<span class="t-out">I answer questions about Udit's skills, experience, projects, research, and availability. Try asking something specific, or type <span class="t-hi">exit</span> to return.</span>`
+      printOut(match
+        ? match.a
+        : `I answer questions about Udit's skills, experience, projects, research, and availability. Try something specific, or type <span class="t-hi">exit</span> to return.`
       );
       return;
     }
 
     if (cmd === 'clear') { output.innerHTML = ''; return; }
     if (cmd === 'exit' || cmd === 'quit') { closePanel(); return; }
+    if (cmd === 'history') {
+      printOut(history.length > 1
+        ? history.slice(1).map((h,i) => `<span class="t-hi">${String(i+1).padStart(3)}</span>  ${escHtml(h)}`).join('\n')
+        : '(no history yet)'
+      );
+      return;
+    }
+    if (cmd === 'date') {
+      printOut(new Date().toLocaleString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}));
+      return;
+    }
 
     // Resolve alias
     const key = KB[cmd] && typeof KB[cmd] === 'string' && KB[KB[cmd]] ? KB[cmd] : cmd;
     const res  = KB[key] ?? KB[cmd];
 
     if (!res) {
-      print(`<span class="t-err">✗ Unknown: '${cmd}'. Type <span class="t-hi">help</span>.</span>`);
+      print(`<span class="t-err">\u2717 command not found: '${escHtml(cmd)}' \u2014 type <span class="t-hi">help</span></span>`);
     } else if (typeof res === 'string' && res.startsWith('__open__')) {
       const url = res.slice(8);
-      print(`<span class="t-out">Opening → <span class="t-link">${url}</span></span>`);
+      printOut(`Opening \u2192 <span class="t-link">${url}</span>`);
       setTimeout(() => window.open(url, '_blank'), 500);
     } else if (res === '__chat__') {
       chatMode = true;
-      print(`<span class="t-sys">Chat mode  ·  ask anything about Udit  ·  type <span class="t-hi">exit</span> to return</span>`);
+      print(`<span class="t-sys">\ud83d\udcac chat mode \u2014 ask anything about Udit \u2014 type <span class="t-hi">exit</span> to return</span>`);
     } else {
-      print(`<span class="t-out">${res}</span>`);
+      printOut(res);
     }
     output.scrollTop = output.scrollHeight;
   };
 
+  // ── Input handling ──
+  input.addEventListener('input', () => {
+    const v = input.value.toLowerCase().trim();
+    if (!v) { hideAc(); return; }
+    const matches = Object.keys(KB)
+      .filter(k => k.startsWith(v) && k !== v && !k.startsWith('_'))
+      .slice(0, 6);
+    showAc(matches.length > 1 ? matches : []);
+  });
+
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
-      const v = input.value; input.value = ''; runCmd(v);
+      const v = input.value; input.value = ''; hideAc(); runCmd(v);
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      hIdx = Math.min(hIdx + 1, history.length - 1);
-      input.value = history[hIdx] ?? '';
+      if (acBox.classList.contains('visible') && acItems.length) {
+        acIdx = Math.max(acIdx - 1, 0);
+        qsa('.term-ac-item', acBox).forEach((el,i) => el.classList.toggle('ac-active', i === acIdx));
+        input.value = acItems[acIdx] ?? input.value;
+      } else {
+        hIdx = Math.min(hIdx + 1, history.length - 1);
+        input.value = history[hIdx] ?? '';
+      }
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      hIdx = Math.max(hIdx - 1, -1);
-      input.value = hIdx < 0 ? '' : history[hIdx];
+      if (acBox.classList.contains('visible') && acItems.length) {
+        acIdx = Math.min(acIdx + 1, acItems.length - 1);
+        qsa('.term-ac-item', acBox).forEach((el,i) => el.classList.toggle('ac-active', i === acIdx));
+        input.value = acItems[acIdx] ?? input.value;
+      } else {
+        hIdx = Math.max(hIdx - 1, -1);
+        input.value = hIdx < 0 ? '' : history[hIdx];
+      }
     } else if (e.key === 'Tab') {
       e.preventDefault();
-      const v = input.value.toLowerCase();
-      const m = Object.keys(KB).find(k => k.startsWith(v) && v.length > 0);
-      if (m) input.value = m;
+      const v = input.value.toLowerCase().trim();
+      if (acItems.length > 0) {
+        input.value = acItems[0];
+        hideAc();
+      } else {
+        const m = Object.keys(KB).find(k => k.startsWith(v) && v.length > 0 && !k.startsWith('_'));
+        if (m) input.value = m;
+      }
+    } else if (e.key === 'Escape') {
+      hideAc();
     }
+  });
+
+  document.addEventListener('click', e => {
+    if (!panel.contains(e.target)) hideAc();
   });
 };
 
 // ────────────────────────────────────────────
 // GLASS CARD HOVER GLOW
-// Subtle mouse-tracked highlight inside glass cards
+// Subtle mouse-tracked highlight — RAF-throttled for performance
 // ────────────────────────────────────────────
 const initGlassHover = () => {
   if (!window.matchMedia('(hover: hover)').matches) return;
   qsa('.glass-card').forEach(card => {
+    let rafId = null;
     card.addEventListener('mousemove', e => {
-      const r  = card.getBoundingClientRect();
-      const x  = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
-      const y  = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
-      card.style.setProperty('--gx', x + '%');
-      card.style.setProperty('--gy', y + '%');
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        const r  = card.getBoundingClientRect();
+        const x  = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
+        const y  = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
+        card.style.setProperty('--gx', x + '%');
+        card.style.setProperty('--gy', y + '%');
+        rafId = null;
+      });
     });
   });
 };
@@ -885,9 +1060,9 @@ document.readyState === 'loading'
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     lenis?.stop();
-    gsap.ticker.remove(gsap.updateRoot);
+    gsap.ticker.sleep();
   } else {
     lenis?.start();
-    gsap.ticker.add(gsap.updateRoot);
+    gsap.ticker.wake();
   }
 });

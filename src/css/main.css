@@ -1421,8 +1421,15 @@ body.cur-label-show .cur-label { opacity: 1; }
   /* Badge — hide on small screens */
   .hero-badge { display: none; }
 
-  /* Hero name — full width */
-  .hero-name { font-size: clamp(3rem, 17.5vw, 5.5rem); padding-right: 0; line-height: .88; letter-spacing: -.025em; }
+  /* Hero name — full width, no badge offset.
+     "AGARWAL" is 7 chars in Unbounded weight-900. At ~12.5vw per char the
+     word sits at ~87.5vw, leaving room for side padding with no overflow. */
+  .hero-name {
+    font-size: clamp(2.4rem, 12.5vw, 4rem);
+    padding-right: 0;
+    line-height: .9;
+    letter-spacing: -.025em;
+  }
 
   /* Eyebrow */
   .hero-eyebrow { font-size: 9px; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap; }
@@ -1509,7 +1516,8 @@ body.cur-label-show .cur-label { opacity: 1; }
    TINY PHONES (≤380px)
 ═══════════════════════════════════════════════════ */
 @media (max-width: 380px) {
-  .hero-name { font-size: clamp(2.6rem, 16vw, 3.5rem); }
+  /* At 320px, 12vw = 38px — still readable; AGARWAL stays within viewport */
+  .hero-name { font-size: clamp(2rem, 12vw, 2.8rem); padding-right: 0; }
   .section { padding: 3rem 1rem; }
   .display-h { font-size: clamp(1.8rem, 8vw, 2.5rem); }
   .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 7px; }

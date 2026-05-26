@@ -419,7 +419,7 @@ const initReveals = () => {
 // ────────────────────────────────────────────
 const initCounters = () => {
   qsa('[data-count]').forEach(el => {
-    const raw      = el.dataset.count;          // e.g. "99.84", "7023", "3.82/4.0"
+    const raw      = el.dataset.count;          // e.g. "99.84", "7023", "3.84/4.0"
     const numeric  = raw.split('/')[0];          // take only the part before "/"
     const target   = parseFloat(numeric);
     const decimals = numeric.includes('.') ? 2 : 0;

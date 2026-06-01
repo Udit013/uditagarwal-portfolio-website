@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# TypeScript build info / composite emit
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+
+# Local Claude agent config & worktrees
+.claude/

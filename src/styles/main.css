@@ -23,9 +23,9 @@
   --bg-deep:     #e2dfd8;
   --surface:     rgba(255,255,255,0.75);
   --surface-solid: #ffffff;
-  --glass:       rgba(255, 255, 255, 0.45);
-  --glass-strong: rgba(255, 255, 255, 0.6);
-  --glass-border: rgba(255,255,255,0.7);
+  --glass:       rgba(255, 255, 255, 0.5);
+  --glass-strong: rgba(255, 255, 255, 0.66);
+  --glass-border: rgba(255,255,255,0.75);
   --glass-shadow: 0 12px 36px rgba(0,0,0,0.10), 0 3px 12px rgba(0,0,0,0.05);
   --glass-shadow-hover: 0 24px 70px rgba(0,0,0,0.14), 0 8px 24px rgba(0,0,0,0.08);
   --border:      rgba(0,0,0,0.1);
@@ -51,8 +51,9 @@
   --bg-deep:     #161614;
   --surface:     rgba(30,28,26,0.75);
   --surface-solid: #1a1916;
-  --glass:       rgba(25,23,21,0.49);
-  --glass-border: rgba(255,255,255,0.08);
+  --glass:       rgba(28,26,23,0.52);
+  --glass-strong: rgba(40,37,33,0.62);
+  --glass-border: rgba(255,255,255,0.1);
   --glass-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
   --glass-shadow-hover: 0 16px 48px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.4);
   --border:      rgba(255,255,255,0.07);
@@ -204,7 +205,8 @@ body::after {
   .skill-tag,
   .clink-icon,
   .filter-btn,
-  .tool-filter,
+  .toolkit-cat,
+  .toolkit-chip,
   .cert-item,
   .philo-item,
   .edu-cw-grid span,
@@ -327,7 +329,7 @@ body.cur-label-show .cur-label { opacity: 1; }
 .btn-primary:focus-visible,
 .hero-pill:focus-visible,
 .filter-btn:focus-visible,
-.tool-filter:focus-visible,
+.toolkit-cat:focus-visible,
 .form-submit:focus-visible,
 .clink:focus-visible,
 .pub-link:focus-visible,
@@ -654,11 +656,11 @@ body.cur-label-show .cur-label { opacity: 1; }
 .glass-card {
   position: relative;
   background: var(--glass);
-  backdrop-filter: blur(24px) saturate(1.6);
-  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  backdrop-filter: blur(28px) saturate(1.8);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--glass-shadow);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   /* BUG FIX: don't blanket will-change:transform — only on cards with hover lift */
   transition: box-shadow .4s var(--ease-expo), transform .4s var(--ease-expo), border-color .3s;
 }
@@ -666,8 +668,9 @@ body.cur-label-show .cur-label { opacity: 1; }
   content: "";
   position: absolute; inset: 0;
   border-radius: inherit;
-  background: linear-gradient(120deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02) 40%);
-  opacity: 0.6;
+  /* brighter top-left sheen for a more pronounced glass feel */
+  background: linear-gradient(125deg, rgba(255,255,255,0.18), rgba(255,255,255,0.03) 42%, transparent 70%);
+  opacity: 0.7;
   pointer-events: none;
 }
 .glass-card:hover {
@@ -824,70 +827,6 @@ body.cur-label-show .cur-label { opacity: 1; }
 .pillar-num { font-family: var(--f-mono); font-size: 10px; color: var(--accent2); letter-spacing: .08em; }
 .pillar-desc { font-family: var(--f-serif); font-style: italic; font-size: 15px; color: var(--fg2); line-height: 1.72; margin-bottom: 12px; }
 
-/* ═══════════════════════════════════════════════════
-   SKILLS — filterable grid
-═══════════════════════════════════════════════════ */
-.toolkit-filters {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-}
-
-.tool-filter {
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-family: var(--f-mono);
-  font-size: 0.75rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  border: 1px solid var(--border2);
-  color: var(--fg3);
-  background: var(--glass);
-  transition: all 0.25s ease;
-  white-space: nowrap;
-}
-.tool-filter.active {
-  background: var(--accent2);
-  color: #fff;
-  border-color: var(--accent2);
-}
-.tool-filter:hover:not(.active) {
-  transform: translateY(-1px);
-  color: var(--fg);
-  border-color: var(--accent2);
-}
-
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(clamp(110px, 14vw, 150px), 1fr));
-  gap: 12px;
-  min-height: 200px; /* Reserve space to prevent CLS during filter */
-}
-
-.skill-card {
-  padding: 11px 10px;
-  border-radius: 12px;
-  text-align: center;
-  font-size: clamp(0.72rem, 1.1vw, 0.87rem);
-  font-weight: 500;
-  transition: transform 0.28s var(--ease-expo), box-shadow 0.28s var(--ease-expo);
-  min-height: 48px;
-  line-height: 1.25;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-}
-.skill-card:hover { transform: translateY(-3px) scale(1.04); }
-
-/* BUG FIX: hidden state uses visibility so GSAP can animate opacity */
-.skill-card.sc-hidden {
-  visibility: hidden;
-  pointer-events: none;
-}
 
 /* ═══════════════════════════════════════════════════
    JOURNEY — Vertical Timeline
@@ -998,16 +937,22 @@ body.cur-label-show .cur-label { opacity: 1; }
 
 .proj-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%,320px),1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%,290px),1fr));
+  gap: 14px;
 }
 
 .proj-card {
   position: relative; overflow: hidden;
-  padding: 24px 22px;
-  display: flex; flex-direction: column; gap: 12px;
-  /* BUG FIX: add will-change only on hover to avoid memory waste */
+  padding: 19px 18px;
+  display: flex; flex-direction: column; gap: 10px;
+  /* Unified entrance + filter animation — identical style & timing for every
+     card in every category (scroll-reveal adds .in; filtering adds .pc-hidden). */
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .45s var(--ease-expo), transform .45s var(--ease-expo),
+              box-shadow .4s var(--ease-expo), border-color .3s;
 }
+.proj-card.in { opacity: 1; transform: translateY(0); }
 .proj-card::after {
   content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, var(--accent2), var(--accent3));
@@ -1015,8 +960,8 @@ body.cur-label-show .cur-label { opacity: 1; }
   transition: transform .5s var(--ease-expo);
 }
 .proj-card:hover::after { transform: scaleX(1); }
-/* Filtered-out: invisible but occupies slot on desktop to prevent layout shift */
-.proj-card.pc-hidden { visibility: hidden; pointer-events: none; }
+/* Filtered-out: fade/scale out but keep the grid slot so nothing reflows */
+.proj-card.pc-hidden { opacity: 0; transform: scale(.96) translateY(8px); pointer-events: none; }
 
 .proj-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
 .proj-tags-wrap { display: flex; gap: 5px; flex-wrap: wrap; }
@@ -1460,12 +1405,6 @@ body.cur-label-show .cur-label { opacity: 1; }
   .about-layout { grid-template-columns: 1fr; gap: 2rem; }
   .about-sticky { position: static; }
 
-  /* Skills */
-  .skills-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .skill-card { font-size: 0.72rem; padding: 10px 6px; min-height: 44px; }
-  .toolkit-filters { gap: 6px; }
-  .tool-filter { padding: 5px 12px; font-size: .75rem; }
-
   /* Journey */
   .journey-timeline { padding-left: 0; }
   .jtl-item { grid-template-columns: 28px 1fr; gap: 0 10px; }
@@ -1520,7 +1459,227 @@ body.cur-label-show .cur-label { opacity: 1; }
   .hero-name { font-size: clamp(2rem, 12vw, 2.8rem); padding-right: 0; }
   .section { padding: 3rem 1rem; }
   .display-h { font-size: clamp(1.8rem, 8vw, 2.5rem); }
-  .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 7px; }
-  .skill-card { font-size: 0.68rem; padding: 9px 5px; }
   .nav-resume { display: none; }
+}
+/* ═══════════════════════════════════════════════════
+   WEBGL BACKGROUND — single subtle particle accent
+   (fixed behind all content, never overlaps text)
+═══════════════════════════════════════════════════ */
+.bg-fx {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .75;
+}
+@media (hover: none), (pointer: coarse) { .bg-fx { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { .bg-fx { opacity: .3; } }
+
+/* ═══════════════════════════════════════════════════
+   ULTRAWIDE — cap content width; marquee stays full-bleed
+═══════════════════════════════════════════════════ */
+:root { --content-max: 1440px; }
+.section {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem);
+}
+.hero-inner { max-width: var(--content-max); margin-inline: auto; width: 100%; }
+
+/* ═══════════════════════════════════════════════════
+   HERO — pin the meta bar to the bottom of the viewport
+   (removes the large gap before the marquee)
+═══════════════════════════════════════════════════ */
+/* Anchor the hero content near the top (just below the floating nav) so there's
+   no big empty band above the name; the negative space sits lower, above the
+   bottom-pinned meta bar — a balanced, premium composition. */
+.hero-inner {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: clamp(92px, 11vh, 132px);
+}
+.hero-eyebrow { margin-bottom: clamp(1rem, 2.5vw, 1.9rem); }
+.hero-meta { margin-top: 0; }
+
+/* Name must always be fully visible (never clipped by the entrance overflow).
+   The spinning badge sits ABOVE the AGARWAL row, so no right reservation is
+   needed — and reserving it was squeezing the longest word into a clip. */
+.hero-name {
+  padding-right: 0;
+  font-size: clamp(2.4rem, 10.5vw, 12.5rem);
+}
+.name-inner { padding-right: .04em; } /* room for the final stroke of ghost letters */
+@media (max-width: 860px) { .hero-name { font-size: clamp(2.2rem, 12vw, 5.5rem); padding-right: 0; } }
+@media (max-width: 600px) { .hero-name { font-size: clamp(2rem, 12.5vw, 3.6rem); } }
+@media (max-width: 380px) { .hero-name { font-size: clamp(1.85rem, 12.5vw, 2.7rem); } }
+
+/* On phones, drop the full-height bottom-pin — let the hero be compact so
+   there's no large empty band between the role and the meta bar. */
+@media (max-width: 700px) {
+  .hero { min-height: auto; }
+  .hero-inner { flex: 0 1 auto; padding-bottom: clamp(1.5rem, 6vw, 2.5rem); }
+  .hero-meta { margin-top: 0; }
+}
+
+/* ═══════════════════════════════════════════════════
+   NAV — floating glass pill, always sticky
+═══════════════════════════════════════════════════ */
+#site-nav {
+  inset: auto;
+  top: clamp(.55rem, 1.4vw, 1rem);
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: min(calc(100% - 1.5rem), 1320px);
+  height: 58px;
+  border-radius: 100px;
+  padding: 0 clamp(1rem, 2.2vw, 1.6rem);
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  backdrop-filter: blur(16px) saturate(1.5);
+  border: 1px solid var(--nav-border);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+[data-theme="dark"] #site-nav { box-shadow: 0 6px 26px rgba(0, 0, 0, 0.35); }
+#site-nav.scrolled { box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16); }
+[data-theme="dark"] #site-nav.scrolled { box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5); }
+#mobile-drawer { top: clamp(72px, 9vw, 82px); }
+
+/* ═══════════════════════════════════════════════════
+   INTRO CURTAIN LOADER
+═══════════════════════════════════════════════════ */
+.loader { position: fixed; inset: 0; z-index: 100000; pointer-events: none; }
+.loader-panels { position: absolute; inset: 0; display: flex; }
+.loader-panel { flex: 1; background: var(--bg-deep); }
+.loader-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.loader-mark {
+  opacity: 0; transform: translateY(10px);
+  font-family: var(--f-display); font-weight: 900;
+  font-size: clamp(1.1rem, 3vw, 1.6rem); letter-spacing: .14em;
+  text-transform: uppercase; color: var(--fg); text-align: center;
+}
+.loader-mark span { color: var(--accent2); }
+.loader-bar { margin: 14px auto 0; width: 140px; height: 2px; background: var(--border2); border-radius: 2px; overflow: hidden; }
+.loader-bar-fill {
+  height: 100%; width: 100%; transform: scaleX(0); transform-origin: left;
+  background: linear-gradient(90deg, var(--accent2), var(--accent3));
+}
+
+/* ═══════════════════════════════════════════════════
+   TOOLKIT — fixed category tabs + floating skill chips
+═══════════════════════════════════════════════════ */
+.toolkit-intro { margin-bottom: clamp(1.25rem, 2.5vw, 1.75rem); max-width: 540px; font-size: clamp(.92rem, 1.4vw, 1.05rem); }
+.toolkit-intro span { color: var(--accent2); font-style: normal; }
+
+/* Fixed category tabs */
+.toolkit-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+.toolkit-cat-pill {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fg3);
+  padding: 9px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+  transition: color .2s, border-color .2s, background .2s, transform .25s var(--ease-spring);
+}
+.toolkit-cat-pill:hover { color: var(--fg); border-color: var(--accent2); transform: translateY(-1px); }
+.toolkit-cat-pill.active { color: #fff; background: var(--accent2); border-color: var(--accent2); }
+
+/* Bounded floating-skills stage */
+.toolkit-stage {
+  position: relative;
+  min-height: clamp(260px, 28vw, 360px);
+  padding: clamp(24px, 4vw, 48px) clamp(18px, 3vw, 40px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  background: radial-gradient(ellipse 85% 75% at 50% 45%, var(--accent-light), transparent 72%), var(--glass);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  backdrop-filter: blur(20px) saturate(1.6);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.toolkit-stage-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  gap: clamp(12px, 1.8vw, 22px);
+  width: 100%;
+  min-height: clamp(212px, 20vw, 264px);
+}
+/* outer = GSAP drift target (no visuals); inner = the glass pill */
+.toolkit-skill { display: inline-flex; will-change: transform; }
+.toolkit-skill-inner {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: clamp(11px, 1.2vw, 13px);
+  letter-spacing: .03em;
+  color: var(--fg);
+  padding: 10px 18px;
+  border-radius: 100px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-strong, var(--glass));
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  backdrop-filter: blur(12px) saturate(1.4);
+  box-shadow: var(--glass-shadow);
+  cursor: default;
+  will-change: transform;
+  /* transform owned by GSAP (entrance/hover/magnetic); only animate the rest */
+  transition: color .2s, border-color .2s, box-shadow .25s, background .2s;
+}
+.toolkit-skill-inner:hover {
+  color: var(--accent2);
+  border-color: var(--accent2);
+  background: var(--accent-light);
+  box-shadow: var(--glass-shadow-hover), 0 0 22px rgba(232, 133, 90, 0.18);
+}
+
+@media (max-width: 600px) {
+  .toolkit-stage { min-height: 0; padding: 22px 14px; }
+  .toolkit-stage-inner { min-height: 0; gap: 10px; }
+  .toolkit-skill-inner { padding: 8px 14px; }
+}
+
+/* ═══════════════════════════════════════════════════
+   CURSOR-FOLLOWING AMBIENT GLOW (desktop)
+═══════════════════════════════════════════════════ */
+#cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 560px;
+  height: 560px;
+  margin: -280px 0 0 -280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 133, 90, 0.16), rgba(232, 133, 90, 0.06) 38%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+[data-theme="light"] #cursor-glow {
+  background: radial-gradient(circle, rgba(192, 80, 32, 0.14), rgba(192, 80, 32, 0.05) 38%, transparent 70%);
+  mix-blend-mode: multiply;
+}
+@media (hover: none), (pointer: coarse) { #cursor-glow { display: none; } }
+
+
+/* Terminal line entrance (was injected via JS in the vanilla build) */
+@keyframes tFadeUp {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

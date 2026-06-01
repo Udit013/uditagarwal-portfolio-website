@@ -100,6 +100,9 @@ export function Projects() {
       <div className="sec-label">
         <span className="sec-num">04</span> Projects
       </div>
+      <div className="contact-bg-text" aria-hidden="true">
+        PROJECTS
+      </div>
       <div className="proj-header">
         <h2 id="projects-heading" className="display-h split-h">
           Selected

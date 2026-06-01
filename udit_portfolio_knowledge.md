@@ -383,10 +383,9 @@ Used in the scrolling strip between Hero and About:
 ## 13. CONTENT RULES FOR ANYONE EDITING THIS SITE
 
 1. **Don't fabricate** skills, tools, metrics, or experience not present in this document.
-2. **Always quantify** with the numbers in Section 12 — don't round or approximate.
+2. **MRI scan count is 7,023** (the specific dataset size), not "7,000+".
 3. **Project order on the grid is intentional** — featured/best-performing projects first, "In Progress" tagged explicitly.
 4. **Title flexing is allowed** for the Global Health role (SWE / Backend / Full-Stack / Data Engineer) since the work supports all of these honestly.
 5. **Phrases to avoid:** "contributing in a volunteer capacity" — never use this anywhere.
 6. **Visa / work-auth info is intentionally NOT on the public portfolio.** It lives in the separate resume/application knowledge base, not here.
 7. **GPA on site should be 3.84** — update the hero/terminal/about section if it still reads 3.82.
-8. **MRI scan count is 7,023** (the specific dataset size), not "7,000+".

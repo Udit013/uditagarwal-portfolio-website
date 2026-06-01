@@ -110,6 +110,9 @@ export function Skills() {
       <div className="sec-label">
         <span className="sec-num">02</span> Technical Skills
       </div>
+      <div className="contact-bg-text" aria-hidden="true">
+        SKILLS
+      </div>
       <h2 id="skills-heading" className="display-h split-h" style={{ marginBottom: '1.25rem' }}>
         The <span className="stroke-text">Tool</span>kit
       </h2>

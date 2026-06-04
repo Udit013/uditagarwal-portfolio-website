@@ -30,3 +30,4 @@ vite.config.d.ts
 
 # Local Claude agent config & worktrees
 .claude/
+photos/

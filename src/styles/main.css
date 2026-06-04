@@ -26,6 +26,9 @@
   --glass:       rgba(255, 255, 255, 0.5);
   --glass-strong: rgba(255, 255, 255, 0.66);
   --glass-border: rgba(255,255,255,0.75);
+  --glass-rim:   rgba(255,255,255,0.95);   /* bright specular top edge */
+  --glass-hl:    rgba(255,255,255,0.65);   /* cursor-follow liquid light */
+  --glass-tint:  rgba(192,80,32,0.07);     /* faint accent tint behind glass */
   --glass-shadow: 0 12px 36px rgba(0,0,0,0.10), 0 3px 12px rgba(0,0,0,0.05);
   --glass-shadow-hover: 0 24px 70px rgba(0,0,0,0.14), 0 8px 24px rgba(0,0,0,0.08);
   --border:      rgba(0,0,0,0.1);
@@ -54,6 +57,9 @@
   --glass:       rgba(28,26,23,0.52);
   --glass-strong: rgba(40,37,33,0.62);
   --glass-border: rgba(255,255,255,0.1);
+  --glass-rim:   rgba(255,255,255,0.28);   /* bright specular top edge */
+  --glass-hl:    rgba(255,255,255,0.16);   /* cursor-follow liquid light */
+  --glass-tint:  rgba(232,133,90,0.06);    /* faint accent tint behind glass */
   --glass-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
   --glass-shadow-hover: 0 16px 48px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.4);
   --border:      rgba(255,255,255,0.07);
@@ -652,33 +658,58 @@ body.cur-label-show .cur-label { opacity: 1; }
 }
 .chip:hover { border-color: var(--accent2); color: var(--accent2); background: var(--accent-light); }
 
-/* Glass card base */
+/* ── Liquid glass base ──
+   Heavy frosted blur + saturation/brightness lift, a bright specular rim
+   (top edge catches light), a faint accent tint, a static diagonal sheen
+   (::before), and a cursor-following liquid highlight (::after). */
 .glass-card {
   position: relative;
-  background: var(--glass);
-  backdrop-filter: blur(28px) saturate(1.8);
-  -webkit-backdrop-filter: blur(28px) saturate(1.8);
+  background:
+    radial-gradient(120% 120% at 0% 0%, var(--glass-tint), transparent 55%),
+    var(--glass);
+  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  /* BUG FIX: don't blanket will-change:transform — only on cards with hover lift */
+  box-shadow:
+    var(--glass-shadow),
+    inset 0 1px 0 var(--glass-rim),              /* bright top rim */
+    inset 0 -10px 24px -12px rgba(0, 0, 0, 0.18),/* soft inner base shade */
+    inset 0 0 1px rgba(255, 255, 255, 0.25);     /* crisp glass edge */
   transition: box-shadow .4s var(--ease-expo), transform .4s var(--ease-expo), border-color .3s;
 }
+/* static diagonal sheen */
 .glass-card::before {
   content: "";
   position: absolute; inset: 0;
   border-radius: inherit;
-  /* brighter top-left sheen for a more pronounced glass feel */
-  background: linear-gradient(125deg, rgba(255,255,255,0.18), rgba(255,255,255,0.03) 42%, transparent 70%);
-  opacity: 0.7;
+  background: linear-gradient(125deg, var(--glass-rim) 0%, transparent 38%);
+  opacity: 0.35;
   pointer-events: none;
+  z-index: 0;
 }
+/* cursor-following liquid light (vars set in useSiteAnimations) */
+.glass-card::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(220px circle at var(--gx, 50%) var(--gy, 50%), var(--glass-hl), transparent 60%);
+  opacity: 0;
+  transition: opacity .4s var(--ease-expo);
+  pointer-events: none;
+  z-index: 0;
+}
+.glass-card:hover::after { opacity: 1; }
+/* keep real content above the glass pseudo-layers */
+.glass-card > * { position: relative; z-index: 1; }
 .glass-card:hover {
-  box-shadow: var(--glass-shadow-hover);
+  box-shadow:
+    var(--glass-shadow-hover),
+    inset 0 1px 0 var(--glass-rim),
+    inset 0 0 1px rgba(255, 255, 255, 0.35);
   transform: translateY(-3px);
-  border-color: rgba(255,255,255,0.18);
+  border-color: var(--glass-border);
 }
-[data-theme="dark"] .glass-card:hover { border-color: rgba(255,255,255,0.12); }
 
 /* ═══════════════════════════════════════════════════
    ABOUT
@@ -712,7 +743,8 @@ body.cur-label-show .cur-label { opacity: 1; }
   flex-direction: column;
   gap: 1rem;
   align-self: start;
-  padding-top: clamp(0px, 6vw, 5rem);
+  /* aligned with the top of the "Code meets Intelligence" heading */
+  padding-top: 0;
 }
 @media (max-width: 960px) {
   .about-right { gap: .75rem; padding-top: 0; }
@@ -1537,10 +1569,10 @@ body.cur-label-show .cur-label { opacity: 1; }
   border-radius: 100px;
   padding: 0 clamp(1rem, 2.2vw, 1.6rem);
   background: var(--nav-bg);
-  -webkit-backdrop-filter: blur(16px) saturate(1.5);
-  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  backdrop-filter: blur(16px) saturate(1.6);
   border: 1px solid var(--nav-border);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 var(--glass-rim);
 }
 [data-theme="dark"] #site-nav { box-shadow: 0 6px 26px rgba(0, 0, 0, 0.35); }
 #site-nav.scrolled { box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16); }
@@ -1606,9 +1638,9 @@ body.cur-label-show .cur-label { opacity: 1; }
   border-radius: var(--radius-lg);
   border: 1px solid var(--glass-border);
   background: radial-gradient(ellipse 85% 75% at 50% 45%, var(--accent-light), transparent 72%), var(--glass);
-  -webkit-backdrop-filter: blur(20px) saturate(1.6);
-  backdrop-filter: blur(20px) saturate(1.6);
-  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  backdrop-filter: blur(16px) saturate(1.6);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-rim), inset 0 0 1px rgba(255, 255, 255, 0.25);
   overflow: hidden;
 }
 .toolkit-stage-inner {
@@ -1632,10 +1664,11 @@ body.cur-label-show .cur-label { opacity: 1; }
   padding: 10px 18px;
   border-radius: 100px;
   border: 1px solid var(--glass-border);
-  background: var(--glass-strong, var(--glass));
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
-  backdrop-filter: blur(12px) saturate(1.4);
-  box-shadow: var(--glass-shadow);
+  /* No per-chip backdrop-filter: with up to 60 chips over the animated particle
+     canvas that caused per-frame re-blurs. The stage already frosts the area;
+     a more opaque solid background keeps the glass look at zero blur cost. */
+  background: var(--surface);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-rim);
   cursor: default;
   will-change: transform;
   /* transform owned by GSAP (entrance/hover/magnetic); only animate the rest */
@@ -1682,4 +1715,104 @@ body.cur-label-show .cur-label { opacity: 1; }
 @keyframes tFadeUp {
   from { opacity: 0; transform: translateY(5px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════
+   PORTRAIT — real ⇆ anime reveal slider (liquid glass device)
+═══════════════════════════════════════════════════ */
+.portrait { margin-bottom: clamp(1.5rem, 3vw, 2.25rem); }
+
+/* Outer glass "device" frame with a home button */
+.portrait-device {
+  width: 100%;
+  max-width: 330px;
+  padding: 14px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  backdrop-filter: blur(16px) saturate(1.5);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-rim);
+}
+
+/* Image area — split by a movable divider (--pos = divider X) */
+.portrait-frame {
+  --pos: 55%;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 18px;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: ew-resize;
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  touch-action: pan-y;
+}
+.portrait-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  user-select: none; -webkit-user-drag: none;
+}
+/* anime is clipped to the LEFT of the divider; real shows on the right */
+.portrait-anime { clip-path: inset(0 calc(100% - var(--pos)) 0 0); z-index: 1; }
+
+/* divider — just a thin line that tracks the cursor (no handle) */
+.portrait-divider {
+  position: absolute; top: 0; bottom: 0; left: var(--pos);
+  width: 0; z-index: 4; pointer-events: none;
+  border-left: 1.5px dashed rgba(255, 255, 255, 0.78);
+  transform: translateX(-1px);
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.45));
+}
+
+/* liquid-glass sheen over the photo */
+.portrait-glass {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(135deg, var(--glass-rim) 0%, transparent 28%);
+  opacity: .4;
+}
+
+/* home button — toggles the hover-compare feature on/off */
+.portrait-home {
+  margin-top: 12px; padding: 4px; background: none; border: none; cursor: pointer;
+  display: inline-flex;
+}
+.portrait-home span {
+  width: 34px; height: 34px; border-radius: 50%; position: relative; display: block;
+  border: 1.5px solid var(--glass-border);
+  transition: transform .3s var(--ease-spring), border-color .3s, background .3s;
+}
+.portrait-home span::after {
+  content: ""; position: absolute; inset: 0; margin: auto; width: 11px; height: 11px;
+  border-radius: 3px; border: 1.5px solid var(--fg3); transition: border-color .3s, background .3s;
+}
+.portrait-home.on span { border-color: var(--accent2); background: var(--accent-light); }
+.portrait-home.on span::after { border-color: var(--accent2); background: var(--accent2); }
+.portrait-home:hover span { transform: scale(1.1); border-color: var(--accent2); }
+.portrait-home:hover span::after { border-color: var(--accent2); }
+
+.portrait-caption {
+  margin-top: 10px; text-align: center;
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--fg3);
+}
+
+/* ── Single-column reorder: photo BEFORE education; certs flow with left col ──
+   display:contents flattens both columns into the about-layout flex line so
+   `order` can interleave items across the original columns. */
+@media (max-width: 960px) {
+  .about-layout { display: flex; flex-direction: column; gap: 1.4rem; }
+  .about-sticky, .about-right { display: contents; }
+  .about-layout .display-h     { order: 1; }
+  .about-layout .serif-intro   { order: 2; }
+  .about-layout .serif-now     { order: 3; }
+  .about-layout .portrait      { order: 4; }
+  .about-layout .edu-stack     { order: 5; }
+  .about-layout .cert-block    { order: 6; }
+  .about-layout .philosophy-block { order: 7; }
+  .about-layout .pillar-stack  { order: 8; }
 }

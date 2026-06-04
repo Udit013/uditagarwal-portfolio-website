@@ -27,7 +27,7 @@ export function Hero() {
             </defs>
             <text className="badge-text">
               <textPath href="#bp">
-                SOFTWARE ENGINEER • AI/ML • DATA • SYSTEMS • SOFTWARE ENGINEER •
+                SOFTWARE ENGINEER • AI • ML • DATA • SYSTEMS •
               </textPath>
             </text>
           </svg>

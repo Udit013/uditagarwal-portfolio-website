@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import { CERTIFICATIONS, EDUCATION, PHILOSOPHY, PILLARS, type Education } from '../data/content'
 import { useReveal } from '../hooks/useReveal'
 import { Counter } from './Counter'
+import { Portrait } from './Portrait'
 
 /** style helper for the `--d` stagger custom property */
 const delay = (d?: string) => ({ '--d': d } as CSSProperties)
@@ -64,9 +65,23 @@ export function About() {
               <EduCard key={edu.degree} edu={edu} />
             ))}
           </div>
+
+          <div ref={certs.ref} className={`cert-block glass-card reveal-up${certs.inView ? ' in' : ''}`} style={delay('.1s')}>
+            <div className="cert-label">Certifications</div>
+            <div className="cert-list">
+              {CERTIFICATIONS.map((c) => (
+                <div className="cert-item" key={c.name}>
+                  <span className="cert-issuer">{c.issuer}</span>
+                  <span className="cert-name">{c.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="about-right">
+          <Portrait />
+
           <div
             ref={philosophy.ref}
             className={`philosophy-block reveal-up${philosophy.inView ? ' in' : ''}`}
@@ -101,18 +116,6 @@ export function About() {
                 </div>
               </div>
             ))}
-          </div>
-
-          <div ref={certs.ref} className={`cert-block glass-card reveal-up${certs.inView ? ' in' : ''}`} style={delay('.3s')}>
-            <div className="cert-label">Certifications</div>
-            <div className="cert-list">
-              {CERTIFICATIONS.map((c) => (
-                <div className="cert-item" key={c.name}>
-                  <span className="cert-issuer">{c.issuer}</span>
-                  <span className="cert-name">{c.name}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>

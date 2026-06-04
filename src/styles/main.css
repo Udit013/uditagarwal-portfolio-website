@@ -799,7 +799,8 @@ body.cur-label-show .cur-label { opacity: 1; }
 }
 
 /* Certifications */
-.cert-block { padding: 20px 22px; }
+.cert-block {
+  margin-top: 1rem; padding: 20px 22px; }
 .cert-label {
   font-family: var(--f-mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
   color: var(--accent2); margin-bottom: .85rem; padding-bottom: .5rem;

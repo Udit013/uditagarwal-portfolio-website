@@ -9,9 +9,9 @@ import { useReveal } from '../hooks/useReveal'
  */
 export function Portrait() {
   const frameRef = useRef<HTMLDivElement>(null)
-  const activeRef = useRef(true)
+  const activeRef = useRef(false)
   const rafRef = useRef(0)
-  const [active, setActive] = useState(true)
+  const [active, setActive] = useState(false)
   const { ref, inView } = useReveal<HTMLDivElement>()
 
   const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
@@ -39,13 +39,13 @@ export function Portrait() {
         <div
           className="portrait-frame"
           ref={frameRef}
-          style={{ '--pos': '55%' } as CSSProperties}
+          style={{ '--pos': '69%' } as CSSProperties}
           onPointerMove={onPointerMove}
           role="img"
           aria-label="Portrait of Udit Agarwal — anime on the left, real photo on the right"
         >
-          <img className="portrait-img portrait-real" src="/portrait.jpg" alt="Udit Agarwal" draggable={false} />
-          <img className="portrait-img portrait-anime" src="/portrait-anime.jpg" alt="" aria-hidden="true" draggable={false} />
+          <img className="portrait-img portrait-real" src="/portrait.jpeg" alt="Udit Agarwal" draggable={false} />
+          <img className="portrait-img portrait-anime" src="/portrait-anime.jpeg" alt="" aria-hidden="true" draggable={false} />
           <span className="portrait-glass" aria-hidden="true" />
           <span className="portrait-divider" aria-hidden="true" />
         </div>

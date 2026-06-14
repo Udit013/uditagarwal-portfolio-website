@@ -1,56 +1,72 @@
-# Udit Agarwal — Portfolio (v9)
+# Udit Agarwal — Portfolio
 
-A 3D, animated personal portfolio rebuilt on a modern front-end stack.
+An interactive, animated personal portfolio with a liquid-glass UI, a WebGL
+particle backdrop, and a real ⇆ anime portrait reveal slider.
 
-**Stack:** React · TypeScript · GSAP · Three.js · WebGL · HTML · CSS · JavaScript
+**Live:** [uditagarwal.vercel.app](https://uditagarwal.vercel.app)
+**Stack:** React 18 · TypeScript · Vite · GSAP · Three.js / WebGL · Lenis
 
-Built with [Vite](https://vite.dev). The Three.js layer uses
-[React Three Fiber](https://r3f.docs.pmnd.rs) + [drei](https://github.com/pmndrs/drei).
-
-> This `app/` directory is the current deliverable. The repository root still
-> contains the previous vanilla HTML/CSS/JS version it was migrated from.
+> The React app lives at the repository root and is what Vercel builds and
+> deploys. The original vanilla HTML/CSS/JS version is preserved on the
+> [`vanilla-site-backup`](https://github.com/Udit013/uditagarwal-portfolio-website/tree/vanilla-site-backup)
+> branch.
 
 ## Getting started
 
 ```bash
-cd app
 npm install
-npm run dev      # start the dev server (http://localhost:5173)
+npm run dev      # dev server with HMR → http://localhost:5173
 npm run build    # type-check + production build to dist/
-npm run preview  # preview the production build
+npm run preview  # preview the production build locally
 ```
 
-## What's inside
+Deployed on Vercel — pushing to `main` triggers a production deploy.
+
+## Highlights
+
+- **Liquid-glass UI** — frosted glass surfaces with specular rims and a
+  cursor-following highlight, tuned for both light and dark themes.
+- **Reveal-slider portrait** — a glass "device" that splits a real photo and an
+  anime rendering; the divider tracks the cursor, toggled on/off by the button.
+- **Floating-skills toolkit** — pick a category (incl. *All*) to reveal its
+  technologies as glass chips that drift gently within a bounded stage.
+- **WebGL backdrop** — a lazy-loaded Three.js particle field that drifts toward
+  the cursor and recolors with the theme (`src/three/BackgroundFX.tsx`).
+- **Motion** — GSAP + ScrollTrigger entrances, Lenis smooth scroll, SplitType
+  heading reveals, a curtain intro, a floating glass nav, and a custom cursor.
+- **Interactive terminal** — a built-in command line with a knowledge base and
+  chat mode.
+- Fully responsive, theme-persistent (localStorage), and
+  `prefers-reduced-motion` aware.
+
+## Tech
 
 | Area | Tech |
 | --- | --- |
 | UI / components | React 18 + TypeScript |
-| Scroll & motion | GSAP + ScrollTrigger, Lenis smooth scroll, SplitType |
-| 3D / WebGL | Three.js via React Three Fiber + drei |
 | Build | Vite 5 |
-
-### 3D features
-
-- **Floating hero object** (`src/three/HeroObject.tsx`) — a distorted, drag-to-rotate
-  icosahedron that drifts toward the cursor, masked so it glows out of the background.
-- **3D skills showcase** (`src/three/SkillsScene.tsx`) — the core build stack
-  (React, TypeScript, GSAP, Three.js, WebGL, HTML, CSS, JavaScript) orbiting in 3D,
-  draggable to rotate.
-
-Both scenes are lazy-loaded, respect `prefers-reduced-motion`, scale down on touch
-devices, and recolor with the light/dark theme.
+| 3D / WebGL | Three.js via [React Three Fiber](https://r3f.docs.pmnd.rs) + [drei](https://github.com/pmndrs/drei) |
+| Motion & scroll | GSAP + ScrollTrigger, Lenis, SplitType |
+| Styling | Hand-written CSS with design tokens (`src/styles/main.css`) |
 
 ## Structure
 
 ```
-app/src/
-  components/   React components (Nav, Hero, About, Skills, Journey, Projects, Contact, Terminal, …)
-  three/        React Three Fiber scenes (HeroObject, SkillsScene)
-  hooks/        useLenis, useTheme, useReveal, useTyping, useActiveSection, useThemeTone, useSiteAnimations
-  data/         content.ts (single source of truth) + terminal.ts (terminal KB/FAQ)
-  lib/          mouse state + small utilities
+src/
+  components/   Nav, Hero, Marquee, About, Portrait, Skills, Journey,
+                Projects, Contact, Footer, Terminal, Cursor, Loader, …
+  three/        BackgroundFX.tsx (WebGL particle field)
+  hooks/        useLenis, useTheme, useThemeTone, useReveal, useTyping,
+                useActiveSection, useSiteAnimations
+  data/         content.ts (single source of truth) · terminal.ts (terminal KB/FAQ)
+  lib/          shared mouse state + small utilities
   styles/       main.css (design tokens, layout, components)
+public/         resume.pdf, portrait images, favicon
 ```
 
-Content lives in `src/data/content.ts` — edit there to update skills, projects,
-journey, education, etc.
+To update content (skills, projects, journey, education, etc.), edit
+`src/data/content.ts` — it's the single source of truth.
+
+## License
+
+Personal project — all rights reserved. Not for redistribution or commercial use.

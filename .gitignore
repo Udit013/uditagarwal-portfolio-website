@@ -28,6 +28,9 @@ dist-ssr
 vite.config.js
 vite.config.d.ts
 
-# Local Claude agent config & worktrees
+# Local Claude agent config, memory & worktrees — never commit
 .claude/
+.claude
+CLAUDE.md
+CLAUDE.local.md
 photos/

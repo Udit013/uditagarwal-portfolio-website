@@ -230,7 +230,7 @@ export const JOURNEY: JourneyEntry[] = [
   {
     period: 'Jan 2026 – May 2026',
     datetime: '2026-01',
-    type: 'Health Analytics · Full-Stack',
+    type: 'Part-Time · Hybrid',
     role: 'Software Engineer',
     company: 'Global Health Impact Project · Indiana University',
     bullets: [
@@ -246,7 +246,7 @@ export const JOURNEY: JourneyEntry[] = [
   {
     period: 'Aug 2025 – May 2026',
     datetime: '2025-08',
-    type: 'Enterprise IT · On-site',
+    type: 'Part-Time · On-site',
     role: 'Consultant – IT Services',
     company: 'University Information Technology Services (UITS) · Indiana University',
     bullets: [

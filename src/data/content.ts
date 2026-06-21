@@ -295,8 +295,7 @@ export interface Project {
   delay?: string
 }
 
-export const PROJECT_FILTERS: { id: ProjectType | 'all'; label: string }[] = [
-  { id: 'all', label: 'All' },
+export const PROJECT_FILTERS: { id: ProjectType; label: string }[] = [
   { id: 'fs', label: 'Full-Stack & Software Engineering' },
   { id: 'ml', label: 'AI, Machine Learning & LLMs' },
   { id: 'dt', label: 'Data & Decision Intelligence' },

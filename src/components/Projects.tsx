@@ -3,7 +3,7 @@ import { PROJECTS, PROJECT_FILTERS, type Project, type ProjectType } from '../da
 import { useReveal } from '../hooks/useReveal'
 import { Counter } from './Counter'
 
-type Filter = ProjectType | 'all'
+type Filter = ProjectType
 
 function ProjectCard({ project, hidden }: { project: Project; hidden: boolean }) {
   const { ref, inView } = useReveal<HTMLElement>()
@@ -109,7 +109,7 @@ function PublicationBlock() {
 }
 
 export function Projects() {
-  const [filter, setFilter] = useState<Filter>('all')
+  const [filter, setFilter] = useState<Filter>(PROJECT_FILTERS[0].id)
 
   return (
     <section id="projects" className="section" aria-labelledby="projects-heading">
@@ -144,7 +144,7 @@ export function Projects() {
 
       <div className="proj-grid">
         {PROJECTS.map((project) => (
-          <ProjectCard key={project.num} project={project} hidden={filter !== 'all' && !project.types.includes(filter)} />
+          <ProjectCard key={project.num} project={project} hidden={!project.types.includes(filter)} />
         ))}
       </div>
 

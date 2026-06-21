@@ -3,14 +3,7 @@ import gsap from 'gsap'
 import { SKILL_CATEGORIES } from '../data/content'
 import { prefersReducedMotion } from '../lib/utils'
 
-/* "All" shows the complete skills inventory (every sub-group, no filtering). */
-const ALL_CATEGORY = {
-  id: 'all',
-  label: 'All',
-  blurb: 'The complete skills inventory',
-  groups: SKILL_CATEGORIES.flatMap((c) => c.groups),
-}
-const CATEGORIES = [ALL_CATEGORY, ...SKILL_CATEGORIES]
+const CATEGORIES = SKILL_CATEGORIES
 
 export function Skills() {
   const [active, setActive] = useState(CATEGORIES[0].id)

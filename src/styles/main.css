@@ -1882,3 +1882,65 @@ body.cur-label-show .cur-label { opacity: 1; }
   background: var(--border);
 }
 .toolkit-group-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ═══════════════════════════════════════════════════
+   PROJECT BELT — infinite horizontal marquee
+═══════════════════════════════════════════════════ */
+.belt-wrap { margin-top: clamp(1.25rem, 3vw, 2rem); }
+.belt-label {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 14px;
+}
+.belt-viewport {
+  /* break out of the section's side padding for an edge-to-edge marquee */
+  margin-inline: calc(-1 * clamp(1.5rem, 5vw, 5rem));
+  overflow: hidden;
+  padding-block: 26px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.belt-track {
+  display: flex;
+  gap: clamp(16px, 1.6vw, 24px);
+  width: max-content;
+  padding-inline: clamp(16px, 4vw, 44px);
+  will-change: transform;
+}
+.belt-card {
+  flex: 0 0 auto;
+  width: clamp(280px, 23vw, 350px);
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(380px, 30vw, 460px);
+  /* belt cards are always visible (they don't use the grid's scroll-reveal) */
+  opacity: 1;
+  transform: none;
+  will-change: transform;
+  transform-style: preserve-3d;
+  /* GSAP owns the card transform (tilt); only transition the rest */
+  transition: box-shadow .4s var(--ease-expo), border-color .3s;
+}
+.belt-card:hover { transform: none; }
+.belt-card .proj-card-links { margin-top: auto; }
+.belt-card:hover,
+.belt-card:focus-within {
+  box-shadow: var(--glass-shadow-hover), 0 0 44px rgba(232, 133, 90, 0.22);
+  border-color: var(--accent2);
+  z-index: 2;
+}
+
+/* Reduced-motion / static fallback: plain horizontal scroll, no autoplay */
+.belt-static { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+
+@media (hover: none), (pointer: coarse) {
+  .belt-viewport { -webkit-mask-image: none; mask-image: none; }
+  .belt-card { width: clamp(260px, 80vw, 320px); min-height: 0; }
+}
+@media (max-width: 760px) {
+  .belt-card { width: clamp(260px, 82vw, 320px); min-height: 0; }
+  .belt-viewport { padding-block: 16px; }
+}

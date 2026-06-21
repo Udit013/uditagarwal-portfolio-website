@@ -263,11 +263,11 @@ export const JOURNEY: JourneyEntry[] = [
 ]
 
 /* ── Projects ── */
-export type ProjectType = 'ml' | 'fs' | 'dt'
+export type ProjectType = 'fs' | 'ml' | 'dt' | 'sys'
 
 export interface ProjectBadge {
   label: string
-  cls: 'fs' | 'ml' | 'dt' | 'pub' | 'wip'
+  cls: 'fs' | 'ml' | 'dt' | 'sys' | 'pub' | 'wip'
 }
 
 export interface ProjectStat {
@@ -277,7 +277,7 @@ export interface ProjectStat {
 }
 
 export interface Project {
-  /** A project can belong to more than one category (e.g. ML + Full-Stack). */
+  /** A project can belong to more than one category. */
   types: ProjectType[]
   num: string
   title: string
@@ -289,25 +289,29 @@ export interface Project {
   paper?: string
   /** No live demo yet — show "Demo coming soon" instead of a broken link. */
   demoSoon?: boolean
+  /** Non-link footnote for internal/private work (e.g. university project). */
+  note?: string
   stats?: ProjectStat[]
   delay?: string
 }
 
 export const PROJECT_FILTERS: { id: ProjectType | 'all'; label: string }[] = [
   { id: 'all', label: 'All' },
-  { id: 'ml', label: 'AI / ML' },
-  { id: 'fs', label: 'Full-Stack' },
-  { id: 'dt', label: 'Analytics & Strategy' },
+  { id: 'fs', label: 'Full-Stack & Software Engineering' },
+  { id: 'ml', label: 'AI, Machine Learning & LLMs' },
+  { id: 'dt', label: 'Data & Decision Intelligence' },
+  { id: 'sys', label: 'Systems, Security & Infrastructure' },
 ]
 
 export const PROJECTS: Project[] = [
   {
-    types: ['ml'],
+    types: ['ml', 'sys'],
     num: '01',
-    title: 'Brain Tumor Classification — Production ML System',
+    title: 'Brain Tumor Classification — Production ML Pipeline',
     desc: 'Production-grade extension of an IEEE-published brain-tumor MRI classifier — adds train/test leakage auditing, out-of-distribution testing, confidence calibration, Grad-CAM explainability, and a containerized ONNX + FastAPI inference service.',
     badges: [
       { label: 'AI / ML', cls: 'ml' },
+      { label: 'Systems', cls: 'sys' },
       { label: 'IEEE 2024', cls: 'pub' },
     ],
     chips: ['Python', 'TensorFlow/Keras', 'EfficientNetB3', 'ONNX Runtime', 'FastAPI', 'Grad-CAM', 'Docker'],
@@ -320,11 +324,28 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    types: ['ml'],
+    types: ['fs', 'ml'],
     num: '02',
-    title: 'Biomedical LLM Adaptation System',
+    title: 'Voice Interview Simulator',
+    desc: 'AI interview-prep platform running adaptive voice interviews with résumé-aware question generation and five-competency scoring — built entirely on browser-native speech and free-tier infrastructure at $0 cost.',
+    badges: [
+      { label: 'Full-Stack', cls: 'fs' },
+      { label: 'AI / ML', cls: 'ml' },
+    ],
+    chips: ['Next.js', 'TypeScript', 'Firebase', 'Gemini 2.5 Flash', 'Web Speech API', 'Zod'],
+    live: 'https://mock-ai-prep.vercel.app',
+    repo: 'https://github.com/Udit013/ai_mock_interview_prep',
+    delay: '.06s',
+  },
+  {
+    types: ['ml', 'sys'],
+    num: '03',
+    title: 'Biomedical LLM Adaptation Benchmark',
     desc: 'A reproducible QLoRA pipeline studying when 4-bit fine-tuning actually helps a strong instruction-tuned LLM on biomedical benchmarks — with leakage-safe in-/out-of-domain evaluation and a serving-cost harness, framed as engineering, not an accuracy chase.',
-    badges: [{ label: 'AI / ML', cls: 'ml' }],
+    badges: [
+      { label: 'AI / ML', cls: 'ml' },
+      { label: 'Systems', cls: 'sys' },
+    ],
     chips: ['Python', 'Qwen2.5-7B', 'QLoRA', 'PEFT/TRL', 'Hugging Face', 'vLLM', 'FastAPI'],
     repo: 'https://github.com/Udit013/biomed-llm-peft',
     demoSoon: true,
@@ -332,54 +353,33 @@ export const PROJECTS: Project[] = [
       { value: '64.5', suffix: '%', label: 'PubMedQA (OOD)' },
       { value: '194', suffix: 'K', label: 'MedMCQA' },
     ],
-    delay: '.06s',
-  },
-  {
-    types: ['ml', 'fs'],
-    num: '03',
-    title: 'Voice Interview Simulator',
-    desc: 'AI interview-prep platform running adaptive voice interviews with résumé-aware question generation and five-competency scoring — built entirely on browser-native speech and free-tier infrastructure at $0 cost.',
-    badges: [
-      { label: 'AI / ML', cls: 'ml' },
-      { label: 'Full-Stack', cls: 'fs' },
-    ],
-    chips: ['Next.js', 'TypeScript', 'Firebase', 'Gemini 2.5 Flash', 'Web Speech API', 'Zod'],
-    live: 'https://mock-ai-prep.vercel.app',
-    repo: 'https://github.com/Udit013/ai_mock_interview_prep',
     delay: '.12s',
   },
   {
-    types: ['fs'],
+    types: ['fs', 'ml', 'sys'],
     num: '04',
     title: 'Screen Recording & Video Sharing Platform',
     desc: 'Browser-native screen recording and sharing with webcam picture-in-picture, direct-to-CDN uploads, Web Speech transcription, Gemini-generated chapters and summaries, 3-tier privacy with share tokens, and channel analytics.',
-    badges: [{ label: 'Full-Stack', cls: 'fs' }],
-    chips: ['Next.js', 'TypeScript', 'Cloudinary', 'Neon PostgreSQL', 'Drizzle ORM', 'Gemini'],
+    badges: [
+      { label: 'Full-Stack', cls: 'fs' },
+      { label: 'AI / ML', cls: 'ml' },
+      { label: 'Systems', cls: 'sys' },
+    ],
+    chips: ['Next.js', 'TypeScript', 'Cloudinary', 'Neon PostgreSQL', 'Drizzle ORM', 'Gemini', 'better-auth'],
     live: 'https://snapcast-video-sharing.vercel.app',
     repo: 'https://github.com/Udit013/screen_recording_sharing_app',
     delay: '.18s',
   },
   {
-    types: ['fs'],
+    types: ['fs', 'ml', 'dt'],
     num: '05',
-    title: 'Automated Secrets Scanner',
-    desc: 'DevSecOps platform detecting hardcoded secrets across code and full git history via regex, Shannon entropy, and semantic heuristics — with 0–100 exposure risk scoring, differential scanning, real-time WebSocket progress, and SARIF/CI-CD export.',
-    badges: [{ label: 'Full-Stack', cls: 'fs' }],
-    chips: ['Python', 'FastAPI', 'React', 'PostgreSQL', 'WebSocket', 'APScheduler'],
-    live: 'https://automated-secrets-scanner.vercel.app',
-    repo: 'https://github.com/Udit013/automated-secrets-scanner',
-    stats: [
-      { value: '0.94', label: 'F1 Score' },
-      { value: '26', label: 'Secret Types' },
-    ],
-    delay: '.24s',
-  },
-  {
-    types: ['dt'],
-    num: '06',
-    title: 'CoreSight IQ — Decision Intelligence Platform',
+    title: 'CoreSight IQ — Decision Intelligence Engine',
     desc: 'Unified decision-intelligence platform (ingest → score → recommend → report → advise) spanning product, retail, and market analytics on a reusable core engine — with walk-forward backtesting and calibration so every accuracy claim is auditable.',
-    badges: [{ label: 'Analytics', cls: 'dt' }],
+    badges: [
+      { label: 'Full-Stack', cls: 'fs' },
+      { label: 'AI / ML', cls: 'ml' },
+      { label: 'Data', cls: 'dt' },
+    ],
     chips: ['Next.js', 'TypeScript', 'Apache ECharts', 'Drizzle ORM', 'Neon PostgreSQL', 'Ollama', 'Vitest'],
     live: 'https://coresightiq.vercel.app',
     repo: 'https://github.com/Udit013/decision-intelligence-platform',
@@ -387,14 +387,47 @@ export const PROJECTS: Project[] = [
       { value: '85', label: 'Unit Tests' },
       { value: '1.07', suffix: 'M', label: 'Transactions' },
     ],
+    delay: '.24s',
+  },
+  {
+    types: ['fs', 'dt', 'sys'],
+    num: '06',
+    title: 'Pharmacy ERP & Distribution System',
+    desc: 'Multi-tenant pharmacy ERP for the Indian market — GST-compliant billing (CGST/SGST/IGST, GSTR-1/3B), transactionally consistent inventory and accounting, procurement, and payroll — with real-time multi-device sync over Server-Sent Events, deployed on $0 free-tier infra.',
+    badges: [
+      { label: 'Full-Stack', cls: 'fs' },
+      { label: 'Data', cls: 'dt' },
+      { label: 'Systems', cls: 'sys' },
+    ],
+    chips: ['Next.js', 'TypeScript', 'Fastify', 'Prisma', 'Neon PostgreSQL', 'Turborepo', 'SSE', 'jsPDF'],
+    live: 'https://rx-flow-web.vercel.app',
+    repo: 'https://github.com/Udit013/RxFlow',
     delay: '.30s',
   },
   {
-    types: ['dt'],
+    types: ['sys'],
     num: '07',
+    title: 'Automated Secrets Scanner',
+    desc: 'DevSecOps platform detecting hardcoded secrets across code and full git history via regex, Shannon entropy, and semantic heuristics — with 0–100 exposure risk scoring, differential scanning, real-time WebSocket progress, and SARIF/CI-CD export.',
+    badges: [{ label: 'Systems', cls: 'sys' }],
+    chips: ['Python', 'FastAPI', 'React', 'PostgreSQL', 'WebSocket', 'APScheduler'],
+    live: 'https://automated-secrets-scanner.vercel.app',
+    repo: 'https://github.com/Udit013/automated-secrets-scanner',
+    stats: [
+      { value: '0.94', label: 'F1 Score' },
+      { value: '26', label: 'Secret Types' },
+    ],
+    delay: '.36s',
+  },
+  {
+    types: ['fs', 'dt'],
+    num: '08',
     title: 'Product Strategy Platform — ProductLab',
     desc: 'Product-intelligence platform turning behavior data into ranked, confidence-scored decisions — conversion funnels, D1–D90 cohort retention, A/B & multivariate testing, RICE/ICE/WSJF prioritization, and a Decision Center with exportable reports.',
-    badges: [{ label: 'Analytics', cls: 'dt' }],
+    badges: [
+      { label: 'Full-Stack', cls: 'fs' },
+      { label: 'Data', cls: 'dt' },
+    ],
     chips: ['Next.js', 'TypeScript', 'PostgreSQL', 'Drizzle ORM', 'Apache ECharts', 'Ollama'],
     live: 'https://productlab-platform.vercel.app',
     repo: 'https://github.com/Udit013/productlab',
@@ -402,14 +435,17 @@ export const PROJECTS: Project[] = [
       { value: '280', suffix: 'K+', label: 'Events' },
       { value: '10', suffix: 'K', label: 'Users' },
     ],
-    delay: '.36s',
+    delay: '.42s',
   },
   {
-    types: ['dt'],
-    num: '08',
+    types: ['fs', 'dt'],
+    num: '09',
     title: 'Operations Intelligence System — RetailNexa',
     desc: 'Retail decision-intelligence platform with sales forecasting, RFM/CLV customer intelligence, inventory optimization, pricing simulation, root-cause analysis, and an Ollama-powered AI analyst with downloadable executive reports.',
-    badges: [{ label: 'Analytics', cls: 'dt' }],
+    badges: [
+      { label: 'Full-Stack', cls: 'fs' },
+      { label: 'Data', cls: 'dt' },
+    ],
     chips: ['Next.js', 'TypeScript', 'Neon PostgreSQL', 'Drizzle ORM', 'Recharts', 'Ollama'],
     live: 'https://retailnexa.vercel.app',
     repo: 'https://github.com/Udit013/retail-analytics-platform',
@@ -417,19 +453,35 @@ export const PROJECTS: Project[] = [
       { value: '0.90', label: 'Forecast R²' },
       { value: '86', suffix: '%', label: 'Accuracy' },
     ],
-    delay: '.42s',
+    delay: '.48s',
   },
   {
-    types: ['dt'],
-    num: '09',
+    types: ['fs', 'dt'],
+    num: '10',
     title: 'Market Expansion Engine — GeoStrategy',
     desc: 'Market-expansion intelligence across 121 global markets — opportunity scoring (Expand / Investigate / Monitor / Avoid), scenario simulators for revenue and break-even, competitive and risk frameworks, and an Ollama strategy advisor with PDF exports.',
-    badges: [{ label: 'Analytics', cls: 'dt' }],
+    badges: [
+      { label: 'Full-Stack', cls: 'fs' },
+      { label: 'Data', cls: 'dt' },
+    ],
     chips: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Apache ECharts', 'PostgreSQL', 'Ollama', 'jsPDF'],
     live: 'https://geostrategy.vercel.app',
     repo: 'https://github.com/Udit013/geostrategy',
     stats: [{ value: '121', label: 'Global Markets' }],
-    delay: '.48s',
+    delay: '.54s',
+  },
+  {
+    types: ['dt', 'sys'],
+    num: '11',
+    title: 'Global Health Impact Project',
+    desc: 'Data-driven global health analytics platform modeling pharmaceutical intervention impact across populations — treatment-coverage and efficacy modeling, forecasting workflows, and REST APIs powering analytics dashboards over optimized distributed processing.',
+    badges: [
+      { label: 'Data', cls: 'dt' },
+      { label: 'Systems', cls: 'sys' },
+    ],
+    chips: ['Python', 'React', 'TypeScript', 'REST APIs', 'SQL', 'Data Pipelines'],
+    note: 'Indiana University · Internal',
+    delay: '.60s',
   },
 ]
 

@@ -67,6 +67,11 @@ function ProjectCard({ project, hidden }: { project: Project; hidden: boolean })
             IEEE Paper ↗
           </a>
         )}
+        {project.note && (
+          <span className="proj-link proj-link-soon" aria-disabled="true">
+            {project.note}
+          </span>
+        )}
       </div>
     </article>
   )

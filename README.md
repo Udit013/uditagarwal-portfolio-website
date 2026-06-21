@@ -28,8 +28,15 @@ Deployed on Vercel — pushing to `main` triggers a production deploy.
   cursor-following highlight, tuned for both light and dark themes.
 - **Reveal-slider portrait** — a glass "device" that splits a real photo and an
   anime rendering; the divider tracks the cursor, toggled on/off by the button.
-- **Floating-skills toolkit** — pick a category (incl. *All*) to reveal its
-  technologies as glass chips that drift gently within a bounded stage.
+- **Categorized skills toolkit** — *All* plus six groups (Programming & Frontend;
+  Backend, APIs & Architecture; Databases & Data Engineering; AI, ML & LLMs;
+  Cloud, DevOps & Security; Testing & Quality Engineering), each broken into
+  labeled sub-categories.
+- **Filterable projects** — flagship projects filter across *All*, Full-Stack &
+  Software Engineering, AI/ML & LLMs, Data & Decision Intelligence, and Systems,
+  Security & Infrastructure (projects can span multiple categories). Each card
+  shows live + GitHub + paper links (or "Demo coming soon"), stack tags, and
+  key metrics, including the IEEE publication.
 - **WebGL backdrop** — a lazy-loaded Three.js particle field that drifts toward
   the cursor and recolors with the theme (`src/three/BackgroundFX.tsx`).
 - **Motion** — GSAP + ScrollTrigger entrances, Lenis smooth scroll, SplitType

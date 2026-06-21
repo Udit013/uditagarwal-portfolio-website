@@ -68,18 +68,18 @@ export const PILLARS: Pillar[] = [
   },
   {
     title: 'AI / ML Research',
-    desc: 'IEEE-published research in medical imaging. CNNs, LSTMs, NLP pipelines, transformers, fine-tuned LLMs, and real-time voice AI in production.',
-    chips: ['TensorFlow', 'PyTorch', 'BERT', 'DeBERTa', 'Hugging Face', 'Gemini API', 'Vapi AI'],
+    desc: 'IEEE-published research in medical imaging, plus production ML rigor: CNN benchmarking, transformers, QLoRA-fine-tuned LLMs, calibration, and ONNX-served inference.',
+    chips: ['TensorFlow', 'PyTorch', 'Hugging Face', 'BERT', 'QLoRA', 'Gemini API', 'ONNX Runtime'],
   },
   {
     title: 'Data Engineering & Analytics',
-    desc: 'ETL pipelines, normalized schema design, batch processing, and dashboards that transform raw datasets into actionable decisions.',
-    chips: ['ETL', 'Airflow', 'Tableau', 'SQL', 'Pandas', 'NumPy', 'Chart.js'],
+    desc: 'ETL pipelines, normalized schema design, forecasting, and decision-intelligence dashboards that turn raw datasets into auditable, actionable decisions.',
+    chips: ['ETL', 'Airflow', 'Tableau', 'Apache ECharts', 'Forecasting', 'Statistical Modeling', 'SQL'],
   },
   {
     title: 'Cloud & Systems Design',
     desc: 'Distributed systems, cloud infrastructure, containerization, auth flows, and API design with a focus on reliability at scale.',
-    chips: ['AWS', 'Docker', 'CI/CD', 'Redis', 'Vercel', 'Firebase', 'System Design'],
+    chips: ['AWS', 'Docker', 'CI/CD', 'Vercel', 'Turborepo', 'Serverless', 'System Design'],
   },
 ]
 
@@ -136,56 +136,81 @@ export const CERTIFICATIONS = [
   { issuer: 'Amazon Web Services', name: 'AWS Academy Graduate — Cloud Introduction' },
 ]
 
-/* ── Skills — grouped into selectable categories (the Toolkit) ── */
+/* ── Skills — six categorized groups, each with labeled sub-categories.
+   Every skill from the knowledge-doc master list appears exactly once. ── */
+export interface SkillSubGroup {
+  label: string
+  skills: string[]
+}
+
 export interface SkillCategory {
   id: string
   label: string
   blurb: string
-  techs: string[]
+  groups: SkillSubGroup[]
 }
 
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
-    id: 'languages',
-    label: 'Languages',
-    blurb: 'Core programming & query languages',
-    techs: ['Python', 'TypeScript', 'JavaScript', 'SQL', 'HTML', 'CSS'],
-  },
-  {
     id: 'frontend',
-    label: 'Frontend',
-    blurb: 'Interfaces, motion & real-time 3D',
-    techs: ['React', 'Next.js', 'Tailwind CSS', 'GSAP', 'Three.js', 'WebGL', 'HTML5', 'CSS3'],
+    label: 'Programming & Frontend',
+    blurb: 'Languages and the interface layer',
+    groups: [
+      { label: 'Programming Languages', skills: ['Python', 'TypeScript', 'JavaScript', 'Java', 'C/C++', 'SQL'] },
+      { label: 'Frontend Technologies', skills: ['React', 'Next.js', 'HTML5', 'CSS3', 'Tailwind CSS', 'GSAP', 'Three.js / WebGL', 'Chart.js', 'Apache ECharts', 'Recharts'] },
+    ],
   },
   {
     id: 'backend',
-    label: 'Backend',
-    blurb: 'APIs, services & system design',
-    techs: ['Node.js', 'Express.js', 'FastAPI', 'REST APIs', 'GraphQL', 'API Design', 'Authentication', 'System Design', 'Distributed Systems'],
-  },
-  {
-    id: 'ai',
-    label: 'AI / ML',
-    blurb: 'Deep learning, NLP & LLMs',
-    techs: ['TensorFlow', 'PyTorch', 'Scikit-learn', 'BERT', 'DeBERTa', 'Transformers', 'Hugging Face', 'NLP', 'Prompt Engineering', 'LLM APIs', 'Gemini API', 'Vapi AI', 'Deep Learning'],
+    label: 'Backend, APIs & Architecture',
+    blurb: 'Services, APIs and system design',
+    groups: [
+      { label: 'Backend Frameworks', skills: ['Node.js', 'Express.js', 'Fastify', 'FastAPI'] },
+      { label: 'API Development', skills: ['REST APIs', 'WebSockets', 'Server-Sent Events', 'Zod', 'APScheduler', 'React Query'] },
+      { label: 'Systems & Architecture', skills: ['System Design', 'Distributed Systems', 'API Design', 'Authentication & Authorization', 'Fault Tolerance', 'Serverless Architecture', 'Monorepo Architecture'] },
+    ],
   },
   {
     id: 'data',
-    label: 'Data',
-    blurb: 'Databases, pipelines & analytics',
-    techs: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'Firebase', 'Drizzle ORM', 'Pandas', 'NumPy', 'Tableau', 'Chart.js', 'Airflow', 'ETL Pipelines', 'Data Modeling'],
+    label: 'Databases & Data Engineering',
+    blurb: 'Storage, pipelines and analytics',
+    groups: [
+      { label: 'Databases & Storage', skills: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'Firebase', 'Firestore', 'Neo4j', 'SQLite', 'Drizzle ORM', 'Prisma'] },
+      { label: 'Data Engineering', skills: ['Pandas', 'NumPy', 'Apache Airflow', 'ETL Pipelines', 'Data Modeling'] },
+      { label: 'Analytics Technologies', skills: ['Matplotlib', 'Tableau', 'Forecasting', 'Statistical Modeling'] },
+    ],
+  },
+  {
+    id: 'ai',
+    label: 'AI, Machine Learning & LLMs',
+    blurb: 'Deep learning, LLMs and fine-tuning',
+    groups: [
+      { label: 'AI / ML', skills: ['PyTorch', 'TensorFlow/Keras', 'Scikit-learn', 'Hugging Face', 'Transformers', 'CNNs (VGG16 / InceptionV3 / EfficientNetB3)', 'BERT', 'ONNX Runtime', 'Grad-CAM', 'Model Calibration', 'Prompt Engineering'] },
+      { label: 'LLM Frameworks', skills: ['Gemini API', 'Ollama', 'RAG', 'Structured Generation', 'Hugging Face Hub', 'Gradio', 'vLLM', 'lm-evaluation-harness'] },
+      { label: 'Fine-Tuning Technologies', skills: ['Qwen2.5', 'LLM Fine-Tuning', 'QLoRA', 'PEFT / LoRA', '4-bit Quantization (bitsandbytes)'] },
+      { label: 'MLOps & Experimentation', skills: ['Model Evaluation & Benchmarking', 'Inference Optimization', 'Experiment Tracking', 'Hyperparameter Tuning', 'Model Cards'] },
+    ],
   },
   {
     id: 'cloud',
-    label: 'Cloud & DevOps',
-    blurb: 'Infra, containers & delivery',
-    techs: ['AWS', 'Docker', 'CI/CD', 'Vercel', 'Git', 'GitHub Actions'],
+    label: 'Cloud, DevOps & Security',
+    blurb: 'Infra, delivery and DevSecOps',
+    groups: [
+      { label: 'Cloud Platforms', skills: ['AWS (EC2 / S3 / Lambda / RDS / CloudFront)', 'Vercel', 'Cloudinary'] },
+      { label: 'DevOps Tools', skills: ['Docker', 'CI/CD', 'Git', 'Postman', 'ServiceNow', 'Turborepo'] },
+      { label: 'Infrastructure', skills: ['Caching', 'Load Balancing', 'Auto-Scaling'] },
+      { label: 'Security & DevSecOps', skills: ['Secrets Detection', 'Regex Pattern Matching', 'Entropy Analysis', 'Vulnerability Scanning', 'Git History Auditing', 'SARIF Export', 'SMTP Alerting'] },
+    ],
   },
   {
-    id: 'tools',
-    label: 'Tools',
-    blurb: 'Day-to-day developer toolkit',
-    techs: ['Git', 'GitHub', 'Postman', 'VS Code', 'Jupyter', 'Linux'],
+    id: 'testing',
+    label: 'Testing & Quality Engineering',
+    blurb: 'Tests, validation and reliability',
+    groups: [
+      { label: 'Testing Frameworks', skills: ['Vitest', 'Unit Testing'] },
+      { label: 'Quality Assurance Tools', skills: ['Cross-Validation', 'Error Analysis', 'Data Leakage Auditing', 'jsPDF'] },
+      { label: 'Performance & Reliability Testing', skills: ['Backtesting', 'Confidence Calibration', 'OOD Testing', 'A/B Testing'] },
+    ],
   },
 ]
 
@@ -203,40 +228,42 @@ export interface JourneyEntry {
 
 export const JOURNEY: JourneyEntry[] = [
   {
-    period: 'Feb 2026 → Present',
-    datetime: '2026-02',
-    type: 'Part-Time · Hybrid',
+    period: 'Jan 2026 – May 2026',
+    datetime: '2026-01',
+    type: 'Health Analytics · Full-Stack',
     role: 'Software Engineer',
     company: 'Global Health Impact Project · Indiana University',
     bullets: [
-      'Building a data-driven global health platform (Python, React, SQL) analyzing pharmaceutical impact across populations',
-      'Contributing to a forecasting tool modeling treatment coverage, efficacy, and disease trend outcomes',
-      'Designing scalable APIs and data pipelines to evaluate health outcomes and treatment coverage',
-      'Translating cross-functional research requirements into production-ready full-stack solutions',
-      'Collaborating with research teams to improve data accessibility and usability',
+      'Designed and developed full-stack features for a global health analytics platform using React, TypeScript, and Python, enabling researchers to evaluate pharmaceutical intervention effectiveness across diverse populations',
+      'Built scalable backend services and data processing pipelines to support treatment coverage modeling, efficacy analysis, forecasting workflows, and large-scale health outcome evaluation',
+      'Developed and maintained REST APIs powering analytics dashboards, forecasting tools, and data-driven decision workflows across multiple platform components',
+      'Optimized database queries, backend services, and distributed processing workflows to improve application performance, scalability, and responsiveness under increasing analytical workloads',
+      'Performed root-cause analysis of system bottlenecks and production issues, implementing long-term fixes that improved platform reliability and operational stability',
+      'Collaborated with researchers, engineers, and domain experts to translate complex health analytics requirements into production-ready software solutions',
     ],
-    chips: ['Python', 'React', 'TypeScript', 'SQL', 'FastAPI', 'Data Analysis'],
+    chips: ['Python', 'React', 'TypeScript', 'REST APIs', 'SQL', 'Data Pipelines'],
   },
   {
-    period: 'Aug 2025 → Present',
+    period: 'Aug 2025 – May 2026',
     datetime: '2025-08',
-    type: 'Part-Time · On-site',
-    role: 'Technology Consultant',
-    company: 'University Information Technology Services (UITS) · Indiana University Bloomington',
+    type: 'Enterprise IT · On-site',
+    role: 'Consultant – IT Services',
+    company: 'University Information Technology Services (UITS) · Indiana University',
     bullets: [
-      'Resolved 100+ technical issues weekly across desktop, mobile, and enterprise systems for a large campus user base',
-      'Applied structured root-cause analysis to reduce recurring system issues and improve reliability',
-      'Managed identity and access systems ensuring secure and seamless user authentication',
-      'Assisted with network connectivity and system access across campus environments',
-      'Documented support workflows to improve operational efficiency and service delivery',
+      'Resolved 100+ technical issues weekly across desktop, mobile, and enterprise systems using structured troubleshooting methodologies and root-cause analysis techniques',
+      'Diagnosed hardware, software, authentication, networking, and account-access issues, improving system reliability and minimizing service disruptions for a large user population',
+      'Supported identity and access management workflows, ensuring secure authentication, authorization, and account lifecycle management across university systems',
+      'Analyzed recurring support incidents and system behavior patterns to identify underlying causes and recommend process or technical improvements',
+      'Documented issue resolution procedures, operational workflows, and service requests within ServiceNow to improve knowledge sharing, consistency, and support efficiency',
+      'Collaborated with cross-functional IT teams to escalate complex issues, coordinate resolutions, and maintain high levels of service availability',
     ],
-    chips: ['Enterprise IT', 'Identity & Access', 'Troubleshooting', 'Problem Solving'],
+    chips: ['Enterprise IT', 'Identity & Access', 'ServiceNow', 'Troubleshooting', 'Root-Cause Analysis'],
     delay: '.12s',
   },
 ]
 
 /* ── Projects ── */
-export type ProjectType = 'fs' | 'ml' | 'dt'
+export type ProjectType = 'ml' | 'fs' | 'dt'
 
 export interface ProjectBadge {
   label: string
@@ -250,146 +277,159 @@ export interface ProjectStat {
 }
 
 export interface Project {
-  type: ProjectType
+  /** A project can belong to more than one category (e.g. ML + Full-Stack). */
+  types: ProjectType[]
   num: string
   title: string
   desc: string
   badges: ProjectBadge[]
   chips: string[]
-  href: string
-  cursor: string
+  live?: string
+  repo?: string
+  paper?: string
+  /** No live demo yet — show "Demo coming soon" instead of a broken link. */
+  demoSoon?: boolean
   stats?: ProjectStat[]
   delay?: string
 }
 
 export const PROJECT_FILTERS: { id: ProjectType | 'all'; label: string }[] = [
   { id: 'all', label: 'All' },
-  { id: 'fs', label: 'Full-Stack' },
   { id: 'ml', label: 'AI / ML' },
-  { id: 'dt', label: 'Data' },
+  { id: 'fs', label: 'Full-Stack' },
+  { id: 'dt', label: 'Analytics & Strategy' },
 ]
 
 export const PROJECTS: Project[] = [
   {
-    type: 'fs',
+    types: ['ml'],
     num: '01',
-    title: 'AI Mock Interview Platform',
-    desc: 'Full-stack AI system with real-time voice interviews, LLM-driven question generation via Gemini API, and structured feedback evaluation pipelines.',
-    badges: [{ label: 'Full-Stack', cls: 'fs' }],
-    chips: ['Next.js', 'Firebase', 'Node.js', 'Vapi AI', 'Gemini API'],
-    href: 'https://github.com/Udit013',
-    cursor: 'View',
-  },
-  {
-    type: 'ml',
-    num: '02',
-    title: 'Brain Tumor Classification',
-    desc: 'Deep learning model published at ICC-ROBINS 2024. Benchmarked CNN, VGG16, InceptionV3, and EfficientNet on 7,000+ MRI scans.',
+    title: 'Brain Tumor Classification — Production ML System',
+    desc: 'Production-grade extension of an IEEE-published brain-tumor MRI classifier — adds train/test leakage auditing, out-of-distribution testing, confidence calibration, Grad-CAM explainability, and a containerized ONNX + FastAPI inference service.',
     badges: [
       { label: 'AI / ML', cls: 'ml' },
       { label: 'IEEE 2024', cls: 'pub' },
     ],
-    chips: ['TensorFlow', 'Keras', 'EfficientNetB3', 'CNN'],
-    href: 'https://doi.org/10.1109/ICC-ROBINS60238.2024.10533941',
-    cursor: 'Paper',
+    chips: ['Python', 'TensorFlow/Keras', 'EfficientNetB3', 'ONNX Runtime', 'FastAPI', 'Grad-CAM', 'Docker'],
+    repo: 'https://github.com/Udit013/Brain_Tumor_Classificatioin',
+    paper: 'https://doi.org/10.1109/ICC-ROBINS60238.2024.10533941',
+    demoSoon: true,
     stats: [
-      { value: '99.84', suffix: '%', label: 'Accuracy' },
+      { value: '99.84', suffix: '%', label: 'IEEE Accuracy' },
       { value: '7023', label: 'MRI Scans' },
+    ],
+  },
+  {
+    types: ['ml'],
+    num: '02',
+    title: 'Biomedical LLM Adaptation System',
+    desc: 'A reproducible QLoRA pipeline studying when 4-bit fine-tuning actually helps a strong instruction-tuned LLM on biomedical benchmarks — with leakage-safe in-/out-of-domain evaluation and a serving-cost harness, framed as engineering, not an accuracy chase.',
+    badges: [{ label: 'AI / ML', cls: 'ml' }],
+    chips: ['Python', 'Qwen2.5-7B', 'QLoRA', 'PEFT/TRL', 'Hugging Face', 'vLLM', 'FastAPI'],
+    repo: 'https://github.com/Udit013/biomed-llm-peft',
+    demoSoon: true,
+    stats: [
+      { value: '64.5', suffix: '%', label: 'PubMedQA (OOD)' },
+      { value: '194', suffix: 'K', label: 'MedMCQA' },
     ],
     delay: '.06s',
   },
   {
-    type: 'fs',
+    types: ['ml', 'fs'],
     num: '03',
-    title: 'Screen Recording & Video Platform',
-    desc: 'Serverless platform with screen recording, CDN delivery via Bunny.net, AI-generated transcripts, privacy controls, and Arcjet rate limiting.',
-    badges: [{ label: 'Full-Stack', cls: 'fs' }],
-    chips: ['Next.js', 'TypeScript', 'Bunny.net', 'Xata', 'Drizzle ORM', 'Arcjet'],
-    href: 'https://github.com/Udit013',
-    cursor: 'View',
+    title: 'Voice Interview Simulator',
+    desc: 'AI interview-prep platform running adaptive voice interviews with résumé-aware question generation and five-competency scoring — built entirely on browser-native speech and free-tier infrastructure at $0 cost.',
+    badges: [
+      { label: 'AI / ML', cls: 'ml' },
+      { label: 'Full-Stack', cls: 'fs' },
+    ],
+    chips: ['Next.js', 'TypeScript', 'Firebase', 'Gemini 2.5 Flash', 'Web Speech API', 'Zod'],
+    live: 'https://mock-ai-prep.vercel.app',
+    repo: 'https://github.com/Udit013/ai_mock_interview_prep',
     delay: '.12s',
   },
   {
-    type: 'ml',
+    types: ['fs'],
     num: '04',
-    title: 'LLM Generated Text Detection',
-    desc: 'BERT-based classifier fine-tuned to distinguish human vs. AI-generated text with a cross-validation evaluation pipeline for reliable comparison.',
-    badges: [{ label: 'AI / ML', cls: 'ml' }],
-    chips: ['BERT', 'Hugging Face', 'PyTorch', 'NLP'],
-    href: 'https://github.com/Udit013',
-    cursor: 'View',
-    stats: [{ value: '95.25', suffix: '%', label: 'Accuracy' }],
+    title: 'Screen Recording & Video Sharing Platform',
+    desc: 'Browser-native screen recording and sharing with webcam picture-in-picture, direct-to-CDN uploads, Web Speech transcription, Gemini-generated chapters and summaries, 3-tier privacy with share tokens, and channel analytics.',
+    badges: [{ label: 'Full-Stack', cls: 'fs' }],
+    chips: ['Next.js', 'TypeScript', 'Cloudinary', 'Neon PostgreSQL', 'Drizzle ORM', 'Gemini'],
+    live: 'https://snapcast-video-sharing.vercel.app',
+    repo: 'https://github.com/Udit013/screen_recording_sharing_app',
     delay: '.18s',
   },
   {
-    type: 'fs',
+    types: ['fs'],
     num: '05',
     title: 'Automated Secrets Scanner',
-    desc: 'Security tool detecting hardcoded credentials via entropy-based analysis and regex pattern matching with a full vulnerability dashboard.',
+    desc: 'DevSecOps platform detecting hardcoded secrets across code and full git history via regex, Shannon entropy, and semantic heuristics — with 0–100 exposure risk scoring, differential scanning, real-time WebSocket progress, and SARIF/CI-CD export.',
     badges: [{ label: 'Full-Stack', cls: 'fs' }],
-    chips: ['Python', 'FastAPI', 'React', 'PostgreSQL'],
-    href: 'https://github.com/Udit013',
-    cursor: 'View',
+    chips: ['Python', 'FastAPI', 'React', 'PostgreSQL', 'WebSocket', 'APScheduler'],
+    live: 'https://automated-secrets-scanner.vercel.app',
+    repo: 'https://github.com/Udit013/automated-secrets-scanner',
+    stats: [
+      { value: '0.94', label: 'F1 Score' },
+      { value: '26', label: 'Secret Types' },
+    ],
     delay: '.24s',
   },
   {
-    type: 'ml',
+    types: ['dt'],
     num: '06',
-    title: 'Aphasia Detection — DeBERTa-v3',
-    desc: 'Clinical NLP system using fine-tuned DeBERTa-v3 on speech transcripts with custom preprocessing for dysfluency and annotation handling.',
-    badges: [{ label: 'AI / ML', cls: 'ml' }],
-    chips: ['DeBERTa-v3', 'Hugging Face', 'Clinical NLP', 'PyTorch'],
-    href: 'https://github.com/Udit013',
-    cursor: 'View',
-    stats: [{ value: '0.90', label: 'F1-Score' }],
+    title: 'CoreSight IQ — Decision Intelligence Platform',
+    desc: 'Unified decision-intelligence platform (ingest → score → recommend → report → advise) spanning product, retail, and market analytics on a reusable core engine — with walk-forward backtesting and calibration so every accuracy claim is auditable.',
+    badges: [{ label: 'Analytics', cls: 'dt' }],
+    chips: ['Next.js', 'TypeScript', 'Apache ECharts', 'Drizzle ORM', 'Neon PostgreSQL', 'Ollama', 'Vitest'],
+    live: 'https://coresightiq.vercel.app',
+    repo: 'https://github.com/Udit013/decision-intelligence-platform',
+    stats: [
+      { value: '85', label: 'Unit Tests' },
+      { value: '1.07', suffix: 'M', label: 'Transactions' },
+    ],
     delay: '.30s',
   },
   {
-    type: 'dt',
+    types: ['dt'],
     num: '07',
-    title: 'Retail Analytics Platform',
-    desc: 'Normalized schema handling 10K+ records, SQL-based ETL pipelines, and interactive KPI dashboards for business performance. Deployed on Vercel + Supabase.',
-    badges: [{ label: 'Data', cls: 'dt' }],
-    chips: ['Next.js', 'PostgreSQL', 'Drizzle ORM', 'Chart.js', 'ETL'],
-    href: 'https://github.com/Udit013',
-    cursor: 'View',
+    title: 'Product Strategy Platform — ProductLab',
+    desc: 'Product-intelligence platform turning behavior data into ranked, confidence-scored decisions — conversion funnels, D1–D90 cohort retention, A/B & multivariate testing, RICE/ICE/WSJF prioritization, and a Decision Center with exportable reports.',
+    badges: [{ label: 'Analytics', cls: 'dt' }],
+    chips: ['Next.js', 'TypeScript', 'PostgreSQL', 'Drizzle ORM', 'Apache ECharts', 'Ollama'],
+    live: 'https://productlab-platform.vercel.app',
+    repo: 'https://github.com/Udit013/productlab',
+    stats: [
+      { value: '280', suffix: 'K+', label: 'Events' },
+      { value: '10', suffix: 'K', label: 'Users' },
+    ],
     delay: '.36s',
   },
   {
-    type: 'dt',
+    types: ['dt'],
     num: '08',
-    title: 'User Behavior Analytics Pipeline',
-    desc: 'End-to-end ETL pipeline ingesting app logs for engagement and retention analysis with Airflow orchestration and Tableau dashboards.',
-    badges: [
-      { label: 'Data', cls: 'dt' },
-      { label: 'In Progress', cls: 'wip' },
+    title: 'Operations Intelligence System — RetailNexa',
+    desc: 'Retail decision-intelligence platform with sales forecasting, RFM/CLV customer intelligence, inventory optimization, pricing simulation, root-cause analysis, and an Ollama-powered AI analyst with downloadable executive reports.',
+    badges: [{ label: 'Analytics', cls: 'dt' }],
+    chips: ['Next.js', 'TypeScript', 'Neon PostgreSQL', 'Drizzle ORM', 'Recharts', 'Ollama'],
+    live: 'https://retailnexa.vercel.app',
+    repo: 'https://github.com/Udit013/retail-analytics-platform',
+    stats: [
+      { value: '0.90', label: 'Forecast R²' },
+      { value: '86', suffix: '%', label: 'Accuracy' },
     ],
-    chips: ['Python', 'PostgreSQL', 'Airflow', 'Tableau'],
-    href: 'https://github.com/Udit013',
-    cursor: 'View',
     delay: '.42s',
   },
   {
-    type: 'ml',
+    types: ['dt'],
     num: '09',
-    title: 'Stock Market Prediction — LSTM',
-    desc: 'LSTM time series model predicting stock price trends from historical financial data with attention-based feature extraction and backtesting pipeline.',
-    badges: [{ label: 'AI / ML', cls: 'ml' }],
-    chips: ['Python', 'TensorFlow', 'LSTM', 'Pandas', 'Time Series'],
-    href: 'https://github.com/Udit013',
-    cursor: 'View',
+    title: 'Market Expansion Engine — GeoStrategy',
+    desc: 'Market-expansion intelligence across 121 global markets — opportunity scoring (Expand / Investigate / Monitor / Avoid), scenario simulators for revenue and break-even, competitive and risk frameworks, and an Ollama strategy advisor with PDF exports.',
+    badges: [{ label: 'Analytics', cls: 'dt' }],
+    chips: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Apache ECharts', 'PostgreSQL', 'Ollama', 'jsPDF'],
+    live: 'https://geostrategy.vercel.app',
+    repo: 'https://github.com/Udit013/geostrategy',
+    stats: [{ value: '121', label: 'Global Markets' }],
     delay: '.48s',
-  },
-  {
-    type: 'dt',
-    num: '10',
-    title: 'Market Entry Strategy Simulator',
-    desc: 'Decision model evaluating market expansion strategies using simulated business data, SQL analytics, and scenario-based Tableau visualizations.',
-    badges: [{ label: 'Data', cls: 'dt' }],
-    chips: ['Python', 'SQL', 'Tableau', 'Simulation'],
-    href: 'https://github.com/Udit013',
-    cursor: 'View',
-    delay: '.54s',
   },
 ]
 

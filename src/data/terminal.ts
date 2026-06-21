@@ -10,7 +10,7 @@ export const KB: Record<string, string> = {
 <span class="t-hi">about</span>          Who is Udit
 <span class="t-hi">skills</span>         Full tech stack
 <span class="t-hi">experience</span>     Work history
-<span class="t-hi">projects</span>       All 10 projects
+<span class="t-hi">projects</span>       Flagship projects
 <span class="t-hi">education</span>      Academic background
 <span class="t-hi">research</span>       IEEE publication &amp; AI/ML
 <span class="t-hi">certifications</span> DeepLearning.AI &amp; AWS
@@ -35,62 +35,60 @@ full-stack engineering and applied AI/ML. IEEE-published researcher.
 
 <span class="t-hi">Currently:</span>
   Software Engineer @ Global Health Impact Project (IU)
-  IT Consultant @ UITS, Indiana University
+  Consultant – IT Services @ UITS, Indiana University
 
 Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
 <span class="t-sys">Seeking full-time SWE · AI/ML · Data roles — available June 2026</span>`,
 
-  skills: `<span class="t-hi">Frontend</span>      React · Next.js · TypeScript · Tailwind · GSAP · HTML/CSS
-<span class="t-hi">Backend</span>       Node.js · FastAPI · Express.js · REST APIs · GraphQL
-<span class="t-hi">AI / ML</span>       Python · TensorFlow · PyTorch · BERT · DeBERTa · Hugging Face
-<span class="t-hi">LLMs</span>          Gemini API · Vapi AI · Prompt Engineering · LLM APIs
-<span class="t-hi">Databases</span>     PostgreSQL · MySQL · MongoDB · Redis · Firebase
-<span class="t-hi">Data / ETL</span>    Pandas · NumPy · Tableau · Airflow · Chart.js
-<span class="t-hi">Cloud</span>         AWS · Docker · CI/CD · Git · Vercel
-<span class="t-hi">Systems</span>       System Design · Distributed Systems · Auth · API Design`,
+  skills: `<span class="t-hi">Languages</span>     Python · TypeScript · JavaScript · Java · C/C++ · SQL
+<span class="t-hi">Frontend</span>      React · Next.js · Tailwind · GSAP · Three.js/WebGL · ECharts
+<span class="t-hi">Backend</span>       Node.js · Fastify · FastAPI · REST · WebSockets · SSE
+<span class="t-hi">Databases</span>     PostgreSQL · MySQL · MongoDB · Redis · Drizzle · Prisma
+<span class="t-hi">AI / ML</span>       PyTorch · TensorFlow · Hugging Face · BERT · ONNX · Grad-CAM
+<span class="t-hi">LLMs</span>          QLoRA · PEFT · Qwen2.5 · Gemini API · Ollama · RAG · vLLM
+<span class="t-hi">Data</span>          Pandas · NumPy · Airflow · Tableau · Forecasting · ETL
+<span class="t-hi">Cloud / Sec</span>   AWS · Docker · CI/CD · Vercel · SARIF · Secrets Detection
+<span class="t-hi">Testing</span>       Vitest · Unit Testing · Backtesting · A/B · Calibration`,
 
-  experience: `<span class="t-hi">[ Feb 2026 → Present ]</span>  Software Engineer
-  Global Health Impact Project · Indiana University (Volunteer)
-  → Data-driven platform (Python, React, SQL) analyzing pharmaceutical impact
-  → Forecasting tool for treatment coverage &amp; disease trend modeling
-  → Scalable APIs and pipelines for health outcome evaluation
-  Stack: Python, React, TypeScript, SQL, FastAPI
+  experience: `<span class="t-hi">[ Jan 2026 – May 2026 ]</span>  Software Engineer
+  Global Health Impact Project · Indiana University
+  → Full-stack health analytics platform (React, TypeScript, Python)
+  → Backend services &amp; data pipelines for forecasting and outcomes
+  → REST APIs powering analytics dashboards · perf optimization
+  Stack: Python, React, TypeScript, REST APIs, SQL
 
-<span class="t-hi">[ Aug 2025 → Present ]</span>  IT Consultant
-  UITS · Indiana University Bloomington (9 months)
-  → 100+ issues/week resolved across enterprise systems
-  → Root-cause analysis · Identity &amp; access management
-  → Network connectivity and system access support`,
+<span class="t-hi">[ Aug 2025 – May 2026 ]</span>  Consultant – IT Services
+  UITS · Indiana University
+  → 100+ issues/week across enterprise systems
+  → Identity &amp; access management · root-cause analysis
+  → Documented workflows in ServiceNow`,
 
-  projects: `<span class="t-hi">01</span>  AI Mock Interview Platform     [Full-Stack]
-    Next.js · Firebase · Vapi AI · Gemini API
+  projects: `<span class="t-hi">01</span>  Brain Tumor Classification      [AI/ML] — <span class="t-link">IEEE ICC-ROBINS 2024</span>
+    EfficientNetB3 · 99.84% (published) · ONNX + FastAPI serving
 
-<span class="t-hi">02</span>  Brain Tumor Classification      [AI/ML] — <span class="t-link">IEEE ICC-ROBINS 2024</span>
-    99.84% accuracy · 7,023 MRI scans · EfficientNetB3
+<span class="t-hi">02</span>  Biomedical LLM Adaptation       [AI/ML]
+    Qwen2.5-7B · QLoRA 4-bit · leakage-safe eval
 
-<span class="t-hi">03</span>  Screen Recording Platform       [Full-Stack]
-    Next.js · Bunny.net · AI transcripts · Arcjet
+<span class="t-hi">03</span>  Voice Interview Simulator       [AI/ML · Full-Stack] — <span class="t-link">live</span>
+    Next.js · Gemini 2.5 · Web Speech · $0 infra
 
-<span class="t-hi">04</span>  LLM Text Detection              [AI/ML]
-    BERT · 95.25% accuracy
+<span class="t-hi">04</span>  Screen Recording &amp; Sharing      [Full-Stack] — <span class="t-link">live</span>
+    Next.js · Cloudinary · AI chapters · better-auth
 
-<span class="t-hi">05</span>  Automated Secrets Scanner       [Full-Stack]
-    Python · FastAPI · entropy-based detection
+<span class="t-hi">05</span>  Automated Secrets Scanner       [Full-Stack] — <span class="t-link">live</span>
+    FastAPI · entropy + regex · SARIF · 0.94 F1
 
-<span class="t-hi">06</span>  Aphasia Detection — DeBERTa-v3  [AI/ML]
-    F1-score: 0.90 · Clinical NLP
+<span class="t-hi">06</span>  CoreSight IQ                    [Analytics] — <span class="t-link">live</span>
+    Decision intelligence · walk-forward backtesting
 
-<span class="t-hi">07</span>  Retail Analytics Platform       [Data]
-    PostgreSQL · ETL · Chart.js · 10K+ records
+<span class="t-hi">07</span>  ProductLab                      [Analytics] — <span class="t-link">live</span>
+    Product strategy · A/B testing · RICE/ICE/WSJF
 
-<span class="t-hi">08</span>  User Behavior Analytics         [Data · In Progress]
-    Airflow · PostgreSQL · Tableau
+<span class="t-hi">08</span>  RetailNexa                      [Analytics] — <span class="t-link">live</span>
+    Retail ops · forecasting 0.90 R² · RFM/CLV
 
-<span class="t-hi">09</span>  Stock Market Prediction         [AI/ML]
-    LSTM · TensorFlow · Time Series
-
-<span class="t-hi">10</span>  Market Entry Strategy Simulator [Data]
-    Python · SQL · Tableau · Simulation`,
+<span class="t-hi">09</span>  GeoStrategy                     [Analytics] — <span class="t-link">live</span>
+    Market expansion · 121 markets · scenario sims`,
 
   education: `<span class="t-hi">MS Computer Science</span>  —  Indiana University Bloomington
   Aug 2024 – May 2026  ·  GPA: <span class="t-hi">3.84 / 4.0</span>
@@ -100,19 +98,18 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
   Aug 2020 – May 2024  ·  GPA: <span class="t-hi">8.85 / 10.0</span>`,
 
   research: `<span class="t-hi">IEEE Publication</span>
-"Identifying Various Types of Brain Tumors using Deep Neural Networks"
+"Identifying Various Types of Brain Tumors using Deep Neural Network based Image Features"
 ICC-ROBINS 2024  ·  DOI: 10.1109/ICC-ROBINS60238.2024.10533941
 
 Model:    EfficientNetB3 + CNN/VGG16/InceptionV3 benchmarks
 Dataset:  <span class="t-hi">7,023 MRI scans</span>
-Result:   <span class="t-hi">99.84% classification accuracy</span>
+Result:   <span class="t-hi">99.84% classification accuracy</span> (published)
 Role:     Co-author
 
-<span class="t-hi">Other AI work:</span>
-  Aphasia Detection · DeBERTa-v3 · 0.90 F1 on clinical data
-  LLM Text Detection · BERT · 95.25% accuracy
-  Stock Prediction · LSTM · TensorFlow
-  NLP Pipelines · Transformers · Prompt Engineering`,
+<span class="t-hi">Production ML &amp; LLM work:</span>
+  Brain Tumor — ONNX + FastAPI serving · leakage audit · calibration · Grad-CAM
+  Biomedical LLM — Qwen2.5-7B QLoRA fine-tuning · leakage-safe in/out-of-domain eval
+  Transformers · BERT · Prompt Engineering · RAG`,
 
   certifications: `<span class="t-hi">DeepLearning.AI</span>
   Neural Networks and Deep Learning
@@ -128,7 +125,7 @@ Role:     Co-author
 <span class="t-hi">Phone</span>     +1 (930) 904-4901
 <span class="t-hi">LinkedIn</span>  linkedin.com/in/udit013
 <span class="t-hi">GitHub</span>    github.com/Udit013
-<span class="t-hi">Portfolio</span> uditagarwal-website.vercel.app
+<span class="t-hi">Portfolio</span> uditagarwal.vercel.app
 
 <span class="t-sys">Seeking SWE · AI/ML · Data roles · Available June 2026</span>`,
 
@@ -162,11 +159,11 @@ export const CHAT_FAQ: { q: RegExp; a: string }[] = [
   { q: /hire|job|full.?time|intern|open.?to|available|role/i, a: 'Udit is available for full-time roles starting June 2026 — SWE, AI/ML, and Data roles. Open to remote, hybrid, and relocation. Email: agarwaludit13@gmail.com · Phone: +1 (930) 904-4901' },
   { q: /ieee|research|paper|publish|brain.?tumor/i, a: 'Udit co-authored an IEEE paper at ICC-ROBINS 2024 on brain tumor classification — 99.84% accuracy on 7,023 MRI scans with EfficientNetB3. DOI: 10.1109/ICC-ROBINS60238.2024.10533941' },
   { q: /gpa|grade|school|degree|university|master|indiana/i, a: 'MS CS at Indiana University Bloomington — GPA 3.84/4.0, May 2026. B.Tech at KIIT — GPA 8.85/10.0.' },
-  { q: /skill|tech|stack|language|python|react|framework/i, a: 'Python, TypeScript, React, Next.js, Node.js, FastAPI, PostgreSQL, TensorFlow, PyTorch, BERT, Hugging Face, Gemini API, Vapi AI, Docker, AWS. Type "skills" for the full list.' },
-  { q: /project|built|app|demo|portfolio/i, a: '10 projects including AI mock interview, brain tumor classification (IEEE), LLM text detection, aphasia NLP, retail analytics, secrets scanner. Type "projects" for all.' },
+  { q: /skill|tech|stack|language|python|react|framework/i, a: 'Python, TypeScript, React, Next.js, Node.js, Fastify, FastAPI, PostgreSQL, PyTorch, TensorFlow, Hugging Face, QLoRA, Gemini API, Ollama, Docker, AWS. Type "skills" for the full list.' },
+  { q: /project|built|app|demo|portfolio/i, a: '9 flagship projects: brain tumor classification (IEEE), a biomedical LLM QLoRA benchmark, an AI voice interview simulator, a screen-recording platform, a DevSecOps secrets scanner, and four decision-intelligence platforms (CoreSight IQ, ProductLab, RetailNexa, GeoStrategy). Type "projects" for all.' },
   { q: /contact|email|phone|reach|talk/i, a: 'agarwaludit13@gmail.com · +1 (930) 904-4901 · linkedin.com/in/udit013 · Responds within 24h.' },
-  { q: /llm|voice|gemini|vapi|gpt|generative/i, a: 'Experience with Gemini API, Vapi AI for real-time voice agents, BERT/DeBERTa fine-tuning, and LLM APIs in production systems.' },
-  { q: /data|etl|tableau|airflow|pipeline/i, a: 'Strong data engineering background: ETL pipelines, Airflow, PostgreSQL, Tableau, Pandas, NumPy. Built retail analytics, user behavior pipelines, and health data systems.' },
+  { q: /llm|voice|gemini|vapi|gpt|generative|qlora|fine.?tun/i, a: 'LLM work spans Gemini API, Ollama, QLoRA/PEFT fine-tuning (Qwen2.5-7B on biomedical benchmarks), RAG, structured generation, and LLM evaluation with lm-evaluation-harness. Built voice interviews on browser-native speech + Gemini.' },
+  { q: /data|etl|tableau|airflow|pipeline|analytics|forecast/i, a: 'Strong data engineering & analytics: ETL pipelines, Airflow, PostgreSQL, forecasting, A/B testing, and decision-intelligence platforms (CoreSight IQ, RetailNexa, ProductLab, GeoStrategy) with auditable, calibrated metrics.' },
   { q: /location|remote|reloc|where/i, a: 'Based in Bloomington, IN (EST). Open to remote, hybrid, and relocation.' },
   { q: /cert|aws|deeplearning/i, a: 'Certifications: DeepLearning.AI Neural Networks & Improving DNNs (Sep 2023), AWS Academy Cloud Graduate (Jul 2023).' },
   { q: /now|current|exploring/i, a: 'Currently: LLM Agents, Health AI platform at IU, real-time voice AI, ETL patterns, cloud-native systems.' },

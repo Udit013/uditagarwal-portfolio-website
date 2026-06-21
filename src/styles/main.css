@@ -1817,3 +1817,67 @@ body.cur-label-show .cur-label { opacity: 1; }
   .about-layout .philosophy-block { order: 7; }
   .about-layout .pillar-stack  { order: 8; }
 }
+
+/* ═══════════════════════════════════════════════════
+   PROJECT CARD LINKS — live / code / paper + demo-soon
+═══════════════════════════════════════════════════ */
+.proj-card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.proj-link {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  padding: 7px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--border2);
+  color: var(--fg2);
+  background: var(--glass);
+  white-space: nowrap;
+  transition: color .2s, border-color .2s, background .2s, transform .2s var(--ease-spring);
+}
+.proj-link:hover { color: var(--accent2); border-color: var(--accent2); transform: translateY(-1px); }
+.proj-link-live { color: #fff; background: var(--accent2); border-color: var(--accent2); }
+.proj-link-live:hover { color: #fff; filter: brightness(1.08); }
+.proj-link-paper { color: var(--accent3); border-color: var(--accent3); }
+.proj-link-paper:hover { color: var(--accent3); border-color: var(--accent3); }
+.proj-link-soon {
+  color: var(--fg3);
+  border-style: dashed;
+  cursor: default;
+}
+.proj-link-soon:hover { transform: none; color: var(--fg3); border-color: var(--border2); }
+
+/* ═══════════════════════════════════════════════════
+   SKILLS — categorized sub-groups (readable, grouped)
+═══════════════════════════════════════════════════ */
+.toolkit-stage-skills { min-height: 0; padding: clamp(20px, 3vw, 34px); }
+.toolkit-groups {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2.6vw, 28px);
+  width: 100%;
+}
+.toolkit-group-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 12px;
+}
+.toolkit-group-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.toolkit-group-chips { display: flex; flex-wrap: wrap; gap: 8px; }

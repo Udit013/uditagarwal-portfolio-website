@@ -11,7 +11,7 @@ function ProjectCard({ project, hidden }: { project: Project; hidden: boolean })
     <article
       ref={ref}
       className={`proj-card glass-card${inView ? ' in' : ''}${hidden ? ' pc-hidden' : ''}`}
-      data-type={project.type}
+      data-type={project.types.join(' ')}
       aria-label={`Project: ${project.title}`}
       aria-hidden={hidden}
     >
@@ -23,16 +23,6 @@ function ProjectCard({ project, hidden }: { project: Project; hidden: boolean })
             </span>
           ))}
         </div>
-        <a
-          href={project.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="proj-card-link"
-          data-cursor={project.cursor}
-          aria-label={project.cursor === 'Paper' ? 'Read IEEE paper' : 'View on GitHub'}
-        >
-          ↗
-        </a>
       </div>
       <div className="proj-card-num" aria-hidden="true">
         {project.num}
@@ -57,6 +47,27 @@ function ProjectCard({ project, hidden }: { project: Project; hidden: boolean })
           </span>
         ))}
       </div>
+      <div className="proj-card-links" aria-label="Project links">
+        {project.live ? (
+          <a className="proj-link proj-link-live" href={project.live} target="_blank" rel="noopener noreferrer" data-cursor="Live">
+            Live Demo ↗
+          </a>
+        ) : project.demoSoon ? (
+          <span className="proj-link proj-link-soon" aria-disabled="true">
+            Demo coming soon
+          </span>
+        ) : null}
+        {project.repo && (
+          <a className="proj-link" href={project.repo} target="_blank" rel="noopener noreferrer" data-cursor="Code">
+            Code ↗
+          </a>
+        )}
+        {project.paper && (
+          <a className="proj-link proj-link-paper" href={project.paper} target="_blank" rel="noopener noreferrer" data-cursor="Paper">
+            IEEE Paper ↗
+          </a>
+        )}
+      </div>
     </article>
   )
 }
@@ -69,7 +80,7 @@ function PublicationBlock() {
         <div className="pub-label">📄 IEEE Publication</div>
       </div>
       <div className="pub-content">
-        <div className="pub-title">"Identifying Various Types of Brain Tumors using Deep Neural Networks"</div>
+        <div className="pub-title">"Identifying Various Types of Brain Tumors using Deep Neural Network based Image Features"</div>
         <div className="pub-venue">ICC-ROBINS 2024 · DOI: 10.1109/ICC-ROBINS60238.2024.10533941</div>
         <div className="pub-stats" aria-label="Publication stats">
           <span>99.84% Accuracy</span>
@@ -128,7 +139,7 @@ export function Projects() {
 
       <div className="proj-grid">
         {PROJECTS.map((project) => (
-          <ProjectCard key={project.num} project={project} hidden={filter !== 'all' && project.type !== filter} />
+          <ProjectCard key={project.num} project={project} hidden={filter !== 'all' && !project.types.includes(filter)} />
         ))}
       </div>
 

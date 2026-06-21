@@ -83,8 +83,8 @@ export function Contact() {
           <div ref={avail.ref} className={`avail-block reveal-up${avail.inView ? ' in' : ''}`}>
             <span className="live-dot" aria-hidden="true" />
             <p>
-              Available for full-time opportunities starting June 2026. Bloomington, IN — open to remote and relocation.
-              Seeking Software · AI/ML · Consultant · Data roles.
+              Available for full-time opportunities starting June 2026. Based in Bloomington, IN — open to remote, hybrid,
+              and relocation anywhere in the US. Seeking Software · AI/ML · Data · Consultant roles.
             </p>
           </div>
         </div>

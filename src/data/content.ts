@@ -470,19 +470,6 @@ export const PROJECTS: Project[] = [
     stats: [{ value: '121', label: 'Global Markets' }],
     delay: '.54s',
   },
-  {
-    types: ['dt', 'sys'],
-    num: '11',
-    title: 'Global Health Impact Project',
-    desc: 'Data-driven global health analytics platform modeling pharmaceutical intervention impact across populations — treatment-coverage and efficacy modeling, forecasting workflows, and REST APIs powering analytics dashboards over optimized distributed processing.',
-    badges: [
-      { label: 'Data', cls: 'dt' },
-      { label: 'Systems', cls: 'sys' },
-    ],
-    chips: ['Python', 'React', 'TypeScript', 'REST APIs', 'SQL', 'Data Pipelines'],
-    note: 'Indiana University · Internal',
-    delay: '.60s',
-  },
 ]
 
 /* ── Contact ── */

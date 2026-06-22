@@ -1,12 +1,16 @@
 import { useEffect, useMemo, useRef, type MouseEvent } from 'react'
 import gsap from 'gsap'
 import { PROJECTS, type Project } from '../data/content'
+import { useLenis } from '../hooks/useLenis'
 import { Counter } from './Counter'
 import { isTouch, prefersReducedMotion } from '../lib/utils'
 
 const CYCLE_SECONDS = 26 // one full autonomous loop
 const COPIES = 3 // duplicate the list for a seamless wrap
-const VEL_EASE = 0.07 // inertia / interpolation on the belt velocity
+const AUTO_EASE = 0.08 // easing toward the autoplay speed
+const WHEEL_SENS = 2.4 // wheel deltaY → belt velocity (px/sec) impulse
+const MAX_VEL = 2800 // clamp belt velocity (px/sec)
+const FRICTION = 3.2 // higher = the scroll momentum settles faster
 
 function BeltCard({ project, tilt, dim }: { project: Project; tilt: boolean; dim: boolean }) {
   const ref = useRef<HTMLElement>(null)
@@ -108,17 +112,20 @@ function BeltCard({ project, tilt, dim }: { project: Project; tilt: boolean; dim
 }
 
 export function ProjectsBelt() {
+  const lenis = useLenis()
   const reduced = prefersReducedMotion()
   const touch = isTouch()
 
   const trackRef = useRef<HTMLDivElement>(null)
+  const labelRef = useRef<HTMLSpanElement>(null)
 
   // all motion state lives in refs — no re-renders from the animation loop
   const pos = useRef(0)
   const vel = useRef(0)
   const setW = useRef(0)
   const autoSpeed = useRef(0)
-  const paused = useRef(0) // hover / focus engagement count
+  const hover = useRef(0) // pointer over belt → wheel-driven
+  const focus = useRef(0) // keyboard focus inside → paused
 
   useEffect(() => {
     if (reduced) return
@@ -136,15 +143,30 @@ export function ProjectsBelt() {
     measure()
     const ro = new ResizeObserver(measure)
     ro.observe(track)
-    const t = window.setTimeout(measure, 400) // re-measure once fonts/images settle
+    const t = window.setTimeout(measure, 400)
+
+    // While hovering the belt, capture the wheel and turn it into horizontal
+    // belt momentum (the page is frozen via lenis.stop()) — scroll speed maps
+    // to belt speed; scroll up reverses.
+    const onWheel = (e: WheelEvent) => {
+      if (hover.current <= 0) return
+      e.preventDefault()
+      vel.current = Math.max(-MAX_VEL, Math.min(MAX_VEL, vel.current - e.deltaY * WHEEL_SENS))
+    }
+    window.addEventListener('wheel', onWheel, { passive: false })
 
     const tick = (_time: number, deltaMs: number) => {
       const sw = setW.current
       if (!sw) return
       const dt = Math.min(deltaMs, 50) / 1000
-      // pause on hover/focus (eased) so cards are easy to read and click
-      const target = paused.current > 0 ? 0 : -autoSpeed.current
-      vel.current += (target - vel.current) * VEL_EASE
+      if (hover.current > 0) {
+        // wheel-driven: coast with friction so it feels physical
+        vel.current *= Math.max(0, 1 - dt * FRICTION)
+      } else if (focus.current > 0) {
+        vel.current += (0 - vel.current) * AUTO_EASE // paused (keyboard)
+      } else {
+        vel.current += (-autoSpeed.current - vel.current) * AUTO_EASE // autoplay
+      }
       let p = pos.current + vel.current * dt
       if (p <= -sw) p += sw
       else if (p > 0) p -= sw
@@ -155,18 +177,36 @@ export function ProjectsBelt() {
 
     return () => {
       gsap.ticker.remove(tick)
+      window.removeEventListener('wheel', onWheel)
       ro.disconnect()
       window.clearTimeout(t)
     }
+    // Runs once: the ticker must NOT be re-created when Lenis initializes,
+    // or autoplay dies. Hover handlers read the live `lenis` from closure.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduced])
 
-  const engage = () => {
+  const onEnter = () => {
     if (touch || reduced) return
-    paused.current += 1
+    hover.current += 1
+    lenis?.stop() // freeze page scroll so the wheel drives the belt
+    if (labelRef.current) labelRef.current.textContent = 'PROJECT BELT LINKED TO YOUR SCROLL'
   }
-  const disengage = () => {
+  const onLeave = () => {
     if (touch || reduced) return
-    paused.current = Math.max(0, paused.current - 1)
+    hover.current = Math.max(0, hover.current - 1)
+    if (hover.current === 0) {
+      lenis?.start()
+      if (labelRef.current) labelRef.current.textContent = 'SCROLL TO EXPLORE →'
+    }
+  }
+  const onFocusIn = () => {
+    if (touch || reduced) return
+    focus.current += 1
+  }
+  const onFocusOut = () => {
+    if (touch || reduced) return
+    focus.current = Math.max(0, focus.current - 1)
   }
 
   const cards = useMemo(
@@ -191,12 +231,17 @@ export function ProjectsBelt() {
 
   return (
     <div className="belt-wrap">
+      {!touch && (
+        <div className="belt-label">
+          <span ref={labelRef}>SCROLL TO EXPLORE →</span>
+        </div>
+      )}
       <div
         className="belt-viewport"
-        onMouseEnter={engage}
-        onMouseLeave={disengage}
-        onFocusCapture={engage}
-        onBlurCapture={disengage}
+        onMouseEnter={onEnter}
+        onMouseLeave={onLeave}
+        onFocusCapture={onFocusIn}
+        onBlurCapture={onFocusOut}
         role="list"
         aria-label="Projects"
       >

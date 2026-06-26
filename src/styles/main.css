@@ -926,21 +926,44 @@ body.cur-label-show .cur-label { opacity: 1; }
   flex-wrap: wrap; gap: .5rem; margin-bottom: 10px;
 }
 .journey-period {
-  font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--accent2);
-  /* BUG FIX: using <time> element now */
-  font-style: normal;
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--accent2); font-style: normal;
+  background: var(--accent-light); padding: 4px 11px; border-radius: 100px;
+}
+.journey-now {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--f-mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent3);
+}
+.now-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent3);
+  animation: nowPulse 1.9s ease-out infinite;
+}
+@keyframes nowPulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent3) 55%, transparent); }
+  70%, 100% { box-shadow: 0 0 0 8px transparent; }
 }
 .journey-type {
+  margin-left: auto;
   font-family: var(--f-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
   border: 1px solid var(--border2); color: var(--fg3); padding: 3px 10px; border-radius: 100px;
 }
 .journey-role {
-  font-family: var(--f-display); font-size: clamp(.88rem,1.5vw,1.1rem);
-  font-weight: 700; text-transform: uppercase; letter-spacing: -.01em;
-  color: var(--fg); margin-bottom: 4px;
+  font-family: var(--f-display); font-size: clamp(.95rem,1.6vw,1.2rem);
+  font-weight: 800; text-transform: uppercase; letter-spacing: -.01em;
+  color: var(--fg); margin-bottom: 5px;
 }
-.journey-company { font-family: var(--f-mono); font-size: 11px; color: var(--fg2); margin-bottom: 16px; }
+.journey-company { font-family: var(--f-mono); font-size: 11px; color: var(--accent2); margin-bottom: 8px; }
+.journey-loc {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: .04em; color: var(--fg3);
+  margin-bottom: 14px;
+}
+.journey-desc {
+  font-family: var(--f-serif); font-style: italic; font-size: 13.5px; line-height: 1.6;
+  color: var(--fg2); margin-bottom: 18px; max-width: 64ch;
+  padding-bottom: 16px; border-bottom: 1px solid var(--border);
+}
 .journey-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
 .journey-bullets li {
   display: flex; gap: 10px;
@@ -1899,10 +1922,14 @@ body.cur-label-show .cur-label { opacity: 1; }
   /* break out of the section's side padding for an edge-to-edge marquee */
   margin-inline: calc(-1 * clamp(1.5rem, 5vw, 5rem));
   overflow: hidden;
-  padding-block: 26px;
+  padding-block: 22px;
+  /* horizontal swipes drive the belt; vertical scrolls the page */
+  touch-action: pan-y;
+  cursor: grab;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
+.belt-viewport:active { cursor: grabbing; }
 .belt-track {
   display: flex;
   gap: clamp(16px, 1.6vw, 24px);
@@ -1915,7 +1942,9 @@ body.cur-label-show .cur-label { opacity: 1; }
   width: clamp(280px, 23vw, 350px);
   display: flex;
   flex-direction: column;
-  min-height: clamp(380px, 30vw, 460px);
+  gap: 8px;
+  min-height: clamp(280px, 22vw, 360px);
+  padding: 16px 18px 14px;
   /* belt cards are always visible (they don't use the grid's scroll-reveal) */
   opacity: 1;
   transform: none;
@@ -1925,7 +1954,16 @@ body.cur-label-show .cur-label { opacity: 1; }
   transition: box-shadow .4s var(--ease-expo), border-color .3s;
 }
 .belt-card:hover { transform: none; }
-.belt-card .proj-card-links { margin-top: auto; }
+.belt-card .proj-card-links { margin-top: auto; padding-top: 10px; }
+.belt-card .proj-card-num { display: none; } /* save vertical space in the belt */
+/* keep cards compact: clamp the description so heights stay even and short */
+.belt-card .proj-card-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .belt-card:hover,
 .belt-card:focus-within {
   box-shadow: var(--glass-shadow-hover), 0 0 44px rgba(232, 133, 90, 0.22);

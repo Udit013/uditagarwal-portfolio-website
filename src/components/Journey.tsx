@@ -15,10 +15,20 @@ function JourneyItem({ entry }: { entry: JourneyEntry }) {
           <time className="journey-period" dateTime={entry.datetime}>
             {entry.period}
           </time>
+          {entry.current && (
+            <span className="journey-now">
+              <span className="now-dot" aria-hidden="true" />
+              Current
+            </span>
+          )}
           <span className="journey-type">{entry.type}</span>
         </div>
         <div className="journey-role">{entry.role}</div>
         <div className="journey-company">{entry.company}</div>
+        <div className="journey-loc">
+          <span aria-hidden="true">📍</span> {entry.location}
+        </div>
+        <p className="journey-desc">{entry.desc}</p>
         <ul className="journey-bullets" aria-label="Key contributions">
           {entry.bullets.map((b, i) => (
             <li key={i}>{b}</li>

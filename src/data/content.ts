@@ -221,6 +221,9 @@ export interface JourneyEntry {
   type: string
   role: string
   company: string
+  location: string
+  desc: string
+  current?: boolean
   bullets: string[]
   chips: string[]
   delay?: string
@@ -228,37 +231,59 @@ export interface JourneyEntry {
 
 export const JOURNEY: JourneyEntry[] = [
   {
+    period: 'Jun 2026 – Present',
+    datetime: '2026-06',
+    type: 'Full-Time · Remote',
+    role: 'Senior Consultant',
+    company: 'Heartland Community Network (HCN)',
+    location: 'Remote · Indiana, US',
+    desc: 'Technology consulting initiative delivering software engineering, AI, automation, and analytics solutions for businesses across Indiana.',
+    current: true,
+    bullets: [
+      'Partner with business stakeholders to translate operational challenges and requirements into scalable software, AI, and data-driven solutions',
+      'Design and build full-stack applications, backend services, REST APIs, analytics dashboards, and automation workflows tailored to client needs',
+      'Build AI-powered solutions leveraging LLMs, data analytics, and workflow automation to streamline business processes and enhance decision-making',
+      'Collaborate with cross-functional engineering, data, and business teams to deliver digital transformation initiatives across multiple industries',
+      'Own the full software development lifecycle — solution design, implementation, testing, deployment, and ongoing maintenance of production systems',
+    ],
+    chips: ['Full-Stack', 'LLMs / AI', 'REST APIs', 'Automation', 'Analytics', 'Data Pipelines'],
+  },
+  {
+    period: 'Aug 2025 – Present',
+    datetime: '2025-08',
+    type: 'Part-Time · On-site',
+    role: 'Consultant – IT Services',
+    company: 'University Information Technology Services (UITS) · Indiana University',
+    location: 'Bloomington, IN, US',
+    desc: 'Technical support and systems administration for university-wide infrastructure, enterprise applications, and identity systems.',
+    current: true,
+    bullets: [
+      'Resolved 100+ technical issues weekly across desktop, mobile, and enterprise systems using structured troubleshooting and root-cause analysis',
+      'Diagnosed hardware, software, authentication, and networking issues, improving reliability and minimizing disruptions for a large user population',
+      'Supported identity and access management workflows, ensuring secure authentication, authorization, and account lifecycle management',
+      'Analyzed recurring incidents and system behavior patterns to identify root causes and recommend process and technical improvements',
+      'Documented resolution procedures and operational workflows in ServiceNow to improve knowledge sharing, consistency, and support efficiency',
+    ],
+    chips: ['Enterprise IT', 'Identity & Access', 'ServiceNow', 'Troubleshooting', 'Root-Cause Analysis'],
+    delay: '.1s',
+  },
+  {
     period: 'Jan 2026 – May 2026',
     datetime: '2026-01',
     type: 'Part-Time · Hybrid',
     role: 'Software Engineer',
     company: 'Global Health Impact Project · Indiana University',
+    location: 'Bloomington, IN, US',
+    desc: 'Data-driven global health analytics platform modeling pharmaceutical intervention impact across populations.',
     bullets: [
-      'Designed and developed full-stack features for a global health analytics platform using React, TypeScript, and Python, enabling researchers to evaluate pharmaceutical intervention effectiveness across diverse populations',
-      'Built scalable backend services and data processing pipelines to support treatment coverage modeling, efficacy analysis, forecasting workflows, and large-scale health outcome evaluation',
-      'Developed and maintained REST APIs powering analytics dashboards, forecasting tools, and data-driven decision workflows across multiple platform components',
-      'Optimized database queries, backend services, and distributed processing workflows to improve application performance, scalability, and responsiveness under increasing analytical workloads',
-      'Performed root-cause analysis of system bottlenecks and production issues, implementing long-term fixes that improved platform reliability and operational stability',
-      'Collaborated with researchers, engineers, and domain experts to translate complex health analytics requirements into production-ready software solutions',
+      'Designed and built full-stack features with React, TypeScript, and Python so researchers could evaluate pharmaceutical intervention effectiveness across populations',
+      'Built scalable backend services and data pipelines for treatment-coverage modeling, efficacy analysis, and large-scale health-outcome evaluation',
+      'Developed and maintained REST APIs powering analytics dashboards, forecasting tools, and data-driven decision workflows',
+      'Optimized database queries and distributed processing workflows to improve performance and scalability under heavy analytical workloads',
+      'Performed root-cause analysis of bottlenecks and production issues, implementing long-term fixes that improved platform reliability',
     ],
     chips: ['Python', 'React', 'TypeScript', 'REST APIs', 'SQL', 'Data Pipelines'],
-  },
-  {
-    period: 'Aug 2025 – May 2026',
-    datetime: '2025-08',
-    type: 'Part-Time · On-site',
-    role: 'Consultant – IT Services',
-    company: 'University Information Technology Services (UITS) · Indiana University',
-    bullets: [
-      'Resolved 100+ technical issues weekly across desktop, mobile, and enterprise systems using structured troubleshooting methodologies and root-cause analysis techniques',
-      'Diagnosed hardware, software, authentication, networking, and account-access issues, improving system reliability and minimizing service disruptions for a large user population',
-      'Supported identity and access management workflows, ensuring secure authentication, authorization, and account lifecycle management across university systems',
-      'Analyzed recurring support incidents and system behavior patterns to identify underlying causes and recommend process or technical improvements',
-      'Documented issue resolution procedures, operational workflows, and service requests within ServiceNow to improve knowledge sharing, consistency, and support efficiency',
-      'Collaborated with cross-functional IT teams to escalate complex issues, coordinate resolutions, and maintain high levels of service availability',
-    ],
-    chips: ['Enterprise IT', 'Identity & Access', 'ServiceNow', 'Troubleshooting', 'Root-Cause Analysis'],
-    delay: '.12s',
+    delay: '.2s',
   },
 ]
 

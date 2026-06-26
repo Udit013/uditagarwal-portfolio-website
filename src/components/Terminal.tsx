@@ -236,6 +236,7 @@ export function Terminal() {
         role="dialog"
         aria-label="Portfolio terminal"
         aria-modal="true"
+        data-lenis-prevent
         style={height ? { height } : undefined}
       >
         <div className="term-resize-handle" aria-hidden="true" onMouseDown={onResizeStart} />

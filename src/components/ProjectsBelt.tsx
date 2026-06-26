@@ -116,6 +116,7 @@ export function ProjectsBelt() {
   const reduced = prefersReducedMotion()
   const touch = isTouch()
 
+  const viewportRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const labelRef = useRef<HTMLSpanElement>(null)
 
@@ -126,6 +127,7 @@ export function ProjectsBelt() {
   const autoSpeed = useRef(0)
   const hover = useRef(0) // pointer over belt → wheel-driven
   const focus = useRef(0) // keyboard focus inside → paused
+  const drag = useRef(0) // pointer/touch drag in progress
 
   useEffect(() => {
     if (reduced) return
@@ -155,9 +157,66 @@ export function ProjectsBelt() {
     }
     window.addEventListener('wheel', onWheel, { passive: false })
 
+    // ── Pointer / touch drag (works on mobile; momentum on release) ──
+    const vp = viewportRef.current
+    let dragId = -1
+    let downX = 0
+    let downY = 0
+    let lastX = 0
+    let lastT = 0
+    let dvel = 0
+    const onDown = (e: PointerEvent) => {
+      if (e.button > 0) return
+      dragId = e.pointerId
+      downX = lastX = e.clientX
+      downY = e.clientY
+      lastT = performance.now()
+      dvel = 0
+    }
+    const onPMove = (e: PointerEvent) => {
+      if (dragId < 0 || e.pointerId !== dragId) return
+      if (drag.current === 0) {
+        const tx = e.clientX - downX
+        const ty = e.clientY - downY
+        if (Math.abs(ty) > Math.abs(tx) && Math.abs(ty) > 8) {
+          dragId = -1 // vertical intent → let the page scroll
+          return
+        }
+        if (Math.abs(tx) > 8) drag.current = 1
+        else return
+      }
+      const now = performance.now()
+      const dtm = Math.max(8, now - lastT)
+      const dx = e.clientX - lastX
+      dvel = (dx / dtm) * 1000
+      lastX = e.clientX
+      lastT = now
+      const sw = setW.current
+      let p = pos.current + dx
+      if (sw) {
+        if (p <= -sw) p += sw
+        else if (p > 0) p -= sw
+      }
+      pos.current = p
+      track.style.transform = `translate3d(${p}px,0,0)`
+      e.preventDefault()
+    }
+    const onUp = () => {
+      if (dragId < 0) return
+      if (drag.current > 0) {
+        vel.current = Math.max(-MAX_VEL, Math.min(MAX_VEL, dvel))
+        drag.current = 0
+      }
+      dragId = -1
+    }
+    vp?.addEventListener('pointerdown', onDown)
+    window.addEventListener('pointermove', onPMove, { passive: false })
+    window.addEventListener('pointerup', onUp)
+    window.addEventListener('pointercancel', onUp)
+
     const tick = (_time: number, deltaMs: number) => {
       const sw = setW.current
-      if (!sw) return
+      if (!sw || drag.current > 0) return
       const dt = Math.min(deltaMs, 50) / 1000
       if (hover.current > 0) {
         // wheel-driven: coast with friction so it feels physical
@@ -178,6 +237,10 @@ export function ProjectsBelt() {
     return () => {
       gsap.ticker.remove(tick)
       window.removeEventListener('wheel', onWheel)
+      vp?.removeEventListener('pointerdown', onDown)
+      window.removeEventListener('pointermove', onPMove)
+      window.removeEventListener('pointerup', onUp)
+      window.removeEventListener('pointercancel', onUp)
       ro.disconnect()
       window.clearTimeout(t)
     }
@@ -238,6 +301,7 @@ export function ProjectsBelt() {
       )}
       <div
         className="belt-viewport"
+        ref={viewportRef}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
         onFocusCapture={onFocusIn}

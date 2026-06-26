@@ -34,7 +34,7 @@ Building intelligent, scalable systems at the intersection of
 full-stack engineering and applied AI/ML. IEEE-published researcher.
 
 <span class="t-hi">Currently:</span>
-  Software Engineer @ Global Health Impact Project (IU)
+  Senior Consultant @ Heartland Community Network
   Consultant – IT Services @ UITS, Indiana University
 
 Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
@@ -50,18 +50,24 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
 <span class="t-hi">Cloud / Sec</span>   AWS · Docker · CI/CD · Vercel · SARIF · Secrets Detection
 <span class="t-hi">Testing</span>       Vitest · Unit Testing · Backtesting · A/B · Calibration`,
 
-  experience: `<span class="t-hi">[ Jan 2026 – May 2026 ]</span>  Software Engineer
-  Global Health Impact Project · Indiana University
-  → Full-stack health analytics platform (React, TypeScript, Python)
-  → Backend services &amp; data pipelines for forecasting and outcomes
-  → REST APIs powering analytics dashboards · perf optimization
-  Stack: Python, React, TypeScript, REST APIs, SQL
+  experience: `<span class="t-hi">[ Jun 2026 – Present ]</span>  Senior Consultant
+  Heartland Community Network (HCN) · Remote
+  → Full-stack apps, REST APIs, analytics dashboards &amp; automation for clients
+  → AI-powered solutions with LLMs, analytics &amp; workflow automation
+  → Own the full SDLC: design → build → test → deploy → maintain
+  Stack: Full-Stack, LLMs/AI, REST APIs, Automation, Analytics
 
-<span class="t-hi">[ Aug 2025 – May 2026 ]</span>  Consultant – IT Services
+<span class="t-hi">[ Aug 2025 – Present ]</span>  Consultant – IT Services
   UITS · Indiana University
   → 100+ issues/week across enterprise systems
   → Identity &amp; access management · root-cause analysis
-  → Documented workflows in ServiceNow`,
+  → Documented workflows in ServiceNow
+
+<span class="t-hi">[ Jan 2026 – May 2026 ]</span>  Software Engineer
+  Global Health Impact Project · Indiana University
+  → Full-stack health analytics (React, TypeScript, Python)
+  → Backend services &amp; data pipelines for forecasting and outcomes
+  → REST APIs powering analytics dashboards · perf optimization`,
 
   projects: `<span class="t-hi">01</span>  Brain Tumor Classification      [AI/ML] — <span class="t-link">IEEE ICC-ROBINS 2024</span>
     EfficientNetB3 · 99.84% (published) · ONNX + FastAPI serving

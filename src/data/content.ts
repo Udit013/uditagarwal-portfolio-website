@@ -268,7 +268,7 @@ export const JOURNEY: JourneyEntry[] = [
     delay: '.1s',
   },
   {
-    period: 'Jan 2026 – May 2026',
+    period: 'Jan 2026 – Jun 2026',
     datetime: '2026-01',
     type: 'Part-Time · Hybrid',
     role: 'Software Engineer',

@@ -6,10 +6,7 @@ particle backdrop, and a real ⇆ anime portrait reveal slider.
 **Live:** [uditagarwal.vercel.app](https://uditagarwal.vercel.app)
 **Stack:** React 18 · TypeScript · Vite · GSAP · custom WebGL · Lenis
 
-> The React app lives at the repository root and is what Vercel builds and
-> deploys. The original vanilla HTML/CSS/JS version is preserved on the
-> [`vanilla-site-backup`](https://github.com/Udit013/uditagarwal-portfolio-website/tree/vanilla-site-backup)
-> branch.
+> The React app lives at the repository root and is what Vercel builds and deploys.
 
 ## Getting started
 

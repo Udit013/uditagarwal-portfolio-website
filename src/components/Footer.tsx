@@ -4,7 +4,7 @@ export function Footer() {
       <div className="foot-logo">
         UDIT<span aria-hidden="true">.</span>DEV
       </div>
-      <div className="foot-note">© 2026 · Crafted with React · TypeScript · GSAP · Three.js · WebGL</div>
+      <div className="foot-note">© 2026 · Crafted with React · TypeScript · GSAP · custom WebGL</div>
       <nav className="foot-links" aria-label="Footer navigation">
         <a href="https://github.com/Udit013" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in new tab)">
           GitHub

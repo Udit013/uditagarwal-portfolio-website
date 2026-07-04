@@ -72,29 +72,23 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
   projects: `<span class="t-hi">01</span>  Brain Tumor Classification      [AI/ML] — <span class="t-link">IEEE ICC-ROBINS 2024</span>
     EfficientNetB3 · 99.84% (published) · ONNX + FastAPI serving
 
-<span class="t-hi">02</span>  Biomedical LLM Adaptation       [AI/ML]
-    Qwen2.5-7B · QLoRA 4-bit · leakage-safe eval
-
-<span class="t-hi">03</span>  Voice Interview Simulator       [AI/ML · Full-Stack] — <span class="t-link">live</span>
+<span class="t-hi">02</span>  Voice Interview Simulator       [AI/ML · Full-Stack] — <span class="t-link">live</span>
     Next.js · Gemini 2.5 · Web Speech · $0 infra
+
+<span class="t-hi">03</span>  Biomedical LLM Adaptation       [AI/ML]
+    Qwen2.5-7B · QLoRA 4-bit · leakage-safe eval
 
 <span class="t-hi">04</span>  Screen Recording &amp; Sharing      [Full-Stack] — <span class="t-link">live</span>
     Next.js · Cloudinary · AI chapters · better-auth
 
-<span class="t-hi">05</span>  Automated Secrets Scanner       [Full-Stack] — <span class="t-link">live</span>
-    FastAPI · entropy + regex · SARIF · 0.94 F1
-
-<span class="t-hi">06</span>  CoreSight IQ                    [Analytics] — <span class="t-link">live</span>
+<span class="t-hi">05</span>  CoreSight IQ                    [Analytics] — <span class="t-link">live</span>
     Decision intelligence · walk-forward backtesting
 
-<span class="t-hi">07</span>  ProductLab                      [Analytics] — <span class="t-link">live</span>
-    Product strategy · A/B testing · RICE/ICE/WSJF
+<span class="t-hi">06</span>  Pharmacy ERP — RxFlow           [Full-Stack] — <span class="t-link">live</span>
+    Multi-tenant · GST billing · real-time sync (SSE)
 
-<span class="t-hi">08</span>  RetailNexa                      [Analytics] — <span class="t-link">live</span>
-    Retail ops · forecasting 0.90 R² · RFM/CLV
-
-<span class="t-hi">09</span>  GeoStrategy                     [Analytics] — <span class="t-link">live</span>
-    Market expansion · 121 markets · scenario sims`,
+<span class="t-hi">07</span>  Automated Secrets Scanner       [Systems] — <span class="t-link">live</span>
+    FastAPI · entropy + regex · SARIF · 0.94 F1`,
 
   education: `<span class="t-hi">MS Computer Science</span>  —  Indiana University Bloomington
   Aug 2024 – May 2026  ·  GPA: <span class="t-hi">3.84 / 4.0</span>
@@ -166,10 +160,10 @@ export const CHAT_FAQ: { q: RegExp; a: string }[] = [
   { q: /ieee|research|paper|publish|brain.?tumor/i, a: 'Udit co-authored an IEEE paper at ICC-ROBINS 2024 on brain tumor classification — 99.84% accuracy on 7,023 MRI scans with EfficientNetB3. DOI: 10.1109/ICC-ROBINS60238.2024.10533941' },
   { q: /gpa|grade|school|degree|university|master|indiana/i, a: 'MS CS at Indiana University Bloomington — GPA 3.84/4.0, May 2026. B.Tech at KIIT — GPA 8.85/10.0.' },
   { q: /skill|tech|stack|language|python|react|framework/i, a: 'Python, TypeScript, React, Next.js, Node.js, Fastify, FastAPI, PostgreSQL, PyTorch, TensorFlow, Hugging Face, QLoRA, Gemini API, Ollama, Docker, AWS. Type "skills" for the full list.' },
-  { q: /project|built|app|demo|portfolio/i, a: '9 flagship projects: brain tumor classification (IEEE), a biomedical LLM QLoRA benchmark, an AI voice interview simulator, a screen-recording platform, a DevSecOps secrets scanner, and four decision-intelligence platforms (CoreSight IQ, ProductLab, RetailNexa, GeoStrategy). Type "projects" for all.' },
+  { q: /project|built|app|demo|portfolio/i, a: '7 flagship projects: brain tumor classification (IEEE), an AI voice interview simulator, a biomedical LLM QLoRA benchmark, a screen-recording platform, the CoreSight IQ decision-intelligence platform, a multi-tenant pharmacy ERP (RxFlow), and a DevSecOps secrets scanner. Type "projects" for all.' },
   { q: /contact|email|phone|reach|talk/i, a: 'agarwaludit13@gmail.com · +1 (930) 904-4901 · linkedin.com/in/udit013 · Responds within 24h.' },
   { q: /llm|voice|gemini|vapi|gpt|generative|qlora|fine.?tun/i, a: 'LLM work spans Gemini API, Ollama, QLoRA/PEFT fine-tuning (Qwen2.5-7B on biomedical benchmarks), RAG, structured generation, and LLM evaluation with lm-evaluation-harness. Built voice interviews on browser-native speech + Gemini.' },
-  { q: /data|etl|tableau|airflow|pipeline|analytics|forecast/i, a: 'Strong data engineering & analytics: ETL pipelines, Airflow, PostgreSQL, forecasting, A/B testing, and decision-intelligence platforms (CoreSight IQ, RetailNexa, ProductLab, GeoStrategy) with auditable, calibrated metrics.' },
+  { q: /data|etl|tableau|airflow|pipeline|analytics|forecast/i, a: 'Strong data engineering & analytics: ETL pipelines, Airflow, PostgreSQL, forecasting, A/B testing, and the CoreSight IQ decision-intelligence platform with auditable, calibrated metrics (walk-forward backtesting, confidence calibration).' },
   { q: /location|remote|reloc|where/i, a: 'Based in Bloomington, IN (EST). Open to remote, hybrid, and relocation.' },
   { q: /cert|aws|deeplearning/i, a: 'Certifications: DeepLearning.AI Neural Networks & Improving DNNs (Sep 2023), AWS Academy Cloud Graduate (Jul 2023).' },
   { q: /now|current|exploring/i, a: 'Currently: LLM Agents, Health AI platform at IU, real-time voice AI, ETL patterns, cloud-native systems.' },

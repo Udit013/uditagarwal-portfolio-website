@@ -443,57 +443,6 @@ export const PROJECTS: Project[] = [
     ],
     delay: '.36s',
   },
-  {
-    types: ['fs', 'dt'],
-    num: '08',
-    title: 'Product Strategy Platform — ProductLab',
-    desc: 'Product-intelligence platform turning behavior data into ranked, confidence-scored decisions — conversion funnels, D1–D90 cohort retention, A/B & multivariate testing, RICE/ICE/WSJF prioritization, and a Decision Center with exportable reports.',
-    badges: [
-      { label: 'Full-Stack', cls: 'fs' },
-      { label: 'Data', cls: 'dt' },
-    ],
-    chips: ['Next.js', 'TypeScript', 'PostgreSQL', 'Drizzle ORM', 'Apache ECharts', 'Ollama'],
-    live: 'https://productlab-platform.vercel.app',
-    repo: 'https://github.com/Udit013/productlab',
-    stats: [
-      { value: '280', suffix: 'K+', label: 'Events' },
-      { value: '10', suffix: 'K', label: 'Users' },
-    ],
-    delay: '.42s',
-  },
-  {
-    types: ['fs', 'dt'],
-    num: '09',
-    title: 'Operations Intelligence System — RetailNexa',
-    desc: 'Retail decision-intelligence platform with sales forecasting, RFM/CLV customer intelligence, inventory optimization, pricing simulation, root-cause analysis, and an Ollama-powered AI analyst with downloadable executive reports.',
-    badges: [
-      { label: 'Full-Stack', cls: 'fs' },
-      { label: 'Data', cls: 'dt' },
-    ],
-    chips: ['Next.js', 'TypeScript', 'Neon PostgreSQL', 'Drizzle ORM', 'Recharts', 'Ollama'],
-    live: 'https://retailnexa.vercel.app',
-    repo: 'https://github.com/Udit013/retail-analytics-platform',
-    stats: [
-      { value: '0.90', label: 'Forecast R²' },
-      { value: '86', suffix: '%', label: 'Accuracy' },
-    ],
-    delay: '.48s',
-  },
-  {
-    types: ['fs', 'dt'],
-    num: '10',
-    title: 'Market Expansion Engine — GeoStrategy',
-    desc: 'Market-expansion intelligence across 121 global markets — opportunity scoring (Expand / Investigate / Monitor / Avoid), scenario simulators for revenue and break-even, competitive and risk frameworks, and an Ollama strategy advisor with PDF exports.',
-    badges: [
-      { label: 'Full-Stack', cls: 'fs' },
-      { label: 'Data', cls: 'dt' },
-    ],
-    chips: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Apache ECharts', 'PostgreSQL', 'Ollama', 'jsPDF'],
-    live: 'https://geostrategy.vercel.app',
-    repo: 'https://github.com/Udit013/geostrategy',
-    stats: [{ value: '121', label: 'Global Markets' }],
-    delay: '.54s',
-  },
 ]
 
 /* ── Contact ── */

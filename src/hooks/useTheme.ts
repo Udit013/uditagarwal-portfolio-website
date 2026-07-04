@@ -14,6 +14,11 @@ export function useTheme() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem(STORAGE_KEY, theme)
+    // Keep the mobile browser chrome in sync with the manual toggle
+    // (the static meta tags only track the OS-level preference)
+    document
+      .querySelectorAll('meta[name="theme-color"]')
+      .forEach((m) => m.setAttribute('content', theme === 'dark' ? '#0d0d0d' : '#F2F3F4'))
   }, [theme])
 
   const toggle = useCallback(() => {

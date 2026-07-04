@@ -128,6 +128,7 @@ export function ProjectsBelt() {
   const hover = useRef(0) // pointer over belt → wheel-driven
   const focus = useRef(0) // keyboard focus inside → paused
   const drag = useRef(0) // pointer/touch drag in progress
+  const visible = useRef(true) // belt in viewport → skip all work off-screen
 
   useEffect(() => {
     if (reduced) return
@@ -214,9 +215,15 @@ export function ProjectsBelt() {
     window.addEventListener('pointerup', onUp)
     window.addEventListener('pointercancel', onUp)
 
+    // Skip all per-frame work while the belt is off-screen
+    const io = new IntersectionObserver(([entry]) => {
+      visible.current = entry.isIntersecting
+    })
+    if (vp) io.observe(vp)
+
     const tick = (_time: number, deltaMs: number) => {
       const sw = setW.current
-      if (!sw || drag.current > 0) return
+      if (!sw || !visible.current || drag.current > 0) return
       const dt = Math.min(deltaMs, 50) / 1000
       if (hover.current > 0) {
         // wheel-driven: coast with friction so it feels physical
@@ -242,6 +249,7 @@ export function ProjectsBelt() {
       window.removeEventListener('pointerup', onUp)
       window.removeEventListener('pointercancel', onUp)
       ro.disconnect()
+      io.disconnect()
       window.clearTimeout(t)
     }
     // Runs once: the ticker must NOT be re-created when Lenis initializes,

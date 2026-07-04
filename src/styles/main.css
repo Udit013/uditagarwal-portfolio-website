@@ -110,6 +110,29 @@ button { font-family: var(--f-mono); background: none; border: none; color: inhe
 input, textarea { font-family: var(--f-mono); color: var(--fg); }
 ::selection { background: var(--accent2); color: #fff; }
 
+/* Skip-to-content link — hidden until keyboard focus */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translate(-50%, -300%);
+  z-index: 100001;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--accent2);
+  padding: 10px 22px;
+  border-radius: 100px;
+  transition: transform .25s var(--ease-expo);
+}
+.skip-link:focus {
+  transform: translate(-50%, 0);
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 /* Screen-reader only utility — BUG FIX: was missing */
 .sr-only {
   position: absolute;
@@ -210,9 +233,6 @@ body::after {
   .chip,
   .skill-tag,
   .clink-icon,
-  .filter-btn,
-  .toolkit-cat,
-  .toolkit-chip,
   .cert-item,
   .philo-item,
   .edu-cw-grid span,
@@ -334,8 +354,9 @@ body.cur-label-show .cur-label { opacity: 1; }
 .drawer-link:focus-visible,
 .btn-primary:focus-visible,
 .hero-pill:focus-visible,
-.filter-btn:focus-visible,
-.toolkit-cat:focus-visible,
+.toolkit-cat-pill:focus-visible,
+.proj-link:focus-visible,
+.portrait-home:focus-visible,
 .form-submit:focus-visible,
 .clink:focus-visible,
 .pub-link:focus-visible,
@@ -950,7 +971,8 @@ body.cur-label-show .cur-label { opacity: 1; }
 }
 .journey-role {
   font-family: var(--f-display); font-size: clamp(.95rem,1.6vw,1.2rem);
-  font-weight: 800; text-transform: uppercase; letter-spacing: -.01em;
+  /* 900 is a loaded weight (800 was being silently substituted with it anyway) */
+  font-weight: 900; text-transform: uppercase; letter-spacing: -.01em;
   color: var(--fg); margin-bottom: 5px;
 }
 .journey-company { font-family: var(--f-mono); font-size: 11px; color: var(--accent2); margin-bottom: 8px; }
@@ -981,28 +1003,10 @@ body.cur-label-show .cur-label { opacity: 1; }
   display: flex; justify-content: space-between; align-items: flex-end;
   flex-wrap: wrap; gap: 1.5rem; margin-bottom: clamp(2rem,4vw,3rem);
 }
-.filter-bar { display: flex; gap: 4px; flex-wrap: wrap; }
-.filter-btn {
-  font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--fg3); border: 1px solid var(--border2); padding: 6px 16px;
-  border-radius: 100px;
-  background: var(--glass); backdrop-filter: blur(8px);
-  transition: all .2s; white-space: nowrap;
-}
-.filter-btn.active, .filter-btn:hover { color: #fff; background: var(--accent2); border-color: var(--accent2); }
-
-.proj-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%,290px),1fr));
-  gap: 14px;
-}
-
 .proj-card {
   position: relative; overflow: hidden;
   padding: 19px 18px;
   display: flex; flex-direction: column; gap: 10px;
-  /* Unified entrance + filter animation — identical style & timing for every
-     card in every category (scroll-reveal adds .in; filtering adds .pc-hidden). */
   opacity: 0;
   transform: translateY(18px);
   transition: opacity .45s var(--ease-expo), transform .45s var(--ease-expo),
@@ -1016,8 +1020,6 @@ body.cur-label-show .cur-label { opacity: 1; }
   transition: transform .5s var(--ease-expo);
 }
 .proj-card:hover::after { transform: scaleX(1); }
-/* Filtered-out: fade/scale out but keep the grid slot so nothing reflows */
-.proj-card.pc-hidden { opacity: 0; transform: scale(.96) translateY(8px); pointer-events: none; }
 
 .proj-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
 .proj-tags-wrap { display: flex; gap: 5px; flex-wrap: wrap; }
@@ -1468,11 +1470,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   .jtl-content { padding: 16px 14px; margin-bottom: 14px; }
 
   /* Projects */
-  .proj-grid { grid-template-columns: 1fr; gap: 12px; }
-  .proj-card.pc-hidden { display: none; }
   .proj-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  .filter-bar { gap: 6px; flex-wrap: wrap; }
-  .filter-btn { padding: 7px 14px; font-size: 10px; }
   .proj-card { padding: 18px 16px; gap: 10px; }
   .proj-card-title { font-size: .88rem; }
   .proj-card-desc { font-size: 12.5px; }
@@ -1525,10 +1523,16 @@ body.cur-label-show .cur-label { opacity: 1; }
 .bg-fx {
   position: fixed;
   inset: 0;
+  /* canvas is a replaced element — inset alone doesn't stretch it */
+  width: 100%;
+  height: 100%;
   z-index: -1;
   pointer-events: none;
   opacity: .75;
+  /* loaded after idle — emerge softly instead of popping in */
+  animation: bgFxIn 1.6s ease-out;
 }
+@keyframes bgFxIn { from { opacity: 0; } }
 @media (hover: none), (pointer: coarse) { .bg-fx { opacity: .45; } }
 @media (prefers-reduced-motion: reduce) { .bg-fx { opacity: .3; } }
 
@@ -1668,17 +1672,6 @@ body.cur-label-show .cur-label { opacity: 1; }
   box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-rim), inset 0 0 1px rgba(255, 255, 255, 0.25);
   overflow: hidden;
 }
-.toolkit-stage-inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: center;
-  justify-content: center;
-  gap: clamp(12px, 1.8vw, 22px);
-  width: 100%;
-  min-height: clamp(212px, 20vw, 264px);
-}
-/* outer = GSAP drift target (no visuals); inner = the glass pill */
-.toolkit-skill { display: inline-flex; will-change: transform; }
 .toolkit-skill-inner {
   display: inline-flex;
   align-items: center;
@@ -1708,7 +1701,6 @@ body.cur-label-show .cur-label { opacity: 1; }
 
 @media (max-width: 600px) {
   .toolkit-stage { min-height: 0; padding: 22px 14px; }
-  .toolkit-stage-inner { min-height: 0; gap: 10px; }
   .toolkit-skill-inner { padding: 8px 14px; }
 }
 

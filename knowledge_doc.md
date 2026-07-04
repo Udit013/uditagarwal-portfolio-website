@@ -1,5 +1,5 @@
 # Udit Agarwal — Knowledge Document
-# Last updated: June 15 2026
+# Last updated: Jul 1 2026
  
 ---
  
@@ -11,7 +11,7 @@
 - **LinkedIn:** linkedin.com/in/udit013
 - **GitHub:** github.com/Udit013
 - **Portfolio:** uditagarwal.vercel.app
-- **Location:** Bloomington, IN, US (willing to relocate and travel anywhere in the US)
+- **Location:** Bloomington, IN, US
 ---
  
 ## EDUCATION
@@ -219,78 +219,3 @@ deployed on Vercel with push-to-deploy.
 **Testing & Quality:** Vitest, Unit Testing, jsPDF
 **Systems & Architecture:** System Design, Distributed Systems, API Design, Authentication & Authorization, Caching, Fault Tolerance, Load Balancing, Auto-Scaling, Serverless Architecture, Monorepo Architecture
 **MLOps & Experimentation:** Model Evaluation & Benchmarking, Inference Optimization, Experiment Tracking, Hyperparameter Tuning, Cross-Validation, Error Analysis, Data Leakage Auditing, Confidence Calibration, OOD Testing, Model Cards, A/B Testing
- 
----
-
-# JOB APPLICATIONS INFO:-
-
-- **Work Authorization:** F-1 OPT, 3 years total (12 months OPT + 24 months STEM OPT extension). No immediate sponsorship required. maybe H-1B candidate in the future like most international engineers.
-- **Visa answer for JOB Applications:** "I am authorized to work in the United States under F-1 OPT, which provides 12 months of work authorization. I am eligible for a 24-month STEM OPT extension, giving me 3 years of total US work authorization without requiring immediate sponsorship."
-
-## RESUME VERSIONS — WHICH TO USE
- 
-| Version | File | Best for |
-|---|---|---|
-| SWE | UditAgarwal_ResumeSWE | General SWE, Full-Stack, Backend roles |
-| AI/ML | UditAgarwal_ResumeAIML | ML Engineer, AI Engineer, NLP, LLM roles |
-| Data | UditAgarwal_ResumeData | Data Engineer, Data Analyst, Data Scientist roles |
-| Consulting | UditAgarwal_ResumeConsulting | Consulting, Strategy, Business Analyst roles |
-| General | UditAgarwal_Resume | Catch-all / when unsure |
- 
----
- 
-## LATEX TEMPLATE INFO
- 
-All resumes :
-- Sections: EDUCATION → EXPERIENCE → PROJECTS → TECHNICAL SKILLS
-- should be completely ATS-safe
----
- 
-## STANDARD APPLICATION ANSWERS
- 
-**Highest level of education:** Master's Degree (Graduated, 08 May 2026)
- 
-**GPA:** 3.84 / 4.0 (MS CS, Indiana University Bloomington)
- 
-**Authorized to work in the US:** Yes
- 
-**Require sponsorship now:** No
- 
-**Will require sponsorship in the future:** Maybe (H-1B, typically 2–3 years out)
- 
-**Work authorization answer (full):** "I am authorized to work in the United States under F-1 OPT for 12 months, and I am eligible for a 24-month STEM OPT extension — giving me 3 years of US work authorization without requiring immediate sponsorship."
- 
-**Willing to relocate:** Yes, anywhere in the US
- 
-**Salary expectations: calculate bas per the job description, role and location.
- 
-**Why computer science / why software engineering:**
-"I'm drawn to building systems that have measurable real-world impact. My work on the Global Health Impact Project, where the platform I'm building directly models pharmaceutical outcomes across populations, and my IEEE-published brain tumor classifier both reflect this: I want to write code that produces outcomes you can actually measure."
- 
-**Describe yourself in one sentence:**
-"I'm a CS master's student at Indiana University who builds full-stack and ML systems, with a track record of shipping production-quality projects."
- 
-**Technical challenge example:**
-"Fine-tuning DeBERTa-v3 for aphasia detection on clinical transcripts, the dataset had heavy class imbalance and dysfluency markers that standard NLP pipelines couldn't handle. I built a custom preprocessing pipeline and used weighted loss functions with optimized decision thresholds to reach a 0.90 F1-score."
- 
-**Team collaboration example:**
-"On the Global Health Impact Project at IU, I work with a cross-functional team of researchers, data scientists, and product stakeholders. I translate research requirements into scalable APIs and data pipelines, regularly syncing with non-engineering teammates to clarify requirements and deliver features iteratively."
- 
----
- 
-## COVER LETTER WORK AUTH LINE
-Can use somehting like this sentence in cover letter close paragraph:
-"I am authorized to work in the US under F-1 OPT, with STEM OPT eligibility providing 3 years of total work authorization, no immediate sponsorship required."
- 
----
- 
-## NOTES (resume tailoring rules)
- 
-1. **Minimum fabricate** any skill, tool, metric, or experience not present above.
-2. **Never use** the phrase "contributing in a volunteer capacity", delete from every version.
-3. **Always quantify** where possible — use numbers from this doc (99.84%, 0.90 F1, 95%+, 7,000+ MRI scans, 100+ issues/week, 10,000+ records, etc.).
-4. **Reframe honestly** — For eg, if a JD wants Go but Udit knows Python/Node, don't add Go. If it wants FastAPI and he has FastAPI, lead with it. You may add few new skills and tell me to learn about them.
-6. **Skills section order:** prioritize the categories most relevant to the JD first.
-7. **Project order:** put the most JD-relevant project first, regardless of chronology.
-8. **Do not mention visa status on the resume**, only in cover letters and application questions.
-9. **For the Global Health role:** title can flex, "Software Engineer", "Backend Engineer", "Full-Stack Engineer", "Data Engineer", etc depending on JD. The work supports all of these honestly.

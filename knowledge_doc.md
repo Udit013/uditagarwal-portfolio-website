@@ -164,16 +164,20 @@ Aug 2020 – May 2024
 
 ---
 
-### Biomedical LLM Adaptation Benchmark
-**Code:** [github.com/Udit013/biomed-llm-peft](https://github.com/Udit013/biomed-llm-peft)
-**Stack:** Python · Qwen2.5-7B-Instruct · QLoRA (bitsandbytes 4-bit) · PEFT/TRL · Hugging Face Hub · lm-evaluation-harness · FastAPI · Gradio · Docker · vLLM
-**Description:** A reproducible engineering pipeline investigating *when* 4-bit QLoRA fine-tuning actually helps an already-strong instruction-tuned LLM on a biomedical benchmark, how much data is needed before gains plateau, and at what inference cost — framed as a systematic engineering investigation, not an accuracy chase.
+### Biomedical AI Research Assistant
+**Live:** [huggingface.co/spaces/Udit013/biomed-assistant](https://huggingface.co/spaces/Udit013/biomed-assistant)
+**Model:** [Udit013/qwen2.5-7b-medmcqa-qlora-5k](https://huggingface.co/Udit013/qwen2.5-7b-medmcqa-qlora-5k)
+**Code:** [Udit013/biomed-llm-peft](https://github.com/Udit013/biomed-llm-peft)
+**Stack:** Python · PyTorch · Transformers · PEFT/QLoRA · LangGraph · FastAPI · Gradio · PostgreSQL + pgvector (Neon) · Hugging Face Hub/Inference · Docker · GitHub Actions
+**Description:** A production-grade Biomedical AI Research Assistant that answers clinical/research questions with grounded, cited evidence — retrieval-augmented generation over PubMed abstracts and NIH/WHO/CDC guidelines, a LangGraph multi-agent workflow with per-claim citation verification, and a 4-way evaluation harness (Base / Fine-tuned / Base + RAG / Fine-tuned + RAG) — built on a QLoRA-fine-tuned Qwen2.5-7B and deployed end-to-end on 100% free-tier infrastructure.
 **Bullets:**
-- Built an end-to-end, reproducible QLoRA pipeline fine-tuning **Qwen2.5-7B-Instruct** on MedMCQA (**~194K** medical MCQs), validating the full train → eval → analysis loop on a single free Colab T4 and establishing the N=5K point of a data-scaling study (20K/50K scoped as compute-bound next steps, each a one-line config change).
-- Scored base vs fine-tuned with **EleutherAI's lm-evaluation-harness** under identical 4-bit quantization and prompts: in-domain MedMCQA held flat (**47.5% → 50.0%**, within noise), evidence that strong instruction tuning already near-saturates the task; out-of-domain PubMedQA rose (**48.0% → 64.5%**, never trained on), attributable to sharpened answer-selection rather than knowledge transfer.
-- Ran a matched, leakage-safe subject-level error analysis and reported the honest result: gains were mostly neutral and the data did not support a clean "fact-recall vs reasoning" split — declining to fit a narrative to small-sample noise.
-- Engineered a serving-cost benchmark harness (fp16 / 4-bit / vLLM) measuring throughput, p50/p95 latency, and VRAM, with runtime capability detection (vLLM auto-skips on T4 / compute 7.5); the full cost table is scoped to a ≥24GB GPU.
-- Packaged for serving and reproduction: a **FastAPI** endpoint returning uncalibrated option probabilities (explicitly not "confidence"), a **Gradio** demo, Dockerized one-command reproduction, and a Hugging Face Hub publish script with auto-generated model card.
+- Fine-tuned **Qwen2.5-7B-Instruct with 4-bit QLoRA** (only **0.92%** of parameters trainable) on **MedMCQA (~194K** medical MCQs**)** and evaluated with **EleutherAI lm-evaluation-harness**, measuring in-domain MedMCQA **47.5% → 50.0%** (a within-noise null showing strong instruction tuning already near-saturates the task) and out-of-domain PubMedQA **48.0% → 64.5%**; **published** the adapter to the Hugging Face Hub with a full model card.
+- Built a **production RAG pipeline** over biomedical literature — reproducible ingestion (NCBI E-utilities), sentence-aware chunking, `bge-small` embeddings, semantic retrieval with metadata filtering, cross-encoder reranking, and inline citation generation — indexing **733 PubMed abstracts into 3,410 vector chunks** in **Neon PostgreSQL + pgvector**.
+- Implemented a **LangGraph 4-agent workflow** (Planner → Retrieval → Answer → **Citation-Verification**) that returns grounded, `[n]`-cited answers and flags every factual claim as supported or unsupported, with a dependency-free sequential fallback for testing.
+- **Deployed the system end-to-end on 100% free-tier infrastructure** (Gradio Space → FastAPI on Render → Neon pgvector → HF Inference) serving live, cited **Base + RAG** answers at **~4 s** end-to-end; the API returns the exact config it served and the UI displays it, so a **swap to Fine-tuned + RAG via a GPU endpoint requires zero UI or API change**.
+- Engineered a **backend-agnostic, torch-free serving path** for the free tier — a vector-store abstraction (local NumPy for dev/CI, Neon pgvector for prod), local **ONNX query embeddings** (fastembed), and a router-based HF Inference LLM — small enough to run on a 512 MB instance.
+- Designed a **4-way evaluation harness** comparing Base / Fine-tuned / Base + RAG / Fine-tuned + RAG across **retrieval** (Recall@k, MRR), **generation** (citation coverage, groundedness, ROUGE-L, BERTScore), and **systems** (p50/p95 latency, token usage, estimated cost), rendering comparison tables and an interactive Benchmark Explorer.
+- Established **production engineering rigor** — a modular package cleanly separating the research pipeline from the production system, pinned dependencies, a Dockerized backend, structured JSON logging with per-stage latency, and **GitHub Actions CI running a 12-test suite** on every push.
 
 ---
 
@@ -219,3 +223,5 @@ deployed on Vercel with push-to-deploy.
 **Testing & Quality:** Vitest, Unit Testing, jsPDF
 **Systems & Architecture:** System Design, Distributed Systems, API Design, Authentication & Authorization, Caching, Fault Tolerance, Load Balancing, Auto-Scaling, Serverless Architecture, Monorepo Architecture
 **MLOps & Experimentation:** Model Evaluation & Benchmarking, Inference Optimization, Experiment Tracking, Hyperparameter Tuning, Cross-Validation, Error Analysis, Data Leakage Auditing, Confidence Calibration, OOD Testing, Model Cards, A/B Testing
+ 
+---

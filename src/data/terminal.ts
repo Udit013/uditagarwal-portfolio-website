@@ -75,8 +75,8 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
 <span class="t-hi">02</span>  Voice Interview Simulator       [AI/ML · Full-Stack] — <span class="t-link">live</span>
     Next.js · Gemini 2.5 · Web Speech · $0 infra
 
-<span class="t-hi">03</span>  Biomedical LLM Adaptation       [AI/ML]
-    Qwen2.5-7B · QLoRA 4-bit · leakage-safe eval
+<span class="t-hi">03</span>  Biomedical AI Research Assistant [AI/ML] — <span class="t-link">live</span>
+    Qwen2.5-7B QLoRA · RAG · LangGraph agents · pgvector
 
 <span class="t-hi">04</span>  Screen Recording &amp; Sharing      [Full-Stack] — <span class="t-link">live</span>
     Next.js · Cloudinary · AI chapters · better-auth
@@ -108,7 +108,7 @@ Role:     Co-author
 
 <span class="t-hi">Production ML &amp; LLM work:</span>
   Brain Tumor — ONNX + FastAPI serving · leakage audit · calibration · Grad-CAM
-  Biomedical LLM — Qwen2.5-7B QLoRA fine-tuning · leakage-safe in/out-of-domain eval
+  Biomedical AI Assistant — Qwen2.5-7B QLoRA · cited RAG · LangGraph 4-agent workflow
   Transformers · BERT · Prompt Engineering · RAG`,
 
   certifications: `<span class="t-hi">DeepLearning.AI</span>
@@ -160,9 +160,9 @@ export const CHAT_FAQ: { q: RegExp; a: string }[] = [
   { q: /ieee|research|paper|publish|brain.?tumor/i, a: 'Udit co-authored an IEEE paper at ICC-ROBINS 2024 on brain tumor classification — 99.84% accuracy on 7,023 MRI scans with EfficientNetB3. DOI: 10.1109/ICC-ROBINS60238.2024.10533941' },
   { q: /gpa|grade|school|degree|university|master|indiana/i, a: 'MS CS at Indiana University Bloomington — GPA 3.84/4.0, May 2026. B.Tech at KIIT — GPA 8.85/10.0.' },
   { q: /skill|tech|stack|language|python|react|framework/i, a: 'Python, TypeScript, React, Next.js, Node.js, Fastify, FastAPI, PostgreSQL, PyTorch, TensorFlow, Hugging Face, QLoRA, Gemini API, Ollama, Docker, AWS. Type "skills" for the full list.' },
-  { q: /project|built|app|demo|portfolio/i, a: '7 flagship projects: brain tumor classification (IEEE), an AI voice interview simulator, a biomedical LLM QLoRA benchmark, a screen-recording platform, the CoreSight IQ decision-intelligence platform, a multi-tenant pharmacy ERP (RxFlow), and a DevSecOps secrets scanner. Type "projects" for all.' },
+  { q: /project|built|app|demo|portfolio/i, a: '7 flagship projects: brain tumor classification (IEEE), an AI voice interview simulator, a cited biomedical AI research assistant (RAG + QLoRA), a screen-recording platform, the CoreSight IQ decision-intelligence platform, a multi-tenant pharmacy ERP (RxFlow), and a DevSecOps secrets scanner. Type "projects" for all.' },
   { q: /contact|email|phone|reach|talk/i, a: 'agarwaludit13@gmail.com · +1 (930) 904-4901 · linkedin.com/in/udit013 · Responds within 24h.' },
-  { q: /llm|voice|gemini|vapi|gpt|generative|qlora|fine.?tun/i, a: 'LLM work spans Gemini API, Ollama, QLoRA/PEFT fine-tuning (Qwen2.5-7B on biomedical benchmarks), RAG, structured generation, and LLM evaluation with lm-evaluation-harness. Built voice interviews on browser-native speech + Gemini.' },
+  { q: /llm|voice|gemini|vapi|gpt|generative|qlora|fine.?tun|rag|agent/i, a: 'LLM work spans QLoRA/PEFT fine-tuning (Qwen2.5-7B), cited RAG over PubMed with pgvector, LangGraph multi-agent workflows with per-claim citation verification, Gemini API, Ollama, and LLM evaluation with lm-evaluation-harness. Built a live biomedical AI research assistant and voice interviews on browser-native speech + Gemini.' },
   { q: /data|etl|tableau|airflow|pipeline|analytics|forecast/i, a: 'Strong data engineering & analytics: ETL pipelines, Airflow, PostgreSQL, forecasting, A/B testing, and the CoreSight IQ decision-intelligence platform with auditable, calibrated metrics (walk-forward backtesting, confidence calibration).' },
   { q: /location|remote|reloc|where/i, a: 'Based in Bloomington, IN (EST). Open to remote, hybrid, and relocation.' },
   { q: /cert|aws|deeplearning/i, a: 'Certifications: DeepLearning.AI Neural Networks & Improving DNNs (Sep 2023), AWS Academy Cloud Graduate (Jul 2023).' },

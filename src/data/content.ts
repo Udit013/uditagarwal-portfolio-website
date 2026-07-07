@@ -371,18 +371,18 @@ export const PROJECTS: Project[] = [
   {
     types: ['ml', 'sys'],
     num: '03',
-    title: 'Biomedical LLM Adaptation Benchmark',
-    desc: 'A reproducible QLoRA pipeline studying when 4-bit fine-tuning actually helps a strong instruction-tuned LLM on biomedical benchmarks — with leakage-safe in-/out-of-domain evaluation and a serving-cost harness, framed as engineering, not an accuracy chase.',
+    title: 'Biomedical AI Research Assistant',
+    desc: 'Production biomedical research assistant answering clinical questions with grounded, cited evidence using RAG, a LangGraph multi-agent workflow, and a QLoRA-tuned Qwen2.5-7B on 100% free-tier infrastructure.',
     badges: [
       { label: 'AI / ML', cls: 'ml' },
       { label: 'Systems', cls: 'sys' },
     ],
-    chips: ['Python', 'Qwen2.5-7B', 'QLoRA', 'PEFT/TRL', 'Hugging Face', 'vLLM', 'FastAPI'],
+    chips: ['Python', 'Qwen2.5-7B', 'QLoRA', 'LangGraph', 'RAG', 'pgvector', 'FastAPI'],
+    live: 'https://huggingface.co/spaces/Udit013/biomed-assistant',
     repo: 'https://github.com/Udit013/biomed-llm-peft',
-    demoSoon: true,
     stats: [
       { value: '64.5', suffix: '%', label: 'PubMedQA (OOD)' },
-      { value: '194', suffix: 'K', label: 'MedMCQA' },
+      { value: '3.4', suffix: 'K', label: 'RAG Chunks' },
     ],
     delay: '.12s',
   },

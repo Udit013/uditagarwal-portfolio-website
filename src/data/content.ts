@@ -331,7 +331,7 @@ export const PROJECTS: Project[] = [
   {
     types: ['ml', 'sys'],
     num: '01',
-    title: 'Brain Tumor Classification — Production ML System',
+    title: 'Brain Tumor Classification — Production ML Framework',
     desc: 'Production-grade extension of an IEEE-published brain tumor MRI classifier with leakage auditing, confidence calibration, Grad-CAM explainability, ONNX inference, and a live Hugging Face demo.',
     badges: [
       { label: 'AI / ML', cls: 'ml' },
@@ -404,7 +404,7 @@ export const PROJECTS: Project[] = [
   {
     types: ['fs', 'ml', 'dt'],
     num: '05',
-    title: 'CoreSight IQ — Decision Intelligence Engine',
+    title: 'Decision Intelligence Engine',
     desc: 'Unified decision-intelligence platform (ingest → score → recommend → report → advise) spanning product, retail, and market analytics on a reusable core engine — with walk-forward backtesting and calibration so every accuracy claim is auditable.',
     badges: [
       { label: 'Full-Stack', cls: 'fs' },
@@ -438,11 +438,11 @@ export const PROJECTS: Project[] = [
   {
     types: ['sys'],
     num: '07',
-    title: 'Automated Secrets Scanner',
+    title: 'Secret Exposure Detection',
     desc: 'DevSecOps platform detecting hardcoded secrets across code and full git history via regex, Shannon entropy, and semantic heuristics — with 0–100 exposure risk scoring, differential scanning, real-time WebSocket progress, and SARIF/CI-CD export.',
     badges: [{ label: 'Systems', cls: 'sys' }],
     chips: ['Python', 'FastAPI', 'React', 'PostgreSQL', 'WebSocket', 'APScheduler'],
-    live: 'https://automated-secrets-scanner.vercel.app',
+    live: 'https://cipherwatch-web.vercel.app',
     repo: 'https://github.com/Udit013/automated-secrets-scanner',
     stats: [
       { value: '0.94', label: 'F1 Score' },

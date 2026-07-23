@@ -1,5 +1,5 @@
 # Udit Agarwal — Knowledge Document
-*Last updated: Jul 8 2026*
+*Last updated: Jul 18 2026*
 
 ---
 
@@ -77,18 +77,20 @@ Aug 2020 – May 2024
 
 ## PROJECTS (full inventory)
 
-### Voice Interview Simulator
+### AI Interview Simulator
 **Live:** https://mock-ai-prep.vercel.app
 **Code:** https://github.com/Udit013/ai_mock_interview_prep
-**Stack:** Next.js · TypeScript · Firebase Auth & Firestore · Gemini 2.5 Flash · Web Speech API · Zod · unpdf
-**Description:** AI interview-prep platform that runs adaptive voice interviews, generates résumé-aware questions, analyzes delivery, and tracks performance over time — entirely on browser-native and free-tier infrastructure.
+**Stack:** Next.js 15 · TypeScript · Firebase Auth & Firestore · Gemini 2.5 Flash · Web Speech API · Monaco Editor · Pyodide/WASM · Zod · unpdf · Vitest
+**Description:** AI interview platform that runs adaptive voice interviews with a human-like interviewer that reacts to hesitation and confidence, live coding rounds with in-browser code execution, company-specific interview styles, résumé-aware questions, replay, shareable reports, and progress tracking — entirely on browser-native and free-tier infrastructure.
 **Bullets:**
-- Built a full-stack AI interview platform that runs end-to-end voice interviews using browser-native speech recognition and synthesis, avoiding paid STT/TTS; supports technical, behavioral, mixed, and résumé-based formats
-- Built an adaptive interview engine on Gemini that tracks live state across a session, adjusts question difficulty, probes knowledge gaps with targeted follow-ups, and guarantees completion through bounded workflows
-- Added résumé-aware question generation: extract text from uploaded PDFs with `unpdf`, parse experience and skills via LLM, and ground questions in the candidate's real projects and trade-offs
-- Built a Zod-validated evaluation pipeline scoring five dimensions (Communication, Technical Knowledge, Problem Solving, Confidence, Cultural Fit) plus STAR completeness, producing strengths, weaknesses, and next steps
-- Computed speaking analytics in-browser (words per minute, filler words, duration, response quality) with no external speech services, preserving privacy while keeping the coaching explainable
-- Built a progress dashboard with Firebase persistence tracking performance trends, streaks, and improvement over time, running at **$0 infrastructure cost**
+- Built a full-stack AI interview platform running end-to-end voice interviews with browser-native speech recognition and synthesis (no paid STT/TTS) across **five formats** — technical, behavioral, mixed, system design, and live coding
+- Engineered an adaptive, **delivery-aware** interview engine on Gemini: the browser measures hesitation before speaking, speaking pace, and filler density each turn, so the interviewer reacts like a human — reassuring on long pauses, pushing harder on composed depth — while adjusting difficulty and probing knowledge gaps, with bounded workflows guaranteeing completion
+- Built **live coding interviews** in a CoderPad-style split view with the **Monaco editor** (JS/Python/Java/C++) and an on-screen problem panel the interviewer never recites aloud; **Run** executes JavaScript and Python client-side in a sandboxed, terminable Web Worker (isolated from the DOM, killed on infinite loops instead of hanging the tab), with Python powered by a lazily-loaded **Pyodide/WASM** runtime; **Submit** triggers a spoken code review that reads the real code and probes bugs, complexity, and testing
+- Added **config-driven company interview modes** (Google, Amazon, Meta, Microsoft, Stripe, McKinsey, Bain, BCG, Deloitte) that reshape interviewer persona, question emphasis, and evaluation criteria from a single template registry with no duplicated logic
+- Built résumé-aware question generation (extract PDF text with `unpdf`, structure experience via LLM, ground questions in real projects) plus a **résumé coach** producing bullet rewrites, missing-element flags, and ATS keywords
+- Built a Zod-validated pipeline scoring five dimensions plus STAR completeness, in-browser speaking analytics (WPM, filler words, duration), interview **replay** from persisted transcripts, and shareable read-only report links secured with crypto-random, revocable tokens
+- Hardened for production: **session auth on every AI endpoint**, Zod-bounded request bodies, and **transactional per-user daily rate limits** in Firestore, covered by a **36-test Vitest suite** in GitHub Actions CI
+- Built a progress dashboard (performance trends, streaks, competency breakdown) with dependency-free SVG charts, running at **$0 infrastructure cost** on free tiers
 
 ---
 
@@ -164,15 +166,15 @@ Aug 2020 – May 2024
 **Model:** [Udit013/qwen2.5-7b-medmcqa-qlora-5k](https://huggingface.co/Udit013/qwen2.5-7b-medmcqa-qlora-5k)
 **Code:** [Udit013/biomed-llm-peft](https://github.com/Udit013/biomed-llm-peft)
 **Stack:** Python · PyTorch · Transformers · PEFT/QLoRA · LangGraph · FastAPI · Gradio · PostgreSQL + pgvector (Neon) · Hugging Face Hub/Inference · Docker · GitHub Actions
-**Description:** Biomedical research assistant that answers clinical questions with grounded, cited evidence — RAG over PubMed abstracts and NIH/WHO/CDC guidelines, a LangGraph multi-agent workflow with per-claim citation verification, and a 4-way evaluation harness (Base / Fine-tuned / Base + RAG / Fine-tuned + RAG) — built on a QLoRA-fine-tuned Qwen2.5-7B and deployed end to end on free-tier infrastructure.
+**Description:** A production-grade Biomedical AI Research Assistant that answers clinical/research questions with grounded, cited evidence — retrieval-augmented generation over PubMed abstracts and NIH/WHO/CDC guidelines, a LangGraph multi-agent workflow with per-claim citation verification, and a 4-way evaluation harness (Base / Fine-tuned / Base + RAG / Fine-tuned + RAG) — built on a QLoRA-fine-tuned Qwen2.5-7B and deployed end-to-end on 100% free-tier infrastructure.
 **Bullets:**
-- Fine-tuned **Qwen2.5-7B-Instruct with 4-bit QLoRA** (**0.92%** of parameters trainable) on **MedMCQA (~194K MCQs)** and evaluated with **EleutherAI lm-evaluation-harness**: in-domain MedMCQA **47.5% → 50.0%** (a within-noise null, since instruction tuning already near-saturates the task) and out-of-domain PubMedQA **48.0% → 64.5%**; published the adapter to the Hugging Face Hub with a full model card
-- Built a RAG pipeline over biomedical literature — reproducible ingestion (NCBI E-utilities), sentence-aware chunking, `bge-small` embeddings, semantic retrieval with metadata filtering, cross-encoder reranking, and inline citations — indexing **733 PubMed abstracts into 3,410 vector chunks** in **Neon PostgreSQL + pgvector**
-- Implemented a **LangGraph 4-agent workflow** (Planner → Retrieval → Answer → Citation-Verification) returning grounded, `[n]`-cited answers that flag every claim as supported or unsupported, with a dependency-free sequential fallback for testing
-- Deployed end to end on **free-tier infrastructure** (Gradio Space → FastAPI on Render → Neon pgvector → HF Inference), serving live cited **Base + RAG** answers at **~4 s**; the API reports the exact config it served, so a swap to **Fine-tuned + RAG** via a GPU endpoint needs zero UI or API change
-- Engineered a torch-free serving path for the free tier — a vector-store abstraction (local NumPy for dev/CI, Neon pgvector for prod), local **ONNX query embeddings** (fastembed), and a router-based HF Inference LLM — small enough for a 512 MB instance
-- Designed a **4-way evaluation harness** across retrieval (Recall@k, MRR), generation (citation coverage, groundedness, ROUGE-L, BERTScore), and systems (p50/p95 latency, token usage, estimated cost), with comparison tables and an interactive Benchmark Explorer
-- Separated the research pipeline from the production system in a modular package, with pinned dependencies, a Dockerized backend, structured JSON logging with per-stage latency, and **GitHub Actions CI running a 12-test suite** on every push
+- Fine-tuned **Qwen2.5-7B-Instruct with 4-bit QLoRA** (only **0.92%** of parameters trainable) on **MedMCQA (~194K** medical MCQs**)** and evaluated with **EleutherAI lm-evaluation-harness**, measuring in-domain MedMCQA **47.5% → 50.0%** (a within-noise null showing strong instruction tuning already near-saturates the task) and out-of-domain PubMedQA **48.0% → 64.5%**; **published** the adapter to the Hugging Face Hub with a full model card.
+- Built a **production RAG pipeline** over biomedical literature — reproducible ingestion (NCBI E-utilities), sentence-aware chunking, `bge-small` embeddings, semantic retrieval with metadata filtering, cross-encoder reranking, and inline citation generation — indexing **733 PubMed abstracts into 3,410 vector chunks** in **Neon PostgreSQL + pgvector**.
+- Implemented a **LangGraph 4-agent workflow** (Planner → Retrieval → Answer → **Citation-Verification**) that returns grounded, `[n]`-cited answers and flags every factual claim as supported or unsupported, with a dependency-free sequential fallback for testing.
+- **Deployed the system end-to-end on 100% free-tier infrastructure** (Gradio Space → FastAPI on Render → Neon pgvector → HF Inference) serving live, cited **Base + RAG** answers at **~4 s** end-to-end; the API returns the exact config it served and the UI displays it, so a **swap to Fine-tuned + RAG via a GPU endpoint requires zero UI or API change**.
+- Engineered a **backend-agnostic, torch-free serving path** for the free tier — a vector-store abstraction (local NumPy for dev/CI, Neon pgvector for prod), local **ONNX query embeddings** (fastembed), and a router-based HF Inference LLM — small enough to run on a 512 MB instance.
+- Designed a **4-way evaluation harness** comparing Base / Fine-tuned / Base + RAG / Fine-tuned + RAG across **retrieval** (Recall@k, MRR), **generation** (citation coverage, groundedness, ROUGE-L, BERTScore), and **systems** (p50/p95 latency, token usage, estimated cost), rendering comparison tables and an interactive Benchmark Explorer.
+- Established **production engineering rigor** — a modular package cleanly separating the research pipeline from the production system, pinned dependencies, a Dockerized backend, structured JSON logging with per-stage latency, and **GitHub Actions CI running a 12-test suite** on every push.
 
 ---
 
@@ -204,7 +206,7 @@ Aug 2020 – May 2024
 ## TECHNICAL SKILLS (full master list)
 
 **Programming Languages:** Python, TypeScript, JavaScript, Java, C/C++, SQL
-**Frontend:** React, Next.js, Vite, HTML5, CSS3, Tailwind CSS, GSAP, Three.js/WebGL, Web Speech API, Chart.js, Apache ECharts, Recharts
+**Frontend:** React, Next.js, Vite, HTML5, CSS3, Tailwind CSS, GSAP, Three.js/WebGL, Web Speech API, Monaco Editor, WebAssembly (Pyodide), Web Workers, Chart.js, Apache ECharts, Recharts
 **Backend & APIs:** Node.js, Express.js, Fastify, FastAPI, REST APIs, WebSockets, Server-Sent Events, better-auth, Zod, APScheduler, React Query
 **Databases & Storage:** PostgreSQL, pgvector, MySQL, MongoDB, Redis, Firebase, Firestore, Neo4j, SQLite, Drizzle ORM, Prisma
 **Cloud & DevOps:** AWS (EC2, S3, Lambda, RDS, CloudFront), Docker, CI/CD, Git, Postman, Vercel, Cloudinary, ServiceNow, Turborepo

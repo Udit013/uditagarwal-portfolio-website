@@ -44,14 +44,13 @@ export function Contact() {
     const company = (form.elements.namedItem('company') as HTMLInputElement).value.trim()
     const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim()
 
-    if (!name) return setError('Please enter your name.')
     if (!email) return setError('Please enter your email.')
     if (!isValidEmail(email)) return setError('Please enter a valid email address.')
     if (!message) return setError('Please enter a message.')
 
     setSubmitting(true)
     const sub = encodeURIComponent('Portfolio Inquiry — Udit Agarwal')
-    const bodyText = `Name: ${name}\nEmail: ${email}${company ? `\nCompany: ${company}` : ''}\n\n${message}`
+    const bodyText = `${name ? `Name: ${name}\n` : ''}Email: ${email}${company ? `\nCompany: ${company}` : ''}\n\n${message}`
     draftRef.current = bodyText
     window.location.href = `mailto:${EMAIL}?subject=${sub}&body=${encodeURIComponent(bodyText)}`
     // A mailto: can silently no-op when no mail client is registered, so always
@@ -154,10 +153,9 @@ export function Contact() {
             <div className="form-row">
               <div className="form-field">
                 <label className="form-label" htmlFor="fname">
-                  Name <span aria-hidden="true">*</span>
-                  <span className="sr-only">(required)</span>
+                  Name
                 </label>
-                <input className="form-input" id="fname" name="name" type="text" placeholder="Your name" required autoComplete="name" aria-required="true" />
+                <input className="form-input" id="fname" name="name" type="text" placeholder="Your name" autoComplete="name" />
               </div>
               <div className="form-field">
                 <label className="form-label" htmlFor="femail">
@@ -188,12 +186,6 @@ export function Contact() {
             <button className="form-submit" type="submit" data-magnetic data-cursor="Send" disabled={submitting}>
               {submitting ? 'Opening…' : 'Send Message →'}
             </button>
-            <p className="form-fallback">
-              Prefer direct email?{' '}
-              <button type="button" className="form-fallback-btn" onClick={copyEmail}>
-                {copied ? 'Copied ✓' : EMAIL}
-              </button>
-            </p>
           </form>
           )}
         </div>

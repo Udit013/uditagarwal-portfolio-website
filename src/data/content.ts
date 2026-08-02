@@ -38,13 +38,13 @@ export const SECTION_IDS = ['home', 'about', 'skills', 'journey', 'projects', 'c
 /* ── Marquee ── */
 export const MARQUEE_ITEMS: { text: string; hi?: boolean }[] = [
   { text: 'Full-Stack Engineering', hi: true },
-  { text: 'Python · React · Next.js' },
+  { text: 'Python · TypeScript · React · Next.js' },
   { text: 'AI / ML Research', hi: true },
   { text: 'IEEE Published · ICC-ROBINS 2024' },
-  { text: 'Cloud Native', hi: true },
-  { text: 'PostgreSQL · Docker · AWS' },
-  { text: 'NLP · Transformers · LLMs', hi: true },
-  { text: 'Data Engineering · ETL' },
+  { text: 'LLMs & Fine-Tuning', hi: true },
+  { text: 'QLoRA · RAG · LangGraph · pgvector' },
+  { text: 'Production Systems', hi: true },
+  { text: 'PostgreSQL · Docker · CI/CD · WebAssembly' },
 ]
 
 /* ── About ── */
@@ -152,12 +152,22 @@ export interface SkillCategory {
 
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
+    id: 'core',
+    label: 'Core Stack',
+    blurb: 'What I reach for first, and use daily',
+    groups: [
+      { label: 'Everyday Stack', skills: ['Python', 'TypeScript', 'React', 'Next.js', 'FastAPI', 'PostgreSQL', 'PyTorch', 'Docker'] },
+      { label: 'Current Focus', skills: ['LLM Fine-Tuning (QLoRA)', 'RAG', 'LangGraph', 'pgvector', 'ONNX Runtime', 'WebAssembly'] },
+    ],
+  },
+  {
     id: 'frontend',
     label: 'Programming & Frontend',
     blurb: 'Languages and the interface layer',
     groups: [
       { label: 'Programming Languages', skills: ['Python', 'TypeScript', 'JavaScript', 'Java', 'C/C++', 'SQL'] },
-      { label: 'Frontend Technologies', skills: ['React', 'Next.js', 'HTML5', 'CSS3', 'Tailwind CSS', 'GSAP', 'Three.js / WebGL', 'Chart.js', 'Apache ECharts', 'Recharts'] },
+      { label: 'Frontend Technologies', skills: ['React', 'Next.js', 'Vite', 'HTML5', 'CSS3', 'Tailwind CSS', 'GSAP', 'Three.js / WebGL', 'Apache ECharts', 'Recharts', 'Chart.js'] },
+      { label: 'Browser Platform', skills: ['Web Speech API', 'Monaco Editor', 'WebAssembly (Pyodide)', 'Web Workers', 'MediaRecorder / Canvas', 'IndexedDB'] },
     ],
   },
   {
@@ -166,7 +176,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     blurb: 'Services, APIs and system design',
     groups: [
       { label: 'Backend Frameworks', skills: ['Node.js', 'Express.js', 'Fastify', 'FastAPI'] },
-      { label: 'API Development', skills: ['REST APIs', 'WebSockets', 'Server-Sent Events', 'Zod', 'APScheduler', 'React Query'] },
+      { label: 'API Development', skills: ['REST APIs', 'WebSockets', 'Server-Sent Events', 'better-auth', 'Zod', 'APScheduler', 'React Query'] },
       { label: 'Systems & Architecture', skills: ['System Design', 'Distributed Systems', 'API Design', 'Authentication & Authorization', 'Fault Tolerance', 'Serverless Architecture', 'Monorepo Architecture'] },
     ],
   },
@@ -175,7 +185,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     label: 'Databases & Data Engineering',
     blurb: 'Storage, pipelines and analytics',
     groups: [
-      { label: 'Databases & Storage', skills: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'Firebase', 'Firestore', 'Neo4j', 'SQLite', 'Drizzle ORM', 'Prisma'] },
+      { label: 'Databases & Storage', skills: ['PostgreSQL', 'pgvector', 'MySQL', 'MongoDB', 'Redis', 'Firebase', 'Firestore', 'Neo4j', 'SQLite', 'Drizzle ORM', 'Prisma'] },
       { label: 'Data Engineering', skills: ['Pandas', 'NumPy', 'Apache Airflow', 'ETL Pipelines', 'Data Modeling'] },
       { label: 'Analytics Technologies', skills: ['Matplotlib', 'Tableau', 'Forecasting', 'Statistical Modeling'] },
     ],
@@ -186,7 +196,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     blurb: 'Deep learning, LLMs and fine-tuning',
     groups: [
       { label: 'AI / ML', skills: ['PyTorch', 'TensorFlow/Keras', 'Scikit-learn', 'Hugging Face', 'Transformers', 'CNNs (VGG16 / InceptionV3 / EfficientNetB3)', 'BERT', 'ONNX Runtime', 'Grad-CAM', 'Model Calibration', 'Prompt Engineering'] },
-      { label: 'LLM Frameworks', skills: ['Gemini API', 'Ollama', 'RAG', 'Structured Generation', 'Hugging Face Hub', 'Gradio', 'vLLM', 'lm-evaluation-harness'] },
+      { label: 'LLM Frameworks', skills: ['Gemini API', 'Ollama', 'RAG', 'LangGraph', 'Structured Generation', 'Hugging Face Hub', 'Gradio', 'vLLM', 'lm-evaluation-harness'] },
       { label: 'Fine-Tuning Technologies', skills: ['Qwen2.5', 'LLM Fine-Tuning', 'QLoRA', 'PEFT / LoRA', '4-bit Quantization (bitsandbytes)'] },
       { label: 'MLOps & Experimentation', skills: ['Model Evaluation & Benchmarking', 'Inference Optimization', 'Experiment Tracking', 'Hyperparameter Tuning', 'Model Cards'] },
     ],
@@ -301,6 +311,14 @@ export interface ProjectStat {
   label: string
 }
 
+/** Expanded case study shown in the project detail drawer. */
+export interface ProjectCaseStudy {
+  problem: string
+  approach: string
+  result: string
+  highlights: string[]
+}
+
 export interface Project {
   /** A project can belong to more than one category. */
   types: ProjectType[]
@@ -312,11 +330,11 @@ export interface Project {
   live?: string
   repo?: string
   paper?: string
-  /** No live demo yet — show "Demo coming soon" instead of a broken link. */
-  demoSoon?: boolean
+  model?: string
   /** Non-link footnote for internal/private work (e.g. university project). */
   note?: string
   stats?: ProjectStat[]
+  study?: ProjectCaseStudy
   delay?: string
 }
 
@@ -332,7 +350,7 @@ export const PROJECTS: Project[] = [
     types: ['ml', 'sys'],
     num: '01',
     title: 'Brain Tumor Classification — Production ML Framework',
-    desc: 'Production-grade extension of an IEEE-published brain tumor MRI classifier with leakage auditing, confidence calibration, Grad-CAM explainability, ONNX inference, and a live Hugging Face demo.',
+    desc: 'Production-grade extension of an IEEE-published brain tumor MRI classifier with confidence calibration, uncertainty estimates, Grad-CAM explainability, ONNX inference, and a live Hugging Face demo.',
     badges: [
       { label: 'AI / ML', cls: 'ml' },
       { label: 'Systems', cls: 'sys' },
@@ -350,22 +368,60 @@ export const PROJECTS: Project[] = [
     repo: 'https://github.com/Udit013/Brain_Tumor_Classificatioin',
     paper: 'https://doi.org/10.1109/ICC-ROBINS60238.2024.10533941',
     live: 'https://huggingface.co/spaces/Udit013/brain-tumor-mri-classifier',
+    model: 'https://huggingface.co/Udit013/brain-tumor-efficientnetb3',
     stats: [
       { value: '7023', label: 'MRI Scans' },
+      { value: '11.7', suffix: 'M', label: 'Parameters' },
     ],
+    study: {
+      problem:
+        'A high-accuracy research notebook is not a system anyone can trust or use. The IEEE work proved a model could classify brain-tumor MRIs — it said nothing about whether the confidence was meaningful, how the model behaved on unfamiliar data, or how a clinician would ever run it.',
+      approach:
+        'Reproduced the four-architecture benchmark end to end, then layered on the evaluation and deployment work the paper did not cover: calibration, uncertainty, robustness testing, explainability, and a served inference path.',
+      result:
+        'A live, documented classifier on Hugging Face Spaces returning a calibrated prediction, an uncertainty estimate, and a Grad-CAM overlay per scan — reproducible from one command and versioned on the Hub.',
+      highlights: [
+        'Co-authored an IEEE 2024 paper benchmarking CNN, VGG16, InceptionV3, and EfficientNetB3 for 4-class classification across 7,023 MRI images — EfficientNetB3 won at just 11.7M parameters, the smallest of the four',
+        'Calibrated confidence with temperature scaling, cutting expected calibration error from 0.0425 to 0.0136 so reported confidence actually tracks correctness',
+        'Added Test-Time-Augmentation uncertainty that separates right from wrong predictions (entropy 0.36 on correct vs 0.78 on incorrect)',
+        'Ran corruption-robustness testing across six perturbation types to document where the model degrades rather than assuming it generalizes',
+        'Served the model through ONNX Runtime CPU inference behind a Gradio app returning class, calibrated confidence, Grad-CAM overlay, latency, and a medical disclaimer',
+        'Debugged a deployment-time accuracy collapse (53% → 94%) traced to non-converged BatchNorm statistics on Apple Metal, fixed with a recalibration pass',
+      ],
+    },
     },
     {
       types: ['fs', 'ml'],
       num: '02',
-      title: 'Voice Interview Simulator',
-      desc: 'AI interview-prep platform running adaptive voice interviews with résumé-aware question generation and five-competency scoring — built entirely on browser-native speech and free-tier infrastructure at $0 cost.',
+      title: 'AI Interview Simulator',
+      desc: 'AI interview platform running adaptive voice interviews with a delivery-aware interviewer, live coding rounds with in-browser code execution, company-specific modes, and résumé-aware questions — entirely on browser-native and free-tier infrastructure.',
       badges: [
         { label: 'Full-Stack', cls: 'fs' },
         { label: 'AI / ML', cls: 'ml' },
       ],
-      chips: ['Next.js', 'TypeScript', 'Firebase', 'Gemini 2.5 Flash', 'Web Speech API', 'Zod'],
+      chips: ['Next.js 15', 'TypeScript', 'Gemini 2.5 Flash', 'Web Speech API', 'Monaco Editor', 'Pyodide / WASM', 'Firebase'],
       live: 'https://mock-ai-prep.vercel.app',
       repo: 'https://github.com/Udit013/ai_mock_interview_prep',
+      stats: [
+        { value: '5', label: 'Interview Formats' },
+        { value: '9', label: 'Company Modes' },
+      ],
+      study: {
+        problem:
+          'Interview practice tools ask scripted questions and score the words you type. They ignore how you actually come across under pressure, and they cannot run a real coding round — the two things that decide onsite outcomes.',
+        approach:
+          'Built a delivery-aware interviewer on Gemini that measures how you speak, not just what you say, and paired it with a CoderPad-style live coding round that executes real code in the browser — no paid speech services, no backend runners.',
+        result:
+          'Five interview formats — technical, behavioral, mixed, system design, and live coding — with replay, shareable reports, and progress tracking, running at $0 infrastructure cost.',
+        highlights: [
+          'Engineered a delivery-aware engine: the browser measures hesitation before speaking, speaking pace, and filler density each turn, so the interviewer reacts like a human — reassuring on long pauses, pushing harder on composed depth',
+          'Built live coding interviews in a split-view Monaco editor (JS/Python/Java/C++) where Run executes code client-side in a sandboxed, terminable Web Worker — isolated from the DOM and killed on infinite loops instead of hanging the tab',
+          'Powered in-browser Python through a lazily-loaded Pyodide/WASM runtime, then had the interviewer read the real submitted code aloud and probe bugs, complexity, and testing',
+          'Added config-driven company interview modes for nine firms (Google, Amazon, Meta, Microsoft, Stripe, McKinsey, Bain, BCG, Deloitte) that reshape persona, question emphasis, and evaluation criteria from a single template registry',
+          'Built résumé-aware question generation — PDF text extraction, LLM-structured experience, questions grounded in real projects — plus a résumé coach producing bullet rewrites and ATS keywords',
+          'Hardened for production with session auth on every AI endpoint, Zod-bounded request bodies, and transactional per-user daily rate limits, covered by a 36-test suite in CI',
+        ],
+      },
       delay: '.06s',
   },
   {
@@ -380,10 +436,27 @@ export const PROJECTS: Project[] = [
     chips: ['Python', 'Qwen2.5-7B', 'QLoRA', 'LangGraph', 'RAG', 'pgvector', 'FastAPI'],
     live: 'https://huggingface.co/spaces/Udit013/biomed-assistant',
     repo: 'https://github.com/Udit013/biomed-llm-peft',
+    model: 'https://huggingface.co/Udit013/qwen2.5-7b-medmcqa-qlora-5k',
     stats: [
       { value: '64.5', suffix: '%', label: 'PubMedQA (OOD)' },
       { value: '3.4', suffix: 'K', label: 'RAG Chunks' },
     ],
+    study: {
+      problem:
+        'A language model that answers a clinical question fluently but cannot show where the answer came from is unusable for research. The open question was narrower than "does fine-tuning help" — it was when fine-tuning helps, at what inference cost, and whether retrieval does more of the work.',
+      approach:
+        'Fine-tuned Qwen2.5-7B with 4-bit QLoRA, built a retrieval pipeline over real biomedical literature, and put both behind a LangGraph agent workflow that verifies each claim against retrieved sources — then measured all four combinations against each other.',
+      result:
+        'A live assistant returning grounded, [n]-cited answers with every factual claim flagged supported or unsupported, served end to end at roughly four seconds on 100% free-tier infrastructure.',
+      highlights: [
+        'Fine-tuned Qwen2.5-7B-Instruct with 4-bit QLoRA (only 0.92% of parameters trainable) on MedMCQA (~194K medical MCQs) and published the adapter to the Hugging Face Hub with a full model card',
+        'Measured honestly with EleutherAI lm-evaluation-harness: in-domain MedMCQA held flat at 47.5% → 50.0% (a within-noise null), while out-of-domain PubMedQA rose 48.0% → 64.5%',
+        'Built a production RAG pipeline — NCBI E-utilities ingestion, sentence-aware chunking, bge-small embeddings, metadata filtering, cross-encoder reranking — indexing 733 PubMed abstracts into 3,410 vector chunks on Neon pgvector',
+        'Implemented a LangGraph 4-agent workflow (Planner → Retrieval → Answer → Citation-Verification) that flags every factual claim as supported or unsupported, with a dependency-free sequential fallback',
+        'Engineered a backend-agnostic, torch-free serving path — vector-store abstraction, local ONNX query embeddings, router-based inference — small enough to run on a 512 MB instance',
+        'Designed a 4-way evaluation harness (Base / Fine-tuned / Base+RAG / Fine-tuned+RAG) across retrieval, generation, and systems metrics, with an interactive Benchmark Explorer',
+      ],
+    },
     delay: '.12s',
   },
   {
@@ -399,6 +472,22 @@ export const PROJECTS: Project[] = [
     chips: ['Next.js', 'TypeScript', 'Cloudinary', 'Neon PostgreSQL', 'Drizzle ORM', 'Gemini', 'better-auth'],
     live: 'https://snapcast-video-sharing.vercel.app',
     repo: 'https://github.com/Udit013/screen_recording_sharing_app',
+    study: {
+      problem:
+        'Screen recording tools either demand an extension or a native install, and once a video exists it becomes an opaque blob — no way to search inside it, jump to the moment that matters, or discuss a specific second of it.',
+      approach:
+        'Captured everything in the browser with MediaRecorder and Canvas, uploaded straight to a CDN, transcribed during recording, and used the transcript as the index that makes the video searchable and navigable.',
+      result:
+        'A Loom-style platform where recordings arrive already transcribed, chaptered, summarized, and searchable — with a custom player, threaded timestamp comments, and three tiers of sharing control.',
+      highlights: [
+        'Built browser-native recording with real-time webcam picture-in-picture, pause/resume, countdown, and IndexedDB-backed crash recovery — no extensions or native software',
+        'Built a direct signed-upload pipeline to Cloudinary, removing server-side proxying, with public_id-scoped signatures and ownership checks preventing cross-user access to upload URLs',
+        'Captured timestamped narration via the Web Speech API to power an interactive transcript with click-to-seek, live search highlighting, and active-segment sync',
+        'Integrated Gemini to generate summaries, semantic tags, and auto-segmented chapters, with a metadata fallback so uploads without a transcript still get a summary',
+        'Implemented 3-tier privacy (public, private, link-only) with cryptographic share tokens, configurable expiration, and one-click revocation',
+        'Replaced native browser controls with a fully custom player — buffered seek bar with chapter markers, speed control, picture-in-picture, keyboard shortcuts, and shareable timestamp deep-links',
+      ],
+    },
     delay: '.18s',
   },
   {
@@ -411,13 +500,29 @@ export const PROJECTS: Project[] = [
       { label: 'AI / ML', cls: 'ml' },
       { label: 'Data', cls: 'dt' },
     ],
-    chips: ['Next.js', 'TypeScript', 'Apache ECharts', 'Drizzle ORM', 'Neon PostgreSQL', 'Ollama', 'Vitest'],
+    chips: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind v4', 'Apache ECharts', 'Neon PostgreSQL', 'Ollama'],
     live: 'https://coresightiq.vercel.app',
     repo: 'https://github.com/Udit013/decision-intelligence-platform',
     stats: [
-      { value: '85', label: 'Unit Tests' },
+      { value: '105', label: 'Unit Tests' },
       { value: '1.07', suffix: 'M', label: 'Transactions' },
     ],
+    study: {
+      problem:
+        'Three separate analytics products — product, retail, and market expansion — had independently grown the same pipeline three times over: a normal-CDF implemented twice, three near-identical AI clients, three hand-rolled classifiers. None of them could prove their accuracy claims.',
+      approach:
+        'Extracted the shared pipeline into one reusable /core engine and rebuilt each product as a thin, pluggable domain module — then added the validation layer all three originals lacked.',
+      result:
+        'One platform proving a single pipeline (ingest → score → recommend → report → advise) generalizes across three very different domains, with every accuracy claim auditable.',
+      highlights: [
+        'Built a domain-agnostic core — forecasting, weighted multi-criteria scoring, recommendation synthesis, RFM segmentation, cohort retention, a two-proportion A/B engine — where one scoring primitive powers both Market (Expand/Investigate/Monitor/Avoid) and Product (RICE/ICE/WSJF) workflows',
+        'Engineered a validation harness doing leakage-free walk-forward backtesting and confidence calibration (Brier, ECE), including a reproducible demo proving the harness can fail (white-noise R² ≈ −0.17)',
+        'Grounded the Operations module in the real UCI Online Retail II dataset (~1.07M transactions) and reported honest out-of-sample accuracy — weekly-revenue R² ≈ 0.07, MAPE ≈ 30% — explicitly retiring an unreproducible "0.90 R² / 86% accuracy" claim inherited from the legacy build',
+        'Designed a bespoke design system from scratch to avoid generic dashboard patterns — masthead module tabs, a numbered index rail, a divided figures ledger, a ranked-decision docket with inline confidence meters',
+        'Built a shared data-upload workspace with drag-and-drop, per-file progress, CSV/XLSX/JSON/PDF/DOCX validation, and one-click ingestion via heuristic column mapping',
+        'Parallelized queries and added caching to cut the data-heavy Decision Center from ~5s cold to ~15ms warm, with the AI advisor local-first via Ollama and a deterministic fallback',
+      ],
+    },
     delay: '.24s',
   },
   {
@@ -433,6 +538,23 @@ export const PROJECTS: Project[] = [
     chips: ['Next.js', 'TypeScript', 'Fastify', 'Prisma', 'Neon PostgreSQL', 'Turborepo', 'SSE', 'jsPDF'],
     live: 'https://rx-flow-web.vercel.app',
     repo: 'https://github.com/Udit013/RxFlow',
+    stats: [{ value: '5', label: 'Distributor Formats' }],
+    study: {
+      problem:
+        'Indian pharmacies run on legacy desktop software like Marg and Tally — single-machine, no real-time sync across counters, and GST compliance bolted on. Replacing it means getting inventory, billing, accounting, and payroll correct in one system, for tenants who cannot afford downtime or data drift.',
+      approach:
+        'Built a multi-tenant monorepo where every signup provisions an isolated tenant, made every money-and-stock operation atomic inside database transactions, and pushed updates to every device over Server-Sent Events.',
+      result:
+        'A production ERP covering inventory, GST-compliant billing, procurement, accounting, and payroll, running on $0 free-tier infrastructure with full audit trails.',
+      highlights: [
+        'Built the platform as a pnpm/Turborepo monorepo (Fastify API, Next.js web app, shared Prisma layer) where each signup provisions an isolated tenant with its own stores, employees, financial books, and role-based permissions',
+        'Built an India-specific GST engine: CGST/SGST/IGST at line-item level, automatic interstate routing, credit-note adjustments, and GSTR-1 / GSTR-3B returns with Excel/CSV export',
+        'Designed transactionally correct operations — sales, purchases, returns, inter-store transfers, and stock reconciliations atomically update batch inventory, per-store stock, ledgers, and financial records inside DB transactions',
+        'Implemented real-time multi-device sync with Server-Sent Events and tenant-scoped pub/sub, propagating inventory and billing updates across counters, tablets, and mobile within seconds',
+        'Built a plugin-based CSV purchase-import architecture where each distributor layout is a small column-map config scored by a shared auto-detector — verified against real invoices from five distributors, so a new distributor is one config addition with zero logic changes',
+        'Diagnosed and fixed real deployment constraints along the way: a Next.js static-generation issue breaking the Vercel build, a Render build-image restriction hiding the Prisma CLI, and Neon’s pooled-vs-direct connection split for migrations vs runtime',
+      ],
+    },
     delay: '.30s',
   },
   {
@@ -448,6 +570,22 @@ export const PROJECTS: Project[] = [
       { value: '0.94', label: 'F1 Score' },
       { value: '26', label: 'Secret Types' },
     ],
+    study: {
+      problem:
+        'A credential committed once stays in git history forever, and scanning only the current checkout misses it entirely. Worse, naive pattern matching floods engineers with false positives until they stop reading the report.',
+      approach:
+        'Combined regex matching with Shannon-entropy analysis and semantic heuristics to cut noise, scanned the full commit history rather than the working tree, and scored every finding on a transparent 0–100 exposure scale.',
+      result:
+        'A DevSecOps platform detecting 26 credential types at ~95% precision and ~94% recall, exporting SARIF for GitHub Advanced Security, behind a security console built from scratch.',
+      highlights: [
+        'Engineered a detection engine covering 26 credential types (AWS, GCP, GitHub, Stripe, JWTs, SSH keys, database connection strings) at ~95% precision, ~94% recall, and a 0.94 F1 score',
+        'Designed a transparent 0–100 exposure risk score plus git-history lifecycle intelligence — introduced and last-seen dates, exposure duration, commits affected, authors involved — and differential scanning surfacing new vs. resolved secrets across runs',
+        'Built an async FastAPI backend with 18 REST endpoints, WebSocket real-time scan progress, background execution, cron scheduling, and automated SMTP alerts for critical findings',
+        'Added SARIF 2.1.0 export for native GitHub Advanced Security and CI/CD integration, alongside JSON, CSV, and env-var remediation-patch generation',
+        'Hand-built every data visualization in custom SVG — severity spectrum bar, stepped trend chart with crosshair tooltips, ranked-magnitude bars — eliminating the charting dependency and cutting ~410 KB of JavaScript down to a 42 KB app shell',
+        'Redesigned the frontend into a bespoke ops-console design system with signal-only color semantics, keyboard-first navigation, visible focus states, reduced-motion support, and ~15:1 text contrast',
+      ],
+    },
     delay: '.36s',
   },
 ]

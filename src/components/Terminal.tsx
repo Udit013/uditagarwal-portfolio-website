@@ -177,7 +177,7 @@ export function Terminal() {
     }
   }
 
-  /* ` / ~ global hotkey + Escape to close */
+  /* ` / ~ global hotkey + Escape to close + focus trap while open */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = document.activeElement?.tagName
@@ -188,6 +188,26 @@ export function Terminal() {
         else openPanel()
       }
       if (e.key === 'Escape' && open) closePanel()
+
+      // The panel is aria-modal, so keyboard focus must not escape behind it.
+      if (e.key === 'Tab' && open) {
+        const panel = panelRef.current
+        if (!panel) return
+        const f = panel.querySelectorAll<HTMLElement>('button:not([disabled]), input, [tabindex]:not([tabindex="-1"])')
+        if (!f.length) return
+        const first = f[0]
+        const last = f[f.length - 1]
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        } else if (!panel.contains(document.activeElement)) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)

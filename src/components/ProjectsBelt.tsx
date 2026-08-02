@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useRef, type MouseEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type MouseEvent } from 'react'
 import gsap from 'gsap'
 import { PROJECTS, type Project } from '../data/content'
 import { useLenis } from '../hooks/useLenis'
 import { Counter } from './Counter'
+import { ProjectDrawer } from './ProjectDrawer'
 import { isTouch, prefersReducedMotion } from '../lib/utils'
 
 const CYCLE_SECONDS = 26 // one full autonomous loop
@@ -12,7 +13,17 @@ const WHEEL_SENS = 2.4 // wheel deltaY → belt velocity (px/sec) impulse
 const MAX_VEL = 2800 // clamp belt velocity (px/sec)
 const FRICTION = 3.2 // higher = the scroll momentum settles faster
 
-function BeltCard({ project, tilt, dim }: { project: Project; tilt: boolean; dim: boolean }) {
+function BeltCard({
+  project,
+  tilt,
+  dim,
+  onOpen,
+}: {
+  project: Project
+  tilt: boolean
+  dim: boolean
+  onOpen: (p: Project) => void
+}) {
   const ref = useRef<HTMLElement>(null)
 
   const onMove = (e: MouseEvent<HTMLElement>) => {
@@ -82,15 +93,11 @@ function BeltCard({ project, tilt, dim }: { project: Project; tilt: boolean; dim
         ))}
       </div>
       <div className="proj-card-links" aria-label="Project links">
-        {project.live ? (
+        {project.live && (
           <a className="proj-link proj-link-live" href={project.live} target="_blank" rel="noopener noreferrer" data-cursor="Live" tabIndex={linkTab}>
             Live Demo ↗
           </a>
-        ) : project.demoSoon ? (
-          <span className="proj-link proj-link-soon" aria-disabled="true">
-            Demo coming soon
-          </span>
-        ) : null}
+        )}
         {project.repo && (
           <a className="proj-link" href={project.repo} target="_blank" rel="noopener noreferrer" data-cursor="Code" tabIndex={linkTab}>
             Code ↗
@@ -106,6 +113,17 @@ function BeltCard({ project, tilt, dim }: { project: Project; tilt: boolean; dim
             {project.note}
           </span>
         )}
+        {project.study && (
+          <button
+            type="button"
+            className="proj-link proj-link-more"
+            onClick={() => onOpen(project)}
+            tabIndex={linkTab}
+            aria-label={`View case study: ${project.title}`}
+          >
+            Case study →
+          </button>
+        )}
       </div>
     </article>
   )
@@ -115,6 +133,11 @@ export function ProjectsBelt() {
   const lenis = useLenis()
   const reduced = prefersReducedMotion()
   const touch = isTouch()
+
+  const [openProject, setOpenProject] = useState<Project | null>(null)
+  // The drawer owns page scroll while open; the belt's hover handlers must not
+  // restart Lenis underneath it (the scrim fires onMouseLeave on the card).
+  const drawerOpen = useRef(false)
 
   const viewportRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
@@ -258,7 +281,7 @@ export function ProjectsBelt() {
   }, [reduced])
 
   const onEnter = () => {
-    if (touch || reduced) return
+    if (touch || reduced || drawerOpen.current) return
     hover.current += 1
     lenis?.stop() // freeze page scroll so the wheel drives the belt
     if (labelRef.current) labelRef.current.textContent = 'PROJECT BELT LINKED TO YOUR SCROLL'
@@ -267,7 +290,7 @@ export function ProjectsBelt() {
     if (touch || reduced) return
     hover.current = Math.max(0, hover.current - 1)
     if (hover.current === 0) {
-      lenis?.start()
+      if (!drawerOpen.current) lenis?.start()
       if (labelRef.current) labelRef.current.textContent = 'SCROLL TO EXPLORE →'
     }
   }
@@ -278,6 +301,18 @@ export function ProjectsBelt() {
   const onFocusOut = () => {
     if (touch || reduced) return
     focus.current = Math.max(0, focus.current - 1)
+  }
+
+  const openDrawer = (p: Project) => {
+    drawerOpen.current = true
+    hover.current = 0 // belt is covered by the scrim; drop wheel-capture state
+    vel.current = 0
+    if (labelRef.current) labelRef.current.textContent = 'SCROLL TO EXPLORE →'
+    setOpenProject(p)
+  }
+  const closeDrawer = () => {
+    drawerOpen.current = false
+    setOpenProject(null)
   }
 
   const cards = useMemo(
@@ -292,10 +327,11 @@ export function ProjectsBelt() {
         <div className="belt-viewport belt-static">
           <div className="belt-track">
             {PROJECTS.map((p) => (
-              <BeltCard key={p.num} project={p} tilt={false} dim={false} />
+              <BeltCard key={p.num} project={p} tilt={false} dim={false} onOpen={openDrawer} />
             ))}
           </div>
         </div>
+        <ProjectDrawer project={openProject} onClose={closeDrawer} />
       </div>
     )
   }
@@ -319,10 +355,11 @@ export function ProjectsBelt() {
       >
         <div className="belt-track" ref={trackRef}>
           {cards.map(({ p, ci }) => (
-            <BeltCard key={`${ci}-${p.num}`} project={p} tilt={!touch} dim={ci > 0} />
+            <BeltCard key={`${ci}-${p.num}`} project={p} tilt={!touch} dim={ci > 0} onOpen={openDrawer} />
           ))}
         </div>
       </div>
+      <ProjectDrawer project={openProject} onClose={closeDrawer} />
     </div>
   )
 }

@@ -4,7 +4,13 @@ export function Footer() {
       <div className="foot-logo">
         UDIT<span aria-hidden="true">.</span>DEV
       </div>
-      <div className="foot-note">© 2026 · Crafted with React · TypeScript · GSAP · custom WebGL</div>
+      <div className="foot-note">
+        © 2026 · Crafted with React · TypeScript · GSAP · custom WebGL
+        <span className="foot-updated">
+          <span className="foot-updated-dot" aria-hidden="true" />
+          Last updated <time dateTime="2026-08">August 2026</time>
+        </span>
+      </div>
       <nav className="foot-links" aria-label="Footer navigation">
         <a href="https://github.com/Udit013" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in new tab)">
           GitHub

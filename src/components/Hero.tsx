@@ -15,7 +15,7 @@ export function Hero() {
         <div className="hero-eyebrow" id="heroEyebrow" aria-label="Availability status">
           <span className="eyebrow-line" aria-hidden="true" />
           <span className="avail-dot" aria-hidden="true" />
-          <span>Available · Full-time · June 2026</span>
+          <span>Available · Full-time</span>
           <span className="eyebrow-line" aria-hidden="true" />
           <span className="eyebrow-loc">Bloomington, IN, USA · EST</span>
         </div>
@@ -51,12 +51,13 @@ export function Hero() {
           </span>
         </h1>
 
-        <div className="hero-role-wrap" id="heroRole" aria-label="Current role">
+        <div className="hero-role-wrap" id="heroRole">
           <span className="role-bar" aria-hidden="true" />
+          {/* The decorative typewriter cycles every couple of seconds — announcing
+              each frame would spam screen readers, so expose one static label. */}
           <p className="hero-role">
-            <span aria-live="polite" aria-atomic="true">
-              {typed}
-            </span>
+            <span className="sr-only">{TYPING_ROLES.join(' · ')}</span>
+            <span aria-hidden="true">{typed}</span>
             <span className="type-cursor" aria-hidden="true" />
           </p>
         </div>

@@ -44,27 +44,34 @@ export function Portrait() {
           role="img"
           aria-label="Portrait of Udit Agarwal — anime on the left, real photo on the right"
         >
-          <img
-            className="portrait-img portrait-real"
-            src="/portrait.jpeg"
-            alt="Udit Agarwal"
-            width={1082}
-            height={1313}
-            loading="lazy"
-            decoding="async"
-            draggable={false}
-          />
-          <img
-            className="portrait-img portrait-anime"
-            src="/portrait-anime.jpeg"
-            alt=""
-            aria-hidden="true"
-            width={1083}
-            height={1304}
-            loading="lazy"
-            decoding="async"
-            draggable={false}
-          />
+          {/* WebP first (~26 KB / 40 KB vs ~700 KB / 1.2 MB for the JPEGs) */}
+          <picture>
+            <source srcSet="/portrait.webp" type="image/webp" />
+            <img
+              className="portrait-img portrait-real"
+              src="/portrait.jpeg"
+              alt="Udit Agarwal"
+              width={1082}
+              height={1313}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+            />
+          </picture>
+          <picture>
+            <source srcSet="/portrait-anime.webp" type="image/webp" />
+            <img
+              className="portrait-img portrait-anime"
+              src="/portrait-anime.jpeg"
+              alt=""
+              aria-hidden="true"
+              width={1083}
+              height={1304}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+            />
+          </picture>
           <span className="portrait-glass" aria-hidden="true" />
           <span className="portrait-divider" aria-hidden="true" />
         </div>

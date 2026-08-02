@@ -38,7 +38,7 @@ full-stack engineering and applied AI/ML. IEEE-published researcher.
   Consultant – IT Services @ UITS, Indiana University
 
 Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
-<span class="t-sys">Seeking full-time SWE · AI/ML · Data roles — available June 2026</span>`,
+<span class="t-sys">Open to full-time SWE · AI/ML · Data roles</span>`,
 
   skills: `<span class="t-hi">Languages</span>     Python · TypeScript · JavaScript · Java · C/C++ · SQL
 <span class="t-hi">Frontend</span>      React · Next.js · Tailwind · GSAP · Three.js/WebGL · ECharts
@@ -72,8 +72,8 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
   projects: `<span class="t-hi">01</span>  Brain Tumor Classification      [AI/ML] — <span class="t-link">IEEE ICC-ROBINS 2024</span>
     EfficientNetB3 · 99.84% (published) · ONNX + FastAPI serving
 
-<span class="t-hi">02</span>  Voice Interview Simulator       [AI/ML · Full-Stack] — <span class="t-link">live</span>
-    Next.js · Gemini 2.5 · Web Speech · $0 infra
+<span class="t-hi">02</span>  AI Interview Simulator          [AI/ML · Full-Stack] — <span class="t-link">live</span>
+    Gemini 2.5 · Web Speech · Monaco + Pyodide/WASM · $0 infra
 
 <span class="t-hi">03</span>  Biomedical AI Research Assistant [AI/ML] — <span class="t-link">live</span>
     Qwen2.5-7B QLoRA · RAG · LangGraph agents · pgvector
@@ -81,13 +81,13 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
 <span class="t-hi">04</span>  Screen Recording &amp; Sharing      [Full-Stack] — <span class="t-link">live</span>
     Next.js · Cloudinary · AI chapters · better-auth
 
-<span class="t-hi">05</span>  CoreSight IQ                    [Analytics] — <span class="t-link">live</span>
-    Decision intelligence · walk-forward backtesting
+<span class="t-hi">05</span>  Decision Intelligence Engine    [Analytics] — <span class="t-link">live</span>
+    3 products, 1 core engine · walk-forward backtesting
 
 <span class="t-hi">06</span>  Pharmacy ERP — RxFlow           [Full-Stack] — <span class="t-link">live</span>
     Multi-tenant · GST billing · real-time sync (SSE)
 
-<span class="t-hi">07</span>  Automated Secrets Scanner       [Systems] — <span class="t-link">live</span>
+<span class="t-hi">07</span>  Secret Exposure Detection       [Systems] — <span class="t-link">live</span>
     FastAPI · entropy + regex · SARIF · 0.94 F1`,
 
   education: `<span class="t-hi">MS Computer Science</span>  —  Indiana University Bloomington
@@ -107,7 +107,7 @@ Result:   <span class="t-hi">99.84% classification accuracy</span> (published)
 Role:     Co-author
 
 <span class="t-hi">Production ML &amp; LLM work:</span>
-  Brain Tumor — ONNX + FastAPI serving · leakage audit · calibration · Grad-CAM
+  Brain Tumor — ONNX serving · confidence calibration · Grad-CAM explainability
   Biomedical AI Assistant — Qwen2.5-7B QLoRA · cited RAG · LangGraph 4-agent workflow
   Transformers · BERT · Prompt Engineering · RAG`,
 
@@ -127,14 +127,14 @@ Role:     Co-author
 <span class="t-hi">GitHub</span>    github.com/Udit013
 <span class="t-hi">Portfolio</span> uditagarwal.vercel.app
 
-<span class="t-sys">Seeking SWE · AI/ML · Data roles · Available June 2026</span>`,
+<span class="t-sys">Open to full-time SWE · AI/ML · Data roles</span>`,
 
   now: `<span class="t-hi">Currently exploring:</span>
 
-🧠  LLM Agents &amp; multi-agent orchestration
-🏥  Health AI — Global Health Impact platform (IU)
-🎙  Real-time voice AI (Vapi AI + Gemini)
-📊  Large-scale ETL and data engineering patterns
+🧠  LLM agents &amp; multi-agent orchestration (LangGraph)
+🔬  Retrieval-augmented generation over scientific literature
+🎙  Browser-native voice AI (Web Speech API + Gemini)
+🧩  WebAssembly &amp; in-browser code execution (Pyodide)
 ☁️  Cloud-native distributed systems design
 
 <span class="t-sys">Side interests: Open source · Research writing · Systems programming</span>`,
@@ -156,14 +156,14 @@ Role:     Co-author
 }
 
 export const CHAT_FAQ: { q: RegExp; a: string }[] = [
-  { q: /hire|job|full.?time|intern|open.?to|available|role/i, a: 'Udit is available for full-time roles starting June 2026 — SWE, AI/ML, and Data roles. Open to remote, hybrid, and relocation. Email: agarwaludit13@gmail.com · Phone: +1 (930) 904-4901' },
+  { q: /hire|job|full.?time|intern|open.?to|available|role/i, a: 'Udit is open to full-time SWE, AI/ML, and Data roles. Open to remote, hybrid, and relocation anywhere in the US. Email: agarwaludit13@gmail.com · Phone: +1 (930) 904-4901' },
   { q: /ieee|research|paper|publish|brain.?tumor/i, a: 'Udit co-authored an IEEE paper at ICC-ROBINS 2024 on brain tumor classification — 99.84% accuracy on 7,023 MRI scans with EfficientNetB3. DOI: 10.1109/ICC-ROBINS60238.2024.10533941' },
   { q: /gpa|grade|school|degree|university|master|indiana/i, a: 'MS CS at Indiana University Bloomington — GPA 3.84/4.0, May 2026. B.Tech at KIIT — GPA 8.85/10.0.' },
   { q: /skill|tech|stack|language|python|react|framework/i, a: 'Python, TypeScript, React, Next.js, Node.js, Fastify, FastAPI, PostgreSQL, PyTorch, TensorFlow, Hugging Face, QLoRA, Gemini API, Ollama, Docker, AWS. Type "skills" for the full list.' },
-  { q: /project|built|app|demo|portfolio/i, a: '7 flagship projects: brain tumor classification (IEEE), an AI voice interview simulator, a cited biomedical AI research assistant (RAG + QLoRA), a screen-recording platform, the CoreSight IQ decision-intelligence platform, a multi-tenant pharmacy ERP (RxFlow), and a DevSecOps secrets scanner. Type "projects" for all.' },
+  { q: /project|built|app|demo|portfolio/i, a: '7 flagship projects: brain tumor classification (IEEE), the AI Interview Simulator, a cited biomedical AI research assistant (RAG + QLoRA), a screen-recording platform, the Decision Intelligence Engine, a multi-tenant pharmacy ERP (RxFlow), and Secret Exposure Detection. Type "projects" for all.' },
   { q: /contact|email|phone|reach|talk/i, a: 'agarwaludit13@gmail.com · +1 (930) 904-4901 · linkedin.com/in/udit013 · Responds within 24h.' },
   { q: /llm|voice|gemini|vapi|gpt|generative|qlora|fine.?tun|rag|agent/i, a: 'LLM work spans QLoRA/PEFT fine-tuning (Qwen2.5-7B), cited RAG over PubMed with pgvector, LangGraph multi-agent workflows with per-claim citation verification, Gemini API, Ollama, and LLM evaluation with lm-evaluation-harness. Built a live biomedical AI research assistant and voice interviews on browser-native speech + Gemini.' },
-  { q: /data|etl|tableau|airflow|pipeline|analytics|forecast/i, a: 'Strong data engineering & analytics: ETL pipelines, Airflow, PostgreSQL, forecasting, A/B testing, and the CoreSight IQ decision-intelligence platform with auditable, calibrated metrics (walk-forward backtesting, confidence calibration).' },
+  { q: /data|etl|tableau|airflow|pipeline|analytics|forecast/i, a: 'Strong data engineering & analytics: ETL pipelines, PostgreSQL, forecasting, cohort retention, and A/B testing — see the Decision Intelligence Engine, which unifies three analytics products on one core engine with auditable, calibrated metrics (walk-forward backtesting, Brier/ECE).' },
   { q: /location|remote|reloc|where/i, a: 'Based in Bloomington, IN (EST). Open to remote, hybrid, and relocation.' },
   { q: /cert|aws|deeplearning/i, a: 'Certifications: DeepLearning.AI Neural Networks & Improving DNNs (Sep 2023), AWS Academy Cloud Graduate (Jul 2023).' },
   { q: /now|current|exploring/i, a: 'Currently: LLM Agents, Health AI platform at IU, real-time voice AI, ETL patterns, cloud-native systems.' },

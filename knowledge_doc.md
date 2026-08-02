@@ -1,5 +1,5 @@
 # Udit Agarwal — Knowledge Document
-*Last updated: Jul 18 2026*
+*Last updated: Jul 24 2026*
 
 ---
 
@@ -97,16 +97,17 @@ Aug 2020 – May 2024
 ### Screen Recording & Video Sharing Platform
 **Live:** [snapcast-video-sharing.vercel.app](https://snapcast-video-sharing.vercel.app)
 **Code:** [Udit013/screen_recording_sharing_app](https://github.com/Udit013/screen_recording_sharing_app)
-**Stack:** Next.js · TypeScript · Cloudinary CDN · Neon PostgreSQL · Drizzle ORM · Gemini · better-auth
-**Description:** Screen recording and video sharing platform with browser-native capture, automatic transcription, AI content indexing, privacy-controlled sharing, and channel analytics over a cloud delivery pipeline.
+**Stack:** Next.js · TypeScript · Cloudinary CDN · Neon PostgreSQL · Drizzle ORM · Gemini · better-auth · Vitest
+**Description:** Loom-style screen recording and video sharing platform with browser-native capture, automatic transcription, AI content indexing, threaded discussion, a handcrafted player, privacy-controlled sharing, and channel analytics over a cloud delivery pipeline.
 **Bullets:**
-- Built browser-native screen recording with MediaRecorder and Canvas APIs, including real-time webcam picture-in-picture, with no extensions or native software required
-- Built a direct signed-upload pipeline to Cloudinary CDN for storage and global delivery, removing server-side file proxying
-- Added automatic speech-to-text via the Web Speech API, capturing timestamped narration to power keyword search and AI chapter generation
-- Integrated Gemini to generate summaries, semantic tags, and auto-segmented chapters from transcripts, enabling search across metadata and generated content
+- Built browser-native screen recording with MediaRecorder and Canvas APIs — real-time webcam picture-in-picture, pause/resume, a countdown timer, and **IndexedDB-backed crash recovery** — with no extensions or native software required
+- Built a direct signed-upload pipeline to Cloudinary CDN for storage and global delivery, removing server-side file proxying, with **public_id-scoped signatures and ownership checks** preventing cross-user access to upload URLs
+- Added automatic speech-to-text via the Web Speech API during recording, capturing timestamped narration to power an **interactive transcript** (click-to-seek, live search with highlighting, active-segment sync) and AI chapter generation
+- Integrated Gemini to generate summaries, semantic tags, and auto-segmented chapters from transcripts, enabling AI-powered search across metadata and generated content, with a metadata fallback so uploaded videos without a transcript still get a summary
 - Implemented 3-tier privacy controls (public, private, link-only) with cryptographic share tokens, configurable expiration, and one-click revocation
-- Built a channel analytics dashboard tracking unique viewers, watch time, and completion rates via an event-sourced viewing model with anonymous-viewer attribution
-- Designed the data layer on Neon PostgreSQL and Drizzle ORM for transcripts, collections, timestamped notes, view analytics, and chapter navigation
+- Built a channel analytics dashboard tracking unique viewers, watch time, and completion rates from a per-session event log layered under a simple view counter, with anonymous-viewer attribution
+- Built threaded, timestamp-pinned video comments and a fully **custom video player** — buffered seek bar with chapter markers, speed control, picture-in-picture, keyboard shortcuts, and shareable timestamp deep-links — replacing native browser controls
+- Designed the data layer on Neon PostgreSQL and Drizzle ORM for transcripts, collections, timestamped notes, comments, and view analytics; hardened the app with security headers, a restricted image-proxy allowlist, and a **Vitest suite in GitHub Actions CI**
 
 ---
 
@@ -155,9 +156,10 @@ Aug 2020 – May 2024
 - Designed transactionally correct inventory and accounting: sales, purchases, returns, inter-store transfers, and stock reconciliations atomically update batch inventory, per-store stock, supplier/customer ledgers, and financial records inside DB transactions
 - Implemented real-time multi-device sync with Server-Sent Events and tenant-scoped pub/sub, propagating inventory and billing updates across counters, tablets, and mobile within seconds, with full audit logs
 - Built business modules across procurement, accounts payable/receivable, expense and income tracking, P&L, cash-flow reporting, attendance, and payroll with automated loss-of-pay proration
-- Built a CSV purchase-import pipeline that fuzzy-matches free-text product descriptions to the medicine catalog via letter- and digit-aware token scoring, with reusable supplier-specific templates
+- Built a **plugin-based CSV purchase-import architecture**: each distributor's invoice layout is a small column-map config scored by a shared auto-detector (validity + HSN-plausibility), normalized into one internal model, then fuzzy-matched to the medicine catalog — verified against real invoices from five distributors and unit-tested against their actual rows, so supporting a new distributor is one config addition with zero changes to matching or import logic
 - Added AES-256-GCM encrypted backup/restore, global command-palette search, PDF invoice generation, and audit trails
-- Deployed on **$0 free-tier infrastructure** (Vercel, Render, Neon), working through Prisma connection strategies, serverless constraints, and environment-specific build behavior — full ownership across architecture, backend, frontend, database, and DevOps
+- Deployed on **$0 free-tier infrastructure** (Vercel, Render, Neon), diagnosing and fixing real environment-specific issues along the way: a Next.js static-generation constraint (`useSearchParams` needing a Suspense boundary) breaking the Vercel build, a Render build-image restriction plus `NODE_ENV=production` hiding the Prisma CLI, and Neon's pooled-vs-direct connection-string split for migrations vs runtime — full ownership across architecture, backend, frontend, database, and DevOps
+- Covered the fiscal-year, GST/discount/commission math, and CSV-parser logic with a **32-test Vitest suite**, and gated every push with GitHub Actions CI (typecheck + tests + build)
 
 ---
 

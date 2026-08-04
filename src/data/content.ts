@@ -152,15 +152,6 @@ export interface SkillCategory {
 
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
-    id: 'core',
-    label: 'Core Stack',
-    blurb: 'What I reach for first, and use daily',
-    groups: [
-      { label: 'Everyday Stack', skills: ['Python', 'TypeScript', 'React', 'Next.js', 'FastAPI', 'PostgreSQL', 'PyTorch', 'Docker'] },
-      { label: 'Current Focus', skills: ['LLM Fine-Tuning (QLoRA)', 'RAG', 'LangGraph', 'pgvector', 'ONNX Runtime', 'WebAssembly'] },
-    ],
-  },
-  {
     id: 'frontend',
     label: 'Programming & Frontend',
     blurb: 'Languages and the interface layer',

@@ -1,4 +1,4 @@
-import { useRef, useState, type CSSProperties, type PointerEvent } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react'
 import { useReveal } from '../hooks/useReveal'
 
 /**
@@ -26,6 +26,11 @@ export function Portrait() {
       el.style.setProperty('--pos', `${p}%`)
     })
   }
+
+  /* Drop any frame still queued when the component goes away */
+  useEffect(() => () => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current)
+  }, [])
 
   const toggle = () => {
     const next = !activeRef.current

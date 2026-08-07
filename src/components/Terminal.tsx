@@ -105,8 +105,14 @@ export function Terminal() {
         )
       }
 
-      const key = KB[cmd] && typeof KB[cmd] === 'string' && KB[KB[cmd]] ? KB[cmd] : cmd
-      const res = KB[key] ?? KB[cmd]
+      // Own-property lookups only: a bare `KB[cmd]` also resolves inherited
+      // members, so `constructor` / `__proto__` returned a function/object and
+      // threw on `.startsWith` below.
+      const lookup = (k: string): string | undefined =>
+        Object.prototype.hasOwnProperty.call(KB, k) ? KB[k] : undefined
+      const alias = lookup(cmd)
+      const key = alias && lookup(alias) ? alias : cmd
+      const res = lookup(key) ?? lookup(cmd)
 
       if (!res) {
         print(`<span class="t-err">✗ command not found: '${escHtml(cmd)}' — type <span class="t-hi">help</span></span>`)

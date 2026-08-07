@@ -17,6 +17,11 @@ export function useSiteAnimations() {
     const reduced = prefersReducedMotion()
     const touch = isTouch()
     const tickers: gsap.TickerCallback[] = []
+    // gsap.context().revert() reverts animations but does NOT detach manually
+    // added DOM listeners. One controller removes every listener below on
+    // cleanup (React StrictMode remounts this effect in development).
+    const ac = new AbortController()
+    const sig = { signal: ac.signal }
 
     const ctx = gsap.context(() => {
       /* ── Hero entrance ── */
@@ -145,14 +150,14 @@ export function useSiteAnimations() {
             })
           }
           const onLeave = () => gsap.to(el, { x: 0, y: 0, duration: 0.75, ease: 'elastic.out(1,.55)' })
-          el.addEventListener('mousemove', onMove)
-          el.addEventListener('mouseleave', onLeave)
+          el.addEventListener('mousemove', onMove, sig)
+          el.addEventListener('mouseleave', onLeave, sig)
         })
 
         // Pillar hover push
         gsap.utils.toArray<HTMLElement>('.pillar').forEach((el) => {
-          el.addEventListener('mouseenter', () => gsap.to(el, { x: 4, duration: 0.35, ease: 'power3.out' }))
-          el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, duration: 0.55, ease: 'elastic.out(1,.55)' }))
+          el.addEventListener('mouseenter', () => gsap.to(el, { x: 4, duration: 0.35, ease: 'power3.out' }), sig)
+          el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, duration: 0.55, ease: 'elastic.out(1,.55)' }), sig)
         })
 
         // Glass card hover glow (RAF-throttled position vars)
@@ -166,26 +171,25 @@ export function useSiteAnimations() {
               card.style.setProperty('--gy', `${(((e as MouseEvent).clientY - r.top) / r.height) * 100}%`)
               rafId = null
             })
-          })
+          }, sig)
           card.addEventListener('mouseleave', () => {
             if (rafId) {
               cancelAnimationFrame(rafId)
               rafId = null
             }
-          })
+          }, sig)
         })
       }
     })
 
     const onLoad = () => ScrollTrigger.refresh()
     const onResize = () => ScrollTrigger.refresh()
-    window.addEventListener('load', onLoad)
-    window.addEventListener('resize', onResize, { passive: true })
+    window.addEventListener('load', onLoad, sig)
+    window.addEventListener('resize', onResize, { passive: true, signal: ac.signal })
 
     return () => {
       tickers.forEach((t) => gsap.ticker.remove(t))
-      window.removeEventListener('load', onLoad)
-      window.removeEventListener('resize', onResize)
+      ac.abort() // detaches every listener registered with `sig`
       ctx.revert()
     }
   }, [])

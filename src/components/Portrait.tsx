@@ -47,7 +47,7 @@ export function Portrait() {
           style={{ '--pos': '69%' } as CSSProperties}
           onPointerMove={onPointerMove}
           role="img"
-          aria-label="Portrait of Udit Agarwal — anime on the left, real photo on the right"
+          aria-label="Portrait of Udit Agarwal: anime on the left, real photo on the right"
         >
           {/* WebP first (~26 KB / 40 KB vs ~700 KB / 1.2 MB for the JPEGs) */}
           <picture>

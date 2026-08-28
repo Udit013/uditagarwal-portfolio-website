@@ -1,10 +1,16 @@
-import { useEffect, useMemo, useRef, useState, type MouseEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type MouseEvent, lazy, Suspense } from 'react'
 import gsap from 'gsap'
 import { PROJECTS, type Project } from '../data/content'
 import { useLenis } from '../hooks/useLenis'
 import { Counter } from './Counter'
-import { ProjectDrawer } from './ProjectDrawer'
 import { isTouch, prefersReducedMotion } from '../lib/utils'
+
+/* The case-study drawer is only reachable by opening a project, so it and its
+   long-form copy stay out of the initial bundle. It is prefetched on idle
+   (below) so the chunk is already warm by the time anyone clicks a card —
+   lazy here buys a smaller critical path, not a slower first open. */
+const loadDrawer = () => import('./ProjectDrawer')
+const ProjectDrawer = lazy(() => loadDrawer().then((m) => ({ default: m.ProjectDrawer })))
 
 const CYCLE_SECONDS = 26 // one full autonomous loop
 const COPIES = 3 // duplicate the list for a seamless wrap
@@ -138,6 +144,17 @@ export function ProjectsBelt() {
   // The drawer owns page scroll while open; the belt's hover handlers must not
   // restart Lenis underneath it (the scrim fires onMouseLeave on the card).
   const drawerOpen = useRef(false)
+
+  /* Warm the drawer chunk once the main thread is free, so opening a case
+     study is instant even though the code isn't in the initial bundle. */
+  useEffect(() => {
+    const ric = window.requestIdleCallback?.bind(window)
+    const cic = window.cancelIdleCallback?.bind(window)
+    let id = 0
+    if (ric) id = ric(() => void loadDrawer(), { timeout: 4000 })
+    else id = window.setTimeout(() => void loadDrawer(), 1500)
+    return () => (cic ? cic(id) : window.clearTimeout(id))
+  }, [])
 
   const viewportRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
@@ -331,7 +348,11 @@ export function ProjectsBelt() {
             ))}
           </div>
         </div>
-        <ProjectDrawer project={openProject} onClose={closeDrawer} />
+        {openProject && (
+          <Suspense fallback={null}>
+            <ProjectDrawer project={openProject} onClose={closeDrawer} />
+          </Suspense>
+        )}
       </div>
     )
   }
@@ -359,7 +380,11 @@ export function ProjectsBelt() {
           ))}
         </div>
       </div>
-      <ProjectDrawer project={openProject} onClose={closeDrawer} />
+      {openProject && (
+        <Suspense fallback={null}>
+          <ProjectDrawer project={openProject} onClose={closeDrawer} />
+        </Suspense>
+      )}
     </div>
   )
 }

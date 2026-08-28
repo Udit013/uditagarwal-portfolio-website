@@ -37,7 +37,7 @@ export function Nav() {
   return (
     <>
       <header id="site-nav" className={scrolled ? 'scrolled' : ''} role="banner">
-        <a href="#home" className="nav-logo" aria-label="Udit.dev — Back to top" onClick={(e) => handleNav(e, 'home')}>
+        <a href="#home" className="nav-logo" aria-label="Udit.dev, Back to top" onClick={(e) => handleNav(e, 'home')}>
           <span className="nav-logo-mark" aria-hidden="true">
             𐌵𐌀
           </span>

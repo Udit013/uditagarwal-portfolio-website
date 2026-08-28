@@ -49,7 +49,7 @@ export function Contact() {
     if (!message) return setError('Please enter a message.')
 
     setSubmitting(true)
-    const sub = encodeURIComponent('Portfolio Inquiry — Udit Agarwal')
+    const sub = encodeURIComponent('Portfolio Inquiry: Udit Agarwal')
     const bodyText = `${name ? `Name: ${name}\n` : ''}Email: ${email}${company ? `\nCompany: ${company}` : ''}\n\n${message}`
     draftRef.current = bodyText
     window.location.href = `mailto:${EMAIL}?subject=${sub}&body=${encodeURIComponent(bodyText)}`
@@ -112,7 +112,7 @@ export function Contact() {
           <div ref={avail.ref} className={`avail-block reveal-up${avail.inView ? ' in' : ''}`}>
             <span className="live-dot" aria-hidden="true" />
             <p>
-              Open to full-time opportunities. Based in Bloomington, IN — available for remote, hybrid, and
+              Open to full-time opportunities. Based in Bloomington, IN; available for remote, hybrid, and
               relocation anywhere in the US. Seeking Software · AI/ML · Data · Consultant roles.
             </p>
           </div>
@@ -127,7 +127,7 @@ export function Contact() {
               <h3 className="form-sent-title">Your mail app should be opening</h3>
               <p className="form-sent-copy">
                 If nothing happened, your browser may not have an email app set up. You can copy the message and send it
-                directly instead — I reply within 24 hours.
+                directly instead; I reply within 24 hours.
               </p>
               <div className="form-sent-actions">
                 <button type="button" className="proj-link proj-link-live" onClick={copyDraft}>

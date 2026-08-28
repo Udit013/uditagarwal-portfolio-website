@@ -53,7 +53,7 @@ export function About() {
           </h2>
           <p className="serif-intro">
             Software engineer and graduate student at Indiana University Bloomington. I design and build intelligent
-            systems — from production software to applied AI research. Purposeful code. Genuinely useful solutions.
+            systems, from production software to applied AI research. Purposeful code. Genuinely useful solutions.
           </p>
           <p className="serif-now">
             Currently exploring: <span>LLM Agents</span> · <span>Health AI</span> · <span>Real-time Voice AI</span>

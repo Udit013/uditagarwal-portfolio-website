@@ -37,8 +37,10 @@ export function useTyping(roles: string[]) {
     timer.current = setTimeout(tick, START_DELAY)
 
     const onVisibility = () => {
-      if (document.hidden) clearTimeout(timer.current)
-      else timer.current = setTimeout(tick, TYPE_SPEED)
+      // Always clear first: a repeated 'visible' event would otherwise start a
+      // second tick chain alongside the first and permanently double the speed.
+      clearTimeout(timer.current)
+      if (!document.hidden) timer.current = setTimeout(tick, TYPE_SPEED)
     }
     document.addEventListener('visibilitychange', onVisibility)
 

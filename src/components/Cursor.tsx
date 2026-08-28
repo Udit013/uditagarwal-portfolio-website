@@ -24,13 +24,12 @@ export function Cursor() {
       // slower follow for the ambient glow → soft trailing light
       gx = lerp(gx, mouse.x, 0.06)
       gy = lerp(gy, mouse.y, 0.06)
+      // translate3d + the -50% centering offset, so nothing touches layout
       if (dot.current) {
-        dot.current.style.left = `${mouse.x}px`
-        dot.current.style.top = `${mouse.y}px`
+        dot.current.style.transform = `translate3d(${mouse.x}px, ${mouse.y}px, 0) translate(-50%, -50%)`
       }
       if (ring.current) {
-        ring.current.style.left = `${rx}px`
-        ring.current.style.top = `${ry}px`
+        ring.current.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`
       }
       if (glow.current) {
         glow.current.style.transform = `translate3d(${gx}px, ${gy}px, 0)`
@@ -52,6 +51,11 @@ export function Cursor() {
     }
     const onOut = (e: MouseEvent) => {
       const target = e.target as HTMLElement
+      // mouseout also fires when moving onto a *child* of the same control,
+      // which used to drop the hover state for a frame and flicker the ring.
+      // Ignore any move that stays inside the element we're leaving.
+      const next = e.relatedTarget as Node | null
+      if (next && target.contains(next)) return
       if (target.closest('[data-cursor]')) body.classList.remove('cur-label-show')
       if (target.closest('a, button')) body.classList.remove('cur-hover', 'cur-action', 'cur-label-show')
       if (target.closest('[data-magnetic], .btn-primary, .form-submit')) body.classList.remove('cur-action')

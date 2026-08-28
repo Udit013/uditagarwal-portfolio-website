@@ -51,7 +51,7 @@ export function Terminal() {
     if (!booted.current) {
       booted.current = true
       const date = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
-      print(`<span class="t-sys">▸ portfolio terminal — ${date}</span>`)
+      print(`<span class="t-sys">▸ portfolio terminal · ${date}</span>`)
       print(`<span class="t-sys">type <span class="t-hi">help</span> · tab autocomplete · ↑↓ history · \` toggle</span>`)
     }
     setTimeout(() => inputRef.current?.focus(), 120)
@@ -115,14 +115,14 @@ export function Terminal() {
       const res = lookup(key) ?? lookup(cmd)
 
       if (!res) {
-        print(`<span class="t-err">✗ command not found: '${escHtml(cmd)}' — type <span class="t-hi">help</span></span>`)
+        print(`<span class="t-err">✗ command not found: '${escHtml(cmd)}' · type <span class="t-hi">help</span></span>`)
       } else if (res.startsWith('__open__')) {
         const url = res.slice(8)
         printOut(`Opening → <span class="t-link">${url}</span>`)
         setTimeout(() => window.open(url, '_blank', 'noopener,noreferrer'), 500)
       } else if (res === '__chat__') {
         chatMode.current = true
-        print(`<span class="t-sys">💬 chat mode — ask anything about Udit — type <span class="t-hi">exit</span> to return</span>`)
+        print(`<span class="t-sys">💬 chat mode · ask anything about Udit · type <span class="t-hi">exit</span> to return</span>`)
       } else {
         printOut(res)
       }

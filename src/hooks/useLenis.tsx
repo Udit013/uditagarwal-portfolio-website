@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -15,7 +15,6 @@ const LenisContext = createContext<Lenis | null>(null)
  */
 export function LenisProvider({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null)
-  const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
     if (isTouch()) return
@@ -26,7 +25,6 @@ export function LenisProvider({ children }: { children: ReactNode }) {
       smoothWheel: true,
       wheelMultiplier: 0.85,
     })
-    lenisRef.current = instance
     setLenis(instance)
     if (import.meta.env.DEV) (window as unknown as { lenis: Lenis }).lenis = instance
 
@@ -45,7 +43,6 @@ export function LenisProvider({ children }: { children: ReactNode }) {
       document.removeEventListener('visibilitychange', onVisibility)
       gsap.ticker.remove(raf)
       instance.destroy()
-      lenisRef.current = null
       setLenis(null)
     }
   }, [])

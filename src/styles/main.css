@@ -252,20 +252,23 @@ body::after {
 /* ═══════════════════════════════════════════════════
    CURSOR
 ═══════════════════════════════════════════════════ */
+/* Positioned with transforms, not left/top: those are laid out every frame and
+   cannot be promoted to the compositor, so a moving cursor forced a full-page
+   layout on every mousemove. Anchored at 0,0 and translated from there. */
 #cur-dot {
-  position: fixed; width: 5px; height: 5px;
+  position: fixed; left: 0; top: 0; width: 5px; height: 5px;
   background: var(--fg); border-radius: 50%;
   pointer-events: none; z-index: 100002;
-  transform: translate(-50%,-50%);
+  transform: translate3d(-50%,-50%,0);
   transition: width .15s, height .15s, background .2s;
-  will-change: left, top;
+  will-change: transform;
 }
 #cur-ring {
-  position: fixed; width: 34px; height: 34px;
+  position: fixed; left: 0; top: 0; width: 34px; height: 34px;
   border: 1px solid rgba(0,0,0,0.18);
   border-radius: 50%; pointer-events: none; z-index: 100001;
-  transform: translate(-50%,-50%);
-  will-change: left, top;
+  transform: translate3d(-50%,-50%,0);
+  will-change: transform;
   display: flex; align-items: center; justify-content: center;
   transition: width .45s var(--ease-expo), height .45s var(--ease-expo), background .25s, border-color .25s;
 }
@@ -289,12 +292,14 @@ body.cur-label-show .cur-label { opacity: 1; }
 #scroll-prog {
   position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 1001;
 }
+/* scaleX rather than width — same reason as the cursor above: width animates
+   through layout every frame, scaleX runs on the compositor. */
 #scroll-fill {
-  height: 100%; width: 0%;
+  height: 100%; width: 100%;
+  transform: scaleX(0); transform-origin: left;
   background: linear-gradient(90deg, var(--accent2), var(--accent3));
-  transition: width .08s linear;
-  /* BUG FIX: use transform instead of width for better perf */
-  will-change: width;
+  transition: transform .08s linear;
+  will-change: transform;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1615,25 +1620,8 @@ body.cur-label-show .cur-label { opacity: 1; }
 [data-theme="dark"] #site-nav.scrolled { box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5); }
 #mobile-drawer { top: clamp(72px, 9vw, 82px); }
 
-/* ═══════════════════════════════════════════════════
-   INTRO CURTAIN LOADER
-═══════════════════════════════════════════════════ */
-.loader { position: fixed; inset: 0; z-index: 100000; pointer-events: none; }
-.loader-panels { position: absolute; inset: 0; display: flex; }
-.loader-panel { flex: 1; background: var(--bg-deep); }
-.loader-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
-.loader-mark {
-  opacity: 0; transform: translateY(10px);
-  font-family: var(--f-display); font-weight: 900;
-  font-size: clamp(1.1rem, 3vw, 1.6rem); letter-spacing: .14em;
-  text-transform: uppercase; color: var(--fg); text-align: center;
-}
-.loader-mark span { color: var(--accent2); }
-.loader-bar { margin: 14px auto 0; width: 140px; height: 2px; background: var(--border2); border-radius: 2px; overflow: hidden; }
-.loader-bar-fill {
-  height: 100%; width: 100%; transform: scaleX(0); transform-origin: left;
-  background: linear-gradient(90deg, var(--accent2), var(--accent3));
-}
+/* Intro curtain: markup and critical styles live in index.html so it paints
+   on the first frame, before this stylesheet loads. See Loader.tsx. */
 
 /* ═══════════════════════════════════════════════════
    TOOLKIT — fixed category tabs + floating skill chips
@@ -1908,20 +1896,20 @@ body.cur-label-show .cur-label { opacity: 1; }
 /* ═══════════════════════════════════════════════════
    PROJECT BELT — infinite horizontal marquee
 ═══════════════════════════════════════════════════ */
-.belt-wrap { margin-top: clamp(1.25rem, 3vw, 2rem); }
+.belt-wrap { margin-top: clamp(0.85rem, 2vw, 1.35rem); }
 .belt-label {
   font-family: var(--f-mono);
   font-size: 11px;
   letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--accent2);
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 .belt-viewport {
   /* break out of the section's side padding for an edge-to-edge marquee */
   margin-inline: calc(-1 * clamp(1.5rem, 5vw, 5rem));
   overflow: hidden;
-  padding-block: 22px;
+  padding-block: 14px;
   /* horizontal swipes drive the belt; vertical scrolls the page */
   touch-action: pan-y;
   cursor: grab;
@@ -1938,12 +1926,15 @@ body.cur-label-show .cur-label { opacity: 1; }
 }
 .belt-card {
   flex: 0 0 auto;
-  width: clamp(280px, 23vw, 350px);
+  /* 300px floor: below ~1300px the width bottoms out, and narrower cards wrap
+     the full descriptions into more lines, which is what drives belt height at
+     mid widths. A slightly wider floor trades horizontal room for vertical. */
+  width: clamp(300px, 23vw, 350px);
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  min-height: clamp(280px, 22vw, 360px);
-  padding: 16px 18px 14px;
+  gap: 6px;
+  min-height: clamp(240px, 18vw, 300px);
+  padding: 14px 18px 12px;
   /* belt cards are always visible (they don't use the grid's scroll-reveal) */
   opacity: 1;
   transform: none;
@@ -1953,16 +1944,15 @@ body.cur-label-show .cur-label { opacity: 1; }
   transition: box-shadow .4s var(--ease-expo), border-color .3s;
 }
 .belt-card:hover { transform: none; }
-.belt-card .proj-card-links { margin-top: auto; padding-top: 10px; }
+.belt-card .proj-card-links { margin-top: auto; padding-top: 8px; }
+.belt-card .proj-card-stats { padding-block: 6px; }
 .belt-card .proj-card-num { display: none; } /* save vertical space in the belt */
-/* keep cards compact: clamp the description so heights stay even and short */
-.belt-card .proj-card-desc {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+/* Descriptions run in full — the old 3-line clamp truncated them mid-sentence
+   ("...Grad-CAM...", "...resume-aware"), which read as broken rather than terse.
+   Cards are flex items in a row, so they all stretch to the tallest and stay
+   visually even. A slightly tighter leading than the grid's 1.7 keeps the
+   longer copy from pushing the belt down the page. */
+.belt-card .proj-card-desc { line-height: 1.6; }
 .belt-card:hover,
 .belt-card:focus-within {
   box-shadow: var(--glass-shadow-hover), 0 0 44px rgba(232, 133, 90, 0.22);
@@ -1979,7 +1969,7 @@ body.cur-label-show .cur-label { opacity: 1; }
 }
 @media (max-width: 760px) {
   .belt-card { width: clamp(260px, 82vw, 320px); min-height: 0; }
-  .belt-viewport { padding-block: 16px; }
+  .belt-viewport { padding-block: 12px; }
 }
 
 /* ═══════════════════════════════════════════════════

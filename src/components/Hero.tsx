@@ -3,11 +3,30 @@ import { useTyping } from '../hooks/useTyping'
 import { useActiveSection } from '../hooks/useActiveSection'
 import { scrollToId, useLenis } from '../hooks/useLenis'
 
-export function Hero() {
+/* The two live values in the hero are isolated into their own components so
+   their updates don't re-render the whole section. The typewriter ticks every
+   ~70ms and the badge changes on every scrolled section — reconciling the
+   headline, SVG badge and action row on each of those was wasted work. */
+
+function TypedRole() {
   const typed = useTyping(TYPING_ROLES)
+  return <span aria-hidden="true">{typed}</span>
+}
+
+function BadgeCenter() {
   const active = useActiveSection()
-  const lenis = useLenis()
   const idx = Math.max(0, SECTION_IDS.indexOf(active))
+  return (
+    <div className="hero-badge-center" id="badgeCenter" aria-hidden="true">
+      {String(idx).padStart(2, '0')}
+      <br />
+      {SECTION_IDS[idx].toUpperCase()}
+    </div>
+  )
+}
+
+export function Hero() {
+  const lenis = useLenis()
 
   return (
     <section id="home" className="hero" aria-label="Introduction">
@@ -31,11 +50,7 @@ export function Hero() {
               </textPath>
             </text>
           </svg>
-          <div className="hero-badge-center" id="badgeCenter" aria-hidden="true">
-            {String(idx).padStart(2, '0')}
-            <br />
-            {SECTION_IDS[idx].toUpperCase()}
-          </div>
+          <BadgeCenter />
         </div>
 
         <h1 className="hero-name" aria-label="Udit Agarwal">
@@ -57,7 +72,7 @@ export function Hero() {
               each frame would spam screen readers, so expose one static label. */}
           <p className="hero-role">
             <span className="sr-only">{TYPING_ROLES.join(' · ')}</span>
-            <span aria-hidden="true">{typed}</span>
+            <TypedRole />
             <span className="type-cursor" aria-hidden="true" />
           </p>
         </div>
@@ -66,7 +81,7 @@ export function Hero() {
       <div className="hero-meta" id="heroMeta">
         <div className="hero-meta-left">
           <p className="hero-desc">
-            Building intelligent systems and interfaces that <em>feel alive</em> — from research to production.
+            Building intelligent systems and interfaces that <em>feel alive</em>, from research to production.
           </p>
           <div className="hero-actions">
             <a href="#contact" className="btn-primary" data-magnetic data-cursor="Connect" onClick={(e) => { e.preventDefault(); scrollToId(lenis, 'contact') }}>

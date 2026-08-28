@@ -69,32 +69,32 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
   → Backend services &amp; data pipelines for forecasting and outcomes
   → REST APIs powering analytics dashboards · perf optimization`,
 
-  projects: `<span class="t-hi">01</span>  Brain Tumor Classification      [AI/ML] — <span class="t-link">IEEE ICC-ROBINS 2024</span>
+  projects: `<span class="t-hi">01</span>  Brain Tumor Classification      [AI/ML] · <span class="t-link">IEEE ICC-ROBINS 2024</span>
     EfficientNetB3 · 99.84% (published) · ONNX + FastAPI serving
 
-<span class="t-hi">02</span>  AI Interview Simulator          [AI/ML · Full-Stack] — <span class="t-link">live</span>
+<span class="t-hi">02</span>  AI Interview Simulator          [AI/ML · Full-Stack] · <span class="t-link">live</span>
     Gemini 2.5 · Web Speech · Monaco + Pyodide/WASM · $0 infra
 
-<span class="t-hi">03</span>  Biomedical AI Research Assistant [AI/ML] — <span class="t-link">live</span>
+<span class="t-hi">03</span>  Biomedical AI Research Assistant [AI/ML] · <span class="t-link">live</span>
     Qwen2.5-7B QLoRA · RAG · LangGraph agents · pgvector
 
-<span class="t-hi">04</span>  Screen Recording &amp; Sharing      [Full-Stack] — <span class="t-link">live</span>
+<span class="t-hi">04</span>  Screen Recording &amp; Sharing      [Full-Stack] · <span class="t-link">live</span>
     Next.js · Cloudinary · AI chapters · better-auth
 
-<span class="t-hi">05</span>  Decision Intelligence Engine    [Analytics] — <span class="t-link">live</span>
+<span class="t-hi">05</span>  Decision Intelligence Engine    [Analytics] · <span class="t-link">live</span>
     3 products, 1 core engine · walk-forward backtesting
 
-<span class="t-hi">06</span>  Pharmacy ERP — RxFlow           [Full-Stack] — <span class="t-link">live</span>
+<span class="t-hi">06</span>  Pharmacy ERP (RxFlow)           [Full-Stack] · <span class="t-link">live</span>
     Multi-tenant · GST billing · real-time sync (SSE)
 
-<span class="t-hi">07</span>  Secret Exposure Detection       [Systems] — <span class="t-link">live</span>
+<span class="t-hi">07</span>  Secret Exposure Detection       [Systems] · <span class="t-link">live</span>
     FastAPI · entropy + regex · SARIF · 0.94 F1`,
 
-  education: `<span class="t-hi">MS Computer Science</span>  —  Indiana University Bloomington
+  education: `<span class="t-hi">MS Computer Science</span>  ·  Indiana University Bloomington
   Aug 2024 – May 2026  ·  GPA: <span class="t-hi">3.84 / 4.0</span>
   Applied ML · Advanced DB · Cloud Computing · LLMs · Algorithms
 
-<span class="t-hi">B.Tech CS &amp; Engineering</span>  —  KIIT University, India
+<span class="t-hi">B.Tech CS &amp; Engineering</span>  ·  KIIT University, India
   Aug 2020 – May 2024  ·  GPA: <span class="t-hi">8.85 / 10.0</span>`,
 
   research: `<span class="t-hi">IEEE Publication</span>
@@ -107,8 +107,8 @@ Result:   <span class="t-hi">99.84% classification accuracy</span> (published)
 Role:     Co-author
 
 <span class="t-hi">Production ML &amp; LLM work:</span>
-  Brain Tumor — ONNX serving · confidence calibration · Grad-CAM explainability
-  Biomedical AI Assistant — Qwen2.5-7B QLoRA · cited RAG · LangGraph 4-agent workflow
+  Brain Tumor · ONNX serving · confidence calibration · Grad-CAM explainability
+  Biomedical AI Assistant · Qwen2.5-7B QLoRA · cited RAG · LangGraph 4-agent workflow
   Transformers · BERT · Prompt Engineering · RAG`,
 
   certifications: `<span class="t-hi">DeepLearning.AI</span>
@@ -119,7 +119,7 @@ Role:     Co-author
   Credential: ZLN2LZ2YZNLE · Sep 2023
 
 <span class="t-hi">Amazon Web Services</span>
-  AWS Academy Graduate — Cloud Semester 1 · Jul 2023`,
+  AWS Academy Graduate: Cloud Semester 1 · Jul 2023`,
 
   contact: `<span class="t-hi">Email</span>     agarwaludit13@gmail.com
 <span class="t-hi">Phone</span>     +1 (930) 904-4901
@@ -157,13 +157,13 @@ Role:     Co-author
 
 export const CHAT_FAQ: { q: RegExp; a: string }[] = [
   { q: /hire|job|full.?time|intern|open.?to|available|role/i, a: 'Udit is open to full-time SWE, AI/ML, and Data roles. Open to remote, hybrid, and relocation anywhere in the US. Email: agarwaludit13@gmail.com · Phone: +1 (930) 904-4901' },
-  { q: /ieee|research|paper|publish|brain.?tumor/i, a: 'Udit co-authored an IEEE paper at ICC-ROBINS 2024 on brain tumor classification — 99.84% accuracy on 7,023 MRI scans with EfficientNetB3. DOI: 10.1109/ICC-ROBINS60238.2024.10533941' },
-  { q: /gpa|grade|school|degree|university|master|indiana/i, a: 'MS CS at Indiana University Bloomington — GPA 3.84/4.0, May 2026. B.Tech at KIIT — GPA 8.85/10.0.' },
+  { q: /ieee|research|paper|publish|brain.?tumor/i, a: 'Udit co-authored an IEEE paper at ICC-ROBINS 2024 on brain tumor classification: 99.84% accuracy on 7,023 MRI scans with EfficientNetB3. DOI: 10.1109/ICC-ROBINS60238.2024.10533941' },
+  { q: /gpa|grade|school|degree|university|master|indiana/i, a: 'MS CS at Indiana University Bloomington, GPA 3.84/4.0, May 2026. B.Tech at KIIT, GPA 8.85/10.0.' },
   { q: /skill|tech|stack|language|python|react|framework/i, a: 'Python, TypeScript, React, Next.js, Node.js, Fastify, FastAPI, PostgreSQL, PyTorch, TensorFlow, Hugging Face, QLoRA, Gemini API, Ollama, Docker, AWS. Type "skills" for the full list.' },
   { q: /project|built|app|demo|portfolio/i, a: '7 flagship projects: brain tumor classification (IEEE), the AI Interview Simulator, a cited biomedical AI research assistant (RAG + QLoRA), a screen-recording platform, the Decision Intelligence Engine, a multi-tenant pharmacy ERP (RxFlow), and Secret Exposure Detection. Type "projects" for all.' },
   { q: /contact|email|phone|reach|talk/i, a: 'agarwaludit13@gmail.com · +1 (930) 904-4901 · linkedin.com/in/udit013 · Responds within 24h.' },
   { q: /llm|voice|gemini|vapi|gpt|generative|qlora|fine.?tun|rag|agent/i, a: 'LLM work spans QLoRA/PEFT fine-tuning (Qwen2.5-7B), cited RAG over PubMed with pgvector, LangGraph multi-agent workflows with per-claim citation verification, Gemini API, Ollama, and LLM evaluation with lm-evaluation-harness. Built a live biomedical AI research assistant and voice interviews on browser-native speech + Gemini.' },
-  { q: /data|etl|tableau|airflow|pipeline|analytics|forecast/i, a: 'Strong data engineering & analytics: ETL pipelines, PostgreSQL, forecasting, cohort retention, and A/B testing — see the Decision Intelligence Engine, which unifies three analytics products on one core engine with auditable, calibrated metrics (walk-forward backtesting, Brier/ECE).' },
+  { q: /data|etl|tableau|airflow|pipeline|analytics|forecast/i, a: 'Strong data engineering & analytics: ETL pipelines, PostgreSQL, forecasting, cohort retention, and A/B testing; see the Decision Intelligence Engine, which unifies three analytics products on one core engine with auditable, calibrated metrics (walk-forward backtesting, Brier/ECE).' },
   { q: /location|remote|reloc|where/i, a: 'Based in Bloomington, IN (EST). Open to remote, hybrid, and relocation.' },
   { q: /cert|aws|deeplearning/i, a: 'Certifications: DeepLearning.AI Neural Networks & Improving DNNs (Sep 2023), AWS Academy Cloud Graduate (Jul 2023).' },
   { q: /now|current|exploring/i, a: 'Currently: LLM Agents, Health AI platform at IU, real-time voice AI, ETL patterns, cloud-native systems.' },

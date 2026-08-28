@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 import { mouse } from '../lib/mouse'
+import { onReveal } from '../lib/boot'
 import { isTouch, prefersReducedMotion } from '../lib/utils'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -22,8 +23,12 @@ export function useSiteAnimations() {
     // cleanup (React StrictMode remounts this effect in development).
     const ac = new AbortController()
     const sig = { signal: ac.signal }
+    // Work that starts asynchronously (font-gated splits, the reveal-gated hero
+    // timeline) is not captured by gsap.context(), so it gets torn down by hand.
+    let offReveal: () => void = () => {}
+    const splitInstances: SplitType[] = []
 
-    const ctx = gsap.context(() => {
+    const ctx = gsap.context((self) => {
       /* ── Hero entrance ── */
       gsap.set(['#nameRow1', '#nameRow2'], { y: '105%' })
       gsap.set('#heroEyebrow', { opacity: 0, y: 14 })
@@ -39,8 +44,10 @@ export function useSiteAnimations() {
           scale: 1,
         })
       } else {
-        // Starts as the intro curtain lifts (~0.7s), kept snappy.
-        const tl = gsap.timeline({ delay: 0.7 })
+        // Built paused and released the instant the curtain starts lifting, so
+        // the entrance is always seen. Previously a fixed `delay: 0.7` raced a
+        // ~1.9s curtain and most of this played behind it.
+        const tl = gsap.timeline({ paused: true })
         tl.to(['#nameRow1', '#nameRow2'], {
           y: '0%',
           duration: 0.7,
@@ -51,6 +58,8 @@ export function useSiteAnimations() {
           .to('#heroRole', { opacity: 1, duration: 0.4, ease: 'power3.out' }, '-=.35')
           .to('#heroMeta', { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, '-=.3')
           .to('#heroBadge', { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)' }, '-=.4')
+
+        offReveal = onReveal(() => tl.play())
 
         gsap.to('.hero-name', {
           y: -70,
@@ -79,22 +88,30 @@ export function useSiteAnimations() {
         }
 
         document.fonts.ready.then(() => {
-          elements.forEach((el) => {
-            const split = new SplitType(el, { types: 'lines,words' })
-            splits.set(el, split)
-            applyLineStyles(split)
-            if (split.words) {
-              gsap.from(split.words, {
-                y: '105%',
-                opacity: 0,
-                stagger: 0.04,
-                duration: 1.05,
-                ease: 'power4.out',
-                scrollTrigger: { trigger: el, start: 'top 87%', toggleActions: 'play none none reverse' },
-              })
-            }
+          if (ac.signal.aborted) return
+          // self.add() re-enters the context so these tweens and their
+          // ScrollTriggers are collected and reverted like the synchronous
+          // ones. Without it they outlived cleanup and doubled up on every
+          // StrictMode remount.
+          self.add(() => {
+            elements.forEach((el) => {
+              const split = new SplitType(el, { types: 'lines,words' })
+              splits.set(el, split)
+              splitInstances.push(split)
+              applyLineStyles(split)
+              if (split.words) {
+                gsap.from(split.words, {
+                  y: '105%',
+                  opacity: 0,
+                  stagger: 0.04,
+                  duration: 1.05,
+                  ease: 'power4.out',
+                  scrollTrigger: { trigger: el, start: 'top 87%', toggleActions: 'play none none reverse' },
+                })
+              }
+            })
+            ScrollTrigger.refresh()
           })
-          ScrollTrigger.refresh()
         })
       }
 
@@ -189,8 +206,12 @@ export function useSiteAnimations() {
 
     return () => {
       tickers.forEach((t) => gsap.ticker.remove(t))
+      offReveal()
       ac.abort() // detaches every listener registered with `sig`
       ctx.revert()
+      // SplitType rewrites the heading DOM into line/word spans; reverting the
+      // GSAP context restores the tweened values but not that markup.
+      splitInstances.forEach((sp) => sp.revert())
     }
   }, [])
 }

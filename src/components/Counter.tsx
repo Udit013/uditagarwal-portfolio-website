@@ -12,7 +12,7 @@ interface CounterProps {
 /** Counts up to a number when scrolled into view (GSAP tween). */
 export function Counter({ raw, className, ariaLabel }: CounterProps) {
   const ref = useRef<HTMLSpanElement>(null)
-  const numeric = raw.split('/')[0]
+  const [numeric, scale] = raw.split('/')
   const target = parseFloat(numeric)
   const decimals = numeric.includes('.') ? 2 : 0
   const [done, setDone] = useState(false)
@@ -53,9 +53,18 @@ export function Counter({ raw, className, ariaLabel }: CounterProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  /* The tween writes textContent on `ref`, so the scale has to live in a
+     sibling node. The outer span keeps the caller's className so layout and
+     type styling are unchanged; aria-label already states the full scale, so
+     the visible "/4.0" is hidden from assistive tech to avoid a double read. */
   return (
-    <span ref={ref} className={className} aria-label={ariaLabel}>
-      0
+    <span className={className} aria-label={ariaLabel}>
+      <span ref={ref}>0</span>
+      {scale && (
+        <span className="counter-scale" aria-hidden="true">
+          /{scale}
+        </span>
+      )}
     </span>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { prefersReducedMotion } from '../lib/utils'
 
@@ -15,7 +15,7 @@ export function Counter({ raw, className, ariaLabel }: CounterProps) {
   const [numeric, scale] = raw.split('/')
   const target = parseFloat(numeric)
   const decimals = numeric.includes('.') ? 2 : 0
-  const [done, setDone] = useState(false)
+  const done = useRef(false)
 
   useEffect(() => {
     if (isNaN(target)) return
@@ -24,15 +24,15 @@ export function Counter({ raw, className, ariaLabel }: CounterProps) {
 
     if (prefersReducedMotion()) {
       el.textContent = target.toFixed(decimals)
-      setDone(true)
+      done.current = true
       return
     }
 
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting || done) return
+        if (!entry.isIntersecting || done.current) return
         io.disconnect()
-        setDone(true)
+        done.current = true
         const obj = { v: 0 }
         gsap.to(obj, {
           v: target,

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { Project } from '../data/content'
 import { useLenis } from '../hooks/useLenis'
 
@@ -8,6 +8,28 @@ import { useLenis } from '../hooks/useLenis'
  * Implements a proper modal contract — focus trap, Escape to close, focus
  * restoration, inert background, and locked page scroll.
  */
+/**
+ * Case-study screenshot. Renders nothing when a project has no `image`, and
+ * removes itself if the file fails to load, so a missing asset never leaves a
+ * broken-image box in the drawer.
+ */
+function ProjectShot({ src, title }: { src?: string; title: string }) {
+  const [failed, setFailed] = useState(false)
+  if (!src || failed) return null
+  return (
+    <figure className="pdrawer-shot">
+      <img
+        src={src}
+        alt={`Screenshot of ${title}`}
+        loading="lazy"
+        decoding="async"
+        draggable={false}
+        onError={() => setFailed(true)}
+      />
+    </figure>
+  )
+}
+
 export function ProjectDrawer({ project, onClose }: { project: Project | null; onClose: () => void }) {
   const lenis = useLenis()
   const panelRef = useRef<HTMLDivElement>(null)
@@ -92,6 +114,8 @@ export function ProjectDrawer({ project, onClose }: { project: Project | null; o
         </header>
 
         <div className="pdrawer-body">
+          <ProjectShot src={project.image} title={project.title} />
+
           {project.stats && (
             <div className="pdrawer-stats">
               {project.stats.map((s) => (

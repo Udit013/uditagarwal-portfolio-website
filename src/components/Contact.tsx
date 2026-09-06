@@ -6,8 +6,8 @@ const isValidEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)
 const EMAIL = 'agarwaludit13@gmail.com'
 
 export function Contact() {
-  const avail = useReveal<HTMLDivElement>()
-  const formWrap = useReveal<HTMLDivElement>()
+  const { ref: availRef, inView: availIn } = useReveal<HTMLDivElement>()
+  const { ref: formWrapRef, inView: formWrapIn } = useReveal<HTMLDivElement>()
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
@@ -109,7 +109,7 @@ export function Contact() {
             ))}
           </div>
 
-          <div ref={avail.ref} className={`avail-block reveal-up${avail.inView ? ' in' : ''}`}>
+          <div ref={availRef} className={`avail-block reveal-up${availIn ? ' in' : ''}`}>
             <span className="live-dot" aria-hidden="true" />
             <p>
               Open to full-time opportunities. Based in Bloomington, IN; available for remote, hybrid, and
@@ -118,7 +118,7 @@ export function Contact() {
           </div>
         </div>
 
-        <div ref={formWrap.ref} className={`contact-form glass-card reveal-up${formWrap.inView ? ' in' : ''}`}>
+        <div ref={formWrapRef} className={`contact-form glass-card reveal-up${formWrapIn ? ' in' : ''}`}>
           {sent ? (
             <div className="form-sent" role="status" aria-live="polite">
               <div className="form-sent-icon" aria-hidden="true">

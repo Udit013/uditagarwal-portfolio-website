@@ -25,6 +25,10 @@ export function LenisProvider({ children }: { children: ReactNode }) {
       smoothWheel: true,
       wheelMultiplier: 0.85,
     })
+    // The provider's whole job is to publish this external instance to context,
+    // so setting it once on mount is the intended shape, not a cascading render.
+    // Restructuring around it would mean rebuilding the scroll provider.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLenis(instance)
     if (import.meta.env.DEV) (window as unknown as { lenis: Lenis }).lenis = instance
 

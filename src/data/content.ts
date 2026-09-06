@@ -318,6 +318,8 @@ export interface Project {
   desc: string
   badges: ProjectBadge[]
   chips: string[]
+  /** Screenshot shown in the case-study drawer. Omit and the figure is skipped. */
+  image?: string
   live?: string
   repo?: string
   paper?: string
@@ -358,6 +360,7 @@ export const PROJECTS: Project[] = [
     ],
     repo: 'https://github.com/Udit013/Brain_Tumor_Classificatioin',
     paper: 'https://doi.org/10.1109/ICC-ROBINS60238.2024.10533941',
+    image: '/projects/braintumor.png',
     live: 'https://huggingface.co/spaces/Udit013/brain-tumor-mri-classifier',
     model: 'https://huggingface.co/Udit013/brain-tumor-efficientnetb3',
     stats: [
@@ -381,43 +384,9 @@ export const PROJECTS: Project[] = [
       ],
     },
     },
-    {
-      types: ['fs', 'ml'],
-      num: '02',
-      title: 'AI Interview Simulator',
-      desc: 'AI interview platform running adaptive voice interviews with a delivery-aware interviewer, live coding rounds with in-browser code execution, company-specific modes, and résumé-aware questions, entirely on browser-native and free-tier infrastructure.',
-      badges: [
-        { label: 'Full-Stack', cls: 'fs' },
-        { label: 'AI / ML', cls: 'ml' },
-      ],
-      chips: ['Next.js 15', 'TypeScript', 'Gemini 2.5 Flash', 'Web Speech API', 'Monaco Editor', 'Pyodide / WASM', 'Firebase'],
-      live: 'https://mock-ai-prep.vercel.app',
-      repo: 'https://github.com/Udit013/ai_mock_interview_prep',
-      stats: [
-        { value: '5', label: 'Interview Formats' },
-        { value: '9', label: 'Company Modes' },
-      ],
-      study: {
-        problem:
-          'Interview practice tools ask scripted questions and score the words you type. They ignore how you actually come across under pressure, and they cannot run a real coding round, the two things that decide onsite outcomes.',
-        approach:
-          'Built a delivery-aware interviewer on Gemini that measures how you speak, not just what you say, and paired it with a CoderPad-style live coding round that executes real code in the browser, no paid speech services, no backend runners.',
-        result:
-          'Five interview formats (technical, behavioral, mixed, system design, and live coding) with replay, shareable reports, and progress tracking, running at $0 infrastructure cost.',
-        highlights: [
-          'Engineered a delivery-aware engine: the browser measures hesitation before speaking, speaking pace, and filler density each turn, so the interviewer reacts like a human, reassuring on long pauses, pushing harder on composed depth',
-          'Built live coding interviews in a split-view Monaco editor (JS/Python/Java/C++) where Run executes code client-side in a sandboxed, terminable Web Worker, isolated from the DOM and killed on infinite loops instead of hanging the tab',
-          'Powered in-browser Python through a lazily-loaded Pyodide/WASM runtime, then had the interviewer read the real submitted code aloud and probe bugs, complexity, and testing',
-          'Added config-driven company interview modes for nine firms (Google, Amazon, Meta, Microsoft, Stripe, McKinsey, Bain, BCG, Deloitte) that reshape persona, question emphasis, and evaluation criteria from a single template registry',
-          'Built résumé-aware question generation (PDF text extraction, LLM-structured experience, questions grounded in real projects), plus a résumé coach producing bullet rewrites and ATS keywords',
-          'Hardened for production with session auth on every AI endpoint, Zod-bounded request bodies, and transactional per-user daily rate limits, covered by a 36-test suite in CI',
-        ],
-      },
-      delay: '.06s',
-  },
   {
     types: ['ml', 'sys'],
-    num: '03',
+    num: '02',
     title: 'Biomedical AI Research Assistant',
     desc: 'Production biomedical research assistant answering clinical questions with grounded, cited evidence using RAG, a LangGraph multi-agent workflow, and a QLoRA-tuned Qwen2.5-7B on 100% free-tier infrastructure.',
     badges: [
@@ -425,6 +394,7 @@ export const PROJECTS: Project[] = [
       { label: 'Systems', cls: 'sys' },
     ],
     chips: ['Python', 'Qwen2.5-7B', 'QLoRA', 'LangGraph', 'RAG', 'pgvector', 'FastAPI'],
+    image: '/projects/biomed.png',
     live: 'https://huggingface.co/spaces/Udit013/biomed-assistant',
     repo: 'https://github.com/Udit013/biomed-llm-peft',
     model: 'https://huggingface.co/Udit013/qwen2.5-7b-medmcqa-qlora-5k',
@@ -451,39 +421,43 @@ export const PROJECTS: Project[] = [
     delay: '.12s',
   },
   {
-    types: ['fs', 'ml', 'sys'],
-    num: '04',
-    title: 'Screen Recording & Video Sharing Platform',
-    desc: 'Browser-native screen recording and sharing with webcam picture-in-picture, direct-to-CDN uploads, Web Speech transcription, Gemini-generated chapters and summaries, 3-tier privacy with share tokens, and channel analytics.',
-    badges: [
-      { label: 'Full-Stack', cls: 'fs' },
-      { label: 'AI / ML', cls: 'ml' },
-      { label: 'Systems', cls: 'sys' },
-    ],
-    chips: ['Next.js', 'TypeScript', 'Cloudinary', 'Neon PostgreSQL', 'Drizzle ORM', 'Gemini', 'better-auth'],
-    live: 'https://snapcast-video-sharing.vercel.app',
-    repo: 'https://github.com/Udit013/screen_recording_sharing_app',
-    study: {
-      problem:
-        'Screen recording tools either demand an extension or a native install, and once a video exists it becomes an opaque blob: no way to search inside it, jump to the moment that matters, or discuss a specific second of it.',
-      approach:
-        'Captured everything in the browser with MediaRecorder and Canvas, uploaded straight to a CDN, transcribed during recording, and used the transcript as the index that makes the video searchable and navigable.',
-      result:
-        'A Loom-style platform where recordings arrive already transcribed, chaptered, summarized, and searchable, with a custom player, threaded timestamp comments, and three tiers of sharing control.',
-      highlights: [
-        'Built browser-native recording with real-time webcam picture-in-picture, pause/resume, countdown, and IndexedDB-backed crash recovery, no extensions or native software',
-        'Built a direct signed-upload pipeline to Cloudinary, removing server-side proxying, with public_id-scoped signatures and ownership checks preventing cross-user access to upload URLs',
-        'Captured timestamped narration via the Web Speech API to power an interactive transcript with click-to-seek, live search highlighting, and active-segment sync',
-        'Integrated Gemini to generate summaries, semantic tags, and auto-segmented chapters, with a metadata fallback so uploads without a transcript still get a summary',
-        'Implemented 3-tier privacy (public, private, link-only) with cryptographic share tokens, configurable expiration, and one-click revocation',
-        'Replaced native browser controls with a fully custom player: buffered seek bar with chapter markers, speed control, picture-in-picture, keyboard shortcuts, and shareable timestamp deep-links',
+      types: ['fs', 'ml'],
+      num: '03',
+      title: 'AI Interview Simulator',
+      desc: 'AI interview platform running adaptive voice interviews with a delivery-aware interviewer, live coding rounds with in-browser code execution, company-specific modes, and résumé-aware questions, entirely on browser-native and free-tier infrastructure.',
+      badges: [
+        { label: 'Full-Stack', cls: 'fs' },
+        { label: 'AI / ML', cls: 'ml' },
       ],
-    },
-    delay: '.18s',
+      chips: ['Next.js 15', 'TypeScript', 'Gemini 2.5 Flash', 'Web Speech API', 'Monaco Editor', 'Pyodide / WASM', 'Firebase'],
+      image: '/projects/prepwise.png',
+      live: 'https://mock-ai-prep.vercel.app',
+      repo: 'https://github.com/Udit013/ai_mock_interview_prep',
+      stats: [
+        { value: '5', label: 'Interview Formats' },
+        { value: '9', label: 'Company Modes' },
+      ],
+      study: {
+        problem:
+          'Interview practice tools ask scripted questions and score the words you type. They ignore how you actually come across under pressure, and they cannot run a real coding round, the two things that decide onsite outcomes.',
+        approach:
+          'Built a delivery-aware interviewer on Gemini that measures how you speak, not just what you say, and paired it with a CoderPad-style live coding round that executes real code in the browser, no paid speech services, no backend runners.',
+        result:
+          'Five interview formats (technical, behavioral, mixed, system design, and live coding) with replay, shareable reports, and progress tracking, running at $0 infrastructure cost.',
+        highlights: [
+          'Engineered a delivery-aware engine: the browser measures hesitation before speaking, speaking pace, and filler density each turn, so the interviewer reacts like a human, reassuring on long pauses, pushing harder on composed depth',
+          'Built live coding interviews in a split-view Monaco editor (JS/Python/Java/C++) where Run executes code client-side in a sandboxed, terminable Web Worker, isolated from the DOM and killed on infinite loops instead of hanging the tab',
+          'Powered in-browser Python through a lazily-loaded Pyodide/WASM runtime, then had the interviewer read the real submitted code aloud and probe bugs, complexity, and testing',
+          'Added config-driven company interview modes for nine firms (Google, Amazon, Meta, Microsoft, Stripe, McKinsey, Bain, BCG, Deloitte) that reshape persona, question emphasis, and evaluation criteria from a single template registry',
+          'Built résumé-aware question generation (PDF text extraction, LLM-structured experience, questions grounded in real projects), plus a résumé coach producing bullet rewrites and ATS keywords',
+          'Hardened for production with session auth on every AI endpoint, Zod-bounded request bodies, and transactional per-user daily rate limits, covered by a 36-test suite in CI',
+        ],
+      },
+      delay: '.06s',
   },
   {
     types: ['fs', 'ml', 'dt'],
-    num: '05',
+    num: '04',
     title: 'Decision Intelligence Engine',
     desc: 'Unified decision-intelligence platform (ingest → score → recommend → report → advise) spanning product, retail, and market analytics on a reusable core engine, with walk-forward backtesting and calibration so every accuracy claim is auditable.',
     badges: [
@@ -492,6 +466,7 @@ export const PROJECTS: Project[] = [
       { label: 'Data', cls: 'dt' },
     ],
     chips: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind v4', 'Apache ECharts', 'Neon PostgreSQL', 'Ollama'],
+    image: '/projects/coresight.png',
     live: 'https://coresightiq.vercel.app',
     repo: 'https://github.com/Udit013/decision-intelligence-platform',
     stats: [
@@ -518,7 +493,7 @@ export const PROJECTS: Project[] = [
   },
   {
     types: ['fs', 'dt', 'sys'],
-    num: '06',
+    num: '05',
     title: 'Pharmacy ERP & Distribution System',
     desc: 'Multi-tenant pharmacy ERP for the Indian market: GST-compliant billing (CGST/SGST/IGST, GSTR-1/3B), transactionally consistent inventory and accounting, procurement, and payroll, with real-time multi-device sync over Server-Sent Events, deployed on $0 free-tier infra.',
     badges: [
@@ -527,6 +502,7 @@ export const PROJECTS: Project[] = [
       { label: 'Systems', cls: 'sys' },
     ],
     chips: ['Next.js', 'TypeScript', 'Fastify', 'Prisma', 'Neon PostgreSQL', 'Turborepo', 'SSE', 'jsPDF'],
+    image: '/projects/rxflow.png',
     live: 'https://rx-flow-web.vercel.app',
     repo: 'https://github.com/Udit013/RxFlow',
     stats: [{ value: '5', label: 'Distributor Formats' }],
@@ -549,12 +525,45 @@ export const PROJECTS: Project[] = [
     delay: '.30s',
   },
   {
+    types: ['fs', 'ml', 'sys'],
+    num: '06',
+    title: 'Screen Recording & Video Sharing Platform',
+    desc: 'Browser-native screen recording and sharing with webcam picture-in-picture, direct-to-CDN uploads, Web Speech transcription, Gemini-generated chapters and summaries, 3-tier privacy with share tokens, and channel analytics.',
+    badges: [
+      { label: 'Full-Stack', cls: 'fs' },
+      { label: 'AI / ML', cls: 'ml' },
+      { label: 'Systems', cls: 'sys' },
+    ],
+    chips: ['Next.js', 'TypeScript', 'Cloudinary', 'Neon PostgreSQL', 'Drizzle ORM', 'Gemini', 'better-auth'],
+    image: '/projects/snapcast.png',
+    live: 'https://snapcast-video-sharing.vercel.app',
+    repo: 'https://github.com/Udit013/screen_recording_sharing_app',
+    study: {
+      problem:
+        'Screen recording tools either demand an extension or a native install, and once a video exists it becomes an opaque blob: no way to search inside it, jump to the moment that matters, or discuss a specific second of it.',
+      approach:
+        'Captured everything in the browser with MediaRecorder and Canvas, uploaded straight to a CDN, transcribed during recording, and used the transcript as the index that makes the video searchable and navigable.',
+      result:
+        'A Loom-style platform where recordings arrive already transcribed, chaptered, summarized, and searchable, with a custom player, threaded timestamp comments, and three tiers of sharing control.',
+      highlights: [
+        'Built browser-native recording with real-time webcam picture-in-picture, pause/resume, countdown, and IndexedDB-backed crash recovery, no extensions or native software',
+        'Built a direct signed-upload pipeline to Cloudinary, removing server-side proxying, with public_id-scoped signatures and ownership checks preventing cross-user access to upload URLs',
+        'Captured timestamped narration via the Web Speech API to power an interactive transcript with click-to-seek, live search highlighting, and active-segment sync',
+        'Integrated Gemini to generate summaries, semantic tags, and auto-segmented chapters, with a metadata fallback so uploads without a transcript still get a summary',
+        'Implemented 3-tier privacy (public, private, link-only) with cryptographic share tokens, configurable expiration, and one-click revocation',
+        'Replaced native browser controls with a fully custom player: buffered seek bar with chapter markers, speed control, picture-in-picture, keyboard shortcuts, and shareable timestamp deep-links',
+      ],
+    },
+    delay: '.18s',
+  },
+  {
     types: ['sys'],
     num: '07',
     title: 'Secret Exposure Detection',
     desc: 'DevSecOps platform detecting hardcoded secrets across code and full git history via regex, Shannon entropy, and semantic heuristics, with 0–100 exposure risk scoring, differential scanning, real-time WebSocket progress, and SARIF/CI-CD export.',
     badges: [{ label: 'Systems', cls: 'sys' }],
     chips: ['Python', 'FastAPI', 'React', 'PostgreSQL', 'WebSocket', 'APScheduler'],
+    image: '/projects/cipherwatch.png',
     live: 'https://cipherwatch-web.vercel.app',
     repo: 'https://github.com/Udit013/automated-secrets-scanner',
     stats: [

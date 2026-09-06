@@ -294,7 +294,6 @@ export function ProjectsBelt() {
     }
     // Runs once: the ticker must NOT be re-created when Lenis initializes,
     // or autoplay dies. Hover handlers read the live `lenis` from closure.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduced])
 
   const onEnter = () => {

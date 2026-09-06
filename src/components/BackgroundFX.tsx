@@ -102,7 +102,11 @@ export default function BackgroundFX() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { accent } = useThemeTone()
   const colorRef = useRef<[number, number, number]>(hexToRgb(accent))
-  colorRef.current = hexToRgb(accent)
+  // Writing a ref during render is an anti-pattern; the draw loop only needs
+  // the latest value by the next frame, so sync it in an effect.
+  useEffect(() => {
+    colorRef.current = hexToRgb(accent)
+  }, [accent])
 
   useEffect(() => {
     const canvas = canvasRef.current

@@ -28,19 +28,20 @@
   --glass-border: rgba(255,255,255,0.75);
   --glass-rim:   rgba(255,255,255,0.95);   /* bright specular top edge */
   --glass-hl:    rgba(255,255,255,0.65);   /* cursor-follow liquid light */
-  --glass-tint:  rgba(192,80,32,0.07);     /* faint accent tint behind glass */
+  --glass-tint:  rgba(181,74,28,0.07);     /* faint accent tint behind glass */
   --glass-shadow: 0 12px 36px rgba(0,0,0,0.10), 0 3px 12px rgba(0,0,0,0.05);
   --glass-shadow-hover: 0 24px 70px rgba(0,0,0,0.14), 0 8px 24px rgba(0,0,0,0.08);
   --border:      rgba(0,0,0,0.1);
   --border2:     rgba(0,0,0,0.18);
   --fg:          #121010;
   --fg2:         #3f3b34;
-  --fg3:         #6f6b64;
+  --fg3:         #5f5b55;   /* 6.07:1 on --bg (was #6f6b64, 4.77) */
   --accent:      #1a1814;
-  --accent2:     #c05020;
+  --accent2:     #b54a1c;   /* 4.77:1 on --bg (was #c05020, 4.29 — AA-large only) */
   --accent3:     #2f7a46;
-  --accent-light: rgba(192,80,32,0.12);
+  --accent-light: rgba(181,74,28,0.12);
   --nav-bg:      rgba(242,240,235,0.85);
+  --nav-bg-scrolled: rgba(242,240,235,0.97);  /* opaque enough to drop the blur */
   --nav-border:  rgba(0,0,0,0.1);
   --blob1: radial-gradient(ellipse 60% 50% at 15% 40%, rgba(192,160,120,0.22) 0%, transparent 70%);
   --blob2: radial-gradient(ellipse 50% 60% at 85% 20%, rgba(100,140,200,0.16) 0%, transparent 65%);
@@ -65,13 +66,14 @@
   --border:      rgba(255,255,255,0.07);
   --border2:     rgba(255,255,255,0.15);
   --fg:          #f0ece4;
-  --fg2:         #a09c94;
-  --fg3:         #5a5752;
+  --fg2:         #b4b0a7;   /* 8.99:1 on --bg (was #a09c94, 7.11) */
+  --fg3:         #87837a;   /* 5.14:1 on --bg (was #5a5752, 2.70 — failed AA) */
   --accent:      #d4c9b0;
   --accent2:     #e8855a;
   --accent3:     #b8d94a;
   --accent-light: rgba(232,133,90,0.1);
   --nav-bg:      rgba(13,13,13,0.90);
+  --nav-bg-scrolled: rgba(13,13,13,0.97);     /* opaque enough to drop the blur */
   --nav-border:  rgba(255,255,255,0.07);
   --blob1: radial-gradient(ellipse 60% 50% at 15% 40%, rgba(120,80,40,0.14) 0%, transparent 70%);
   --blob2: radial-gradient(ellipse 50% 60% at 85% 20%, rgba(40,70,130,0.10) 0%, transparent 65%);
@@ -209,6 +211,8 @@ body::after {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  .btn-primary:hover, .hero-pill:hover, .nav-link:hover,
+  .nav-resume:hover, .pub-link:hover, .foot-links a:hover { transform: none !important; }
   .marquee-track { animation: none !important; }
   .badge-svg { animation: none !important; }
   .scroll-line, .avail-dot, .live-dot { animation: none !important; }
@@ -246,7 +250,7 @@ body::after {
   .glass-card:hover { transform: none; box-shadow: var(--glass-shadow); }
   .glass-card::before { display: none; }
   .pillar:hover { background: transparent; }
-  .pillar:hover::before { width: 0; }
+  .pillar:hover::before { transform: scaleX(0); }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -313,10 +317,15 @@ body.cur-label-show .cur-label { opacity: 1; }
   gap: 1.5rem;
   transition: background .4s, backdrop-filter .4s, border-color .4s, box-shadow .4s;
 }
+/* PERF: this used to RAISE the blur to 24px — the most expensive radius on the
+   page — in the one state where it is active during scrolling, so the nav
+   re-blurred its backdrop on every scroll frame. Scrolled uses a near-opaque
+   fill instead: at 0.97 the blur contributed almost nothing anyway. The
+   at-rest nav above keeps its blur(16px) glass. */
 #site-nav.scrolled {
-  background: var(--nav-bg);
-  backdrop-filter: blur(24px) saturate(1.6);
-  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  background: var(--nav-bg-scrolled);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   border-bottom: 1px solid var(--nav-border);
   box-shadow: 0 1px 24px rgba(0,0,0,0.06);
 }
@@ -340,16 +349,17 @@ body.cur-label-show .cur-label { opacity: 1; }
 .nav-link {
   font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
   color: var(--fg3); position: relative; padding-bottom: 3px;
-  transition: color .2s; white-space: nowrap;
+  transition: color .2s, transform .25s var(--ease-spring); white-space: nowrap;
 }
 .nav-link::after {
   content: ''; position: absolute; bottom: 0; left: 0;
-  width: 0; height: 1.5px;
+  width: 100%; height: 1.5px; transform: scaleX(0); transform-origin: left;
   background: var(--accent2); border-radius: 1px;
-  transition: width .35s var(--ease-expo);
+  transition: transform .35s var(--ease-expo);
 }
 .nav-link:hover, .nav-link.active { color: var(--fg); }
-.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+.nav-link:hover { transform: translateY(-1px); }
+.nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
 
 /* BUG FIX: proper focus-visible styles for keyboard navigation */
 .nav-link:focus-visible,
@@ -361,7 +371,6 @@ body.cur-label-show .cur-label { opacity: 1; }
 .hero-pill:focus-visible,
 .toolkit-cat-pill:focus-visible,
 .proj-link:focus-visible,
-.portrait-home:focus-visible,
 .form-submit:focus-visible,
 .clink:focus-visible,
 .pub-link:focus-visible,
@@ -377,10 +386,16 @@ body.cur-label-show .cur-label { opacity: 1; }
 .nav-resume {
   font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
   padding: 7px 18px; border-radius: var(--radius-sm);
-  border: 1.5px solid var(--accent2); color: var(--accent2);
-  transition: background .2s, color .2s;
+  border: 1.5px solid var(--accent2); background: var(--accent2); color: #fff;
+  font-weight: 700;
+  box-shadow: 0 3px 14px rgba(192,80,32,0.28);
+  transition: box-shadow .25s, transform .25s var(--ease-spring), filter .2s;
 }
-.nav-resume:hover { background: var(--accent2); color: #fff; }
+.nav-resume:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(192,80,32,0.38);
+  filter: brightness(1.08);
+}
 .theme-btn {
   width: 34px; height: 34px; border-radius: 50%;
   border: 1.5px solid var(--border2); color: var(--fg3);
@@ -569,7 +584,7 @@ body.cur-label-show .cur-label { opacity: 1; }
 .hero-meta-left { display: flex; flex-direction: column; gap: 1rem; }
 .hero-desc {
   font-family: var(--f-serif); font-style: italic;
-  font-size: clamp(.95rem,1.5vw,1.08rem);
+  font-size: clamp(1.04rem,1.6vw,1.17rem);
   color: var(--fg2); line-height: 1.78; max-width: 440px;
 }
 .hero-desc em { font-style: normal; color: var(--accent2); font-weight: 700; }
@@ -581,23 +596,23 @@ body.cur-label-show .cur-label { opacity: 1; }
   background: var(--accent2); color: #fff;
   padding: 11px 26px; border-radius: var(--radius-sm);
   display: inline-flex; align-items: center;
-  transition: transform .3s var(--ease-spring), box-shadow .3s;
+  transition: transform .3s var(--ease-spring), box-shadow .3s, filter .3s;
   box-shadow: 0 4px 20px rgba(192,80,32,0.25);
   white-space: nowrap;
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(192,80,32,0.35); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(192,80,32,0.35); filter: brightness(1.08); }
 .hero-pill {
   font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
   color: var(--fg2); border: 1px solid var(--border2);
   padding: 9px 16px; border-radius: var(--radius-sm);
   display: inline-flex; align-items: center; white-space: nowrap;
   background: var(--glass); backdrop-filter: blur(8px);
-  transition: color .2s, border-color .2s, background .2s;
+  transition: color .2s, border-color .2s, background .2s, transform .25s var(--ease-spring);
 }
-.hero-pill:hover { color: var(--fg); border-color: var(--accent2); }
+.hero-pill:hover { color: var(--fg); border-color: var(--accent2); transform: translateY(-2px); }
 .hero-stat-row {
   display: flex; gap: clamp(.75rem,2vw,1.5rem); flex-wrap: wrap;
-  font-size: 12px; letter-spacing: .05em; color: var(--fg3);
+  font-size: 13px; letter-spacing: .05em; color: var(--fg3);
 }
 .hero-stat-row span { display: flex; align-items: center; gap: 5px; }
 .hero-scroll-hint {
@@ -682,7 +697,8 @@ body.cur-label-show .cur-label { opacity: 1; }
   background: var(--glass); backdrop-filter: blur(4px);
   transition: border-color .2s, color .2s, background .2s;
 }
-.chip:hover { border-color: var(--accent2); color: var(--accent2); background: var(--accent-light); }
+/* No :hover — .chip is a static tech tag (project cards, drawer, journey,
+   coursework), never a control. Interactive pills live in .toolkit-cat-pill. */
 
 /* ── Liquid glass base ──
    Heavy frosted blur + saturation/brightness lift, a bright specular rim
@@ -781,7 +797,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   font-size: clamp(1rem,1.5vw,1.1rem); color: var(--fg2);
   line-height: 1.82; margin-top: 1.5rem;
 }
-.serif-now { font-family: var(--f-serif); font-style: italic; font-size: .94rem; color: var(--fg3); margin-top: 1rem; }
+.serif-now { font-family: var(--f-serif); font-style: italic; font-size: 1.03rem; color: var(--fg3); margin-top: 1rem; }
 .serif-now span { color: var(--accent2); font-style: normal; }
 
 /* Philosophy */
@@ -865,7 +881,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   background: var(--glass); backdrop-filter: blur(6px);
   transition: all 0.2s ease;
 }
-.edu-cw-grid span:hover { border-color: var(--accent2); color: var(--accent2); background: var(--accent-light); }
+/* No :hover — coursework tags are informational. */
 
 /* Pillars */
 .pillar {
@@ -879,19 +895,19 @@ body.cur-label-show .cur-label { opacity: 1; }
 .pillar:last-child  { border-bottom: none; border-radius: 0 0 var(--radius-md) var(--radius-md); }
 .pillar::before {
   content: ''; position: absolute; top: 0; left: 0;
-  width: 0; height: 3px;
+  width: 100%; height: 3px; transform: scaleX(0); transform-origin: left;
   background: linear-gradient(90deg, var(--accent2), var(--accent3));
-  border-radius: 0; transition: width .55s var(--ease-expo);
+  border-radius: 0; transition: transform .55s var(--ease-expo);
 }
 .pillar:hover { background: var(--glass); }
-.pillar:hover::before { width: 100%; }
+.pillar:hover::before { transform: scaleX(1); }
 .pillar-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 9px; }
 .pillar-title {
   font-family: var(--f-display); font-size: clamp(.74rem,1.3vw,.9rem);
   font-weight: 700; letter-spacing: -.01em; text-transform: uppercase; color: var(--fg);
 }
 .pillar-num { font-family: var(--f-mono); font-size: 10px; color: var(--accent2); letter-spacing: .08em; }
-.pillar-desc { font-family: var(--f-serif); font-style: italic; font-size: 15px; color: var(--fg2); line-height: 1.72; margin-bottom: 12px; }
+.pillar-desc { font-family: var(--f-serif); font-style: italic; font-size: 16.5px; color: var(--fg2); line-height: 1.72; margin-bottom: 12px; }
 
 
 /* ═══════════════════════════════════════════════════
@@ -994,14 +1010,14 @@ body.cur-label-show .cur-label { opacity: 1; }
   margin-bottom: 14px;
 }
 .journey-desc {
-  font-family: var(--f-serif); font-style: italic; font-size: 13.5px; line-height: 1.6;
+  font-family: var(--f-serif); font-style: italic; font-size: 15px; line-height: 1.6;
   color: var(--fg2); margin-bottom: 18px; max-width: 64ch;
   padding-bottom: 16px; border-bottom: 1px solid var(--border);
 }
 .journey-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
 .journey-bullets li {
   display: flex; gap: 10px;
-  font-size: 13px; line-height: 1.68; color: var(--fg2);
+  font-size: 14.5px; line-height: 1.68; color: var(--fg2);
 }
 .journey-bullets li::before {
   content: '→'; color: var(--accent2); flex-shrink: 0;
@@ -1050,7 +1066,7 @@ body.cur-label-show .cur-label { opacity: 1; }
 .proj-card:hover .proj-card-title { color: var(--accent2); }
 .proj-card-desc {
   font-family: var(--f-serif); font-style: italic;
-  font-size: 13px; color: var(--fg2); line-height: 1.7; flex: 1;
+  font-size: 14px; color: var(--fg2); line-height: 1.7; flex: 1;
 }
 .proj-card-stats {
   display: flex; gap: 1.5rem;
@@ -1086,9 +1102,9 @@ body.cur-label-show .cur-label { opacity: 1; }
   font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
   color: var(--accent2); border: 1.5px solid var(--accent2);
   padding: 9px 18px; border-radius: var(--radius-sm); white-space: nowrap;
-  transition: background .2s, color .2s; align-self: center;
+  transition: background .2s, color .2s, transform .25s var(--ease-spring), filter .2s; align-self: center;
 }
-.pub-link:hover { background: var(--accent2); color: #fff; }
+.pub-link:hover { background: var(--accent2); color: #fff; transform: translateY(-2px); filter: brightness(1.06); }
 
 /* ═══════════════════════════════════════════════════
    CONTACT
@@ -1146,7 +1162,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   display: flex; gap: 10px; align-items: flex-start;
 }
 .avail-block .live-dot { margin-top: 5px; flex-shrink: 0; }
-.avail-block p { font-family: var(--f-serif); font-style: italic; font-size: 13px; color: var(--fg2); }
+.avail-block p { font-family: var(--f-serif); font-style: italic; font-size: 14.5px; color: var(--fg2); }
 
 /* Form */
 .contact-form { padding: 36px; align-self: center; }
@@ -1166,7 +1182,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   padding: 13px 15px;
   color: var(--fg);
   width: 100%;
-  font-family: var(--f-mono); font-size: 14px;
+  font-family: var(--f-mono); font-size: 15px;
   outline: none;
   /* BUG FIX: appearance:none for cross-browser consistency */
   -webkit-appearance: none;
@@ -1222,8 +1238,8 @@ body.cur-label-show .cur-label { opacity: 1; }
 .foot-logo span { color: var(--accent2); }
 .foot-note { font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em; color: var(--fg3); }
 .foot-links { display: flex; gap: 1.75rem; }
-.foot-links a { font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--fg3); transition: color .2s; }
-.foot-links a:hover { color: var(--accent2); }
+.foot-links a { font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--fg3); transition: color .2s, transform .25s var(--ease-spring); }
+.foot-links a:hover { color: var(--accent2); transform: translateY(-1px); }
 
 /* ═══════════════════════════════════════════════════
    TERMINAL FLOATER — theme-aware
@@ -1458,7 +1474,7 @@ body.cur-label-show .cur-label { opacity: 1; }
 
   /* Hero meta bar */
   .hero-meta { padding: 1.5rem 1.25rem; flex-direction: column; align-items: flex-start; gap: 1rem; margin-top: 2rem; }
-  .hero-desc { font-size: .94rem; max-width: 100%; line-height: 1.72; }
+  .hero-desc { font-size: 1.03rem; max-width: 100%; line-height: 1.72; }
 
   /* CTA buttons — stack vertically */
   .hero-actions { flex-direction: column; align-items: stretch; width: 100%; gap: .6rem; }
@@ -1485,7 +1501,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   .proj-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
   .proj-card { padding: 18px 16px; gap: 10px; }
   .proj-card-title { font-size: .88rem; }
-  .proj-card-desc { font-size: 12.5px; }
+  .proj-card-desc { font-size: 13.5px; }
   .proj-stat-val { font-size: 1.35rem; }
   .chip { font-size: 9.5px; padding: 4px 9px; }
 
@@ -1620,6 +1636,40 @@ body.cur-label-show .cur-label { opacity: 1; }
 [data-theme="dark"] #site-nav.scrolled { box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5); }
 #mobile-drawer { top: clamp(72px, 9vw, 82px); }
 
+/* ═══════════════════════════════════════════════════
+   ERROR BOUNDARY FALLBACK
+   Reuses .btn-primary / .hero-pill so it inherits the site's controls, and
+   keeps its own layout so it renders even when the app has failed.
+═══════════════════════════════════════════════════ */
+.errfb {
+  min-height: 100svh;
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(1.5rem, 5vw, 4rem);
+  background: var(--bg); color: var(--fg);
+}
+.errfb-card {
+  max-width: 560px; width: 100%;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid var(--border2); border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.errfb-eyebrow {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--accent2); margin-bottom: 14px;
+}
+.errfb-title {
+  font-family: var(--f-display); font-weight: 900;
+  font-size: clamp(1.5rem, 4vw, 2.1rem); line-height: 1.1;
+  letter-spacing: -.02em; margin-bottom: 14px;
+}
+.errfb-title span { color: var(--accent2); }
+.errfb-copy {
+  font-family: var(--f-serif); font-style: italic;
+  font-size: 15px; line-height: 1.7; color: var(--fg2); margin-bottom: 24px;
+}
+.errfb-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.errfb-actions .btn-primary { border: none; cursor: pointer; }
+
 /* Intro curtain: markup and critical styles live in index.html so it paints
    on the first frame, before this stylesheet loads. See Loader.tsx. */
 
@@ -1687,12 +1737,8 @@ body.cur-label-show .cur-label { opacity: 1; }
   /* transform owned by GSAP (entrance/hover/magnetic); only animate the rest */
   transition: color .2s, border-color .2s, box-shadow .25s, background .2s;
 }
-.toolkit-skill-inner:hover {
-  color: var(--accent2);
-  border-color: var(--accent2);
-  background: var(--accent-light);
-  box-shadow: var(--glass-shadow-hover), 0 0 22px rgba(232, 133, 90, 0.18);
-}
+/* No :hover — skill chips are informational. Only .toolkit-cat-pill above
+   the stage is a control, and it keeps its hover/active states. */
 
 @media (max-width: 600px) {
   .toolkit-stage { min-height: 0; padding: 22px 14px; }
@@ -1760,6 +1806,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   overflow: hidden;
   isolation: isolate;
   cursor: ew-resize;
+  contain: paint;   /* keep divider repaints off the blurred frame around it */
   border: 1px solid var(--glass-border);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
   touch-action: pan-y;
@@ -1789,24 +1836,10 @@ body.cur-label-show .cur-label { opacity: 1; }
   opacity: .4;
 }
 
-/* home button — toggles the hover-compare feature on/off */
-.portrait-home {
-  margin-top: 12px; padding: 4px; background: none; border: none; cursor: pointer;
-  display: inline-flex;
-}
-.portrait-home span {
-  width: 34px; height: 34px; border-radius: 50%; position: relative; display: block;
-  border: 1.5px solid var(--glass-border);
-  transition: transform .3s var(--ease-spring), border-color .3s, background .3s;
-}
-.portrait-home span::after {
-  content: ""; position: absolute; inset: 0; margin: auto; width: 11px; height: 11px;
-  border-radius: 3px; border: 1.5px solid var(--fg3); transition: border-color .3s, background .3s;
-}
-.portrait-home.on span { border-color: var(--accent2); background: var(--accent-light); }
-.portrait-home.on span::after { border-color: var(--accent2); background: var(--accent2); }
-.portrait-home:hover span { transform: scale(1.1); border-color: var(--accent2); }
-.portrait-home:hover span::after { border-color: var(--accent2); }
+/* The divider tracks the cursor with no transition at all — any easing here
+   shows up as lag behind the pointer. Promote the clipped layer so each move
+   is a composite rather than a full repaint of the photo. */
+.portrait-anime, .portrait-divider { will-change: clip-path, left; }
 
 .portrait-caption {
   margin-top: 10px; text-align: center;
@@ -1943,6 +1976,18 @@ body.cur-label-show .cur-label { opacity: 1; }
   /* GSAP owns the card transform (tilt); only transition the rest */
   transition: box-shadow .4s var(--ease-expo), border-color .3s;
 }
+/* PERF: the belt translates continuously, and a moving element with
+   backdrop-filter recomputes its blur every frame — by far the most expensive
+   thing on the page. These cards sit over the particle field, where the blur
+   reads as almost nothing while in motion, so use a more opaque fill instead.
+   Static .glass-card surfaces elsewhere keep their blur. */
+.belt-card {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background:
+    radial-gradient(120% 120% at 0% 0%, var(--glass-tint), transparent 55%),
+    var(--glass-strong);
+}
 .belt-card:hover { transform: none; }
 .belt-card .proj-card-links { margin-top: auto; padding-top: 8px; }
 .belt-card .proj-card-stats { padding-block: 6px; }
@@ -2023,7 +2068,7 @@ body.cur-label-show .cur-label { opacity: 1; }
 }
 .pdrawer-lede {
   font-family: var(--f-serif); font-style: italic;
-  font-size: 13.5px; line-height: 1.65; color: var(--fg2);
+  font-size: 15px; line-height: 1.65; color: var(--fg2);
 }
 
 .pdrawer-body {
@@ -2031,6 +2076,35 @@ body.cur-label-show .cur-label { opacity: 1; }
   padding: clamp(20px, 3vw, 30px) clamp(20px, 3.5vw, 36px);
   display: flex; flex-direction: column; gap: clamp(20px, 3vw, 28px);
 }
+/* Case-study screenshot. Sits between the lede and the metrics; borrows the
+   glass cards' radius/border/shadow so it reads as part of the same surface.
+   Sized naturally (no fixed aspect box) because the shots range from 1.5:1 to
+   2.2:1 and cropping would cut real UI out of them. */
+.pdrawer-shot {
+  margin: 0 0 26px;
+  /* .pdrawer-body is a column flex container: without this the figure shrinks
+     to nothing under the case-study content below it, and overflow:hidden then
+     clips the (correctly sized) image away entirely. */
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  background: var(--bg-deep);
+  box-shadow: var(--glass-shadow);
+  overflow: hidden;
+  line-height: 0;                       /* kill the inline-image descender gap */
+}
+.pdrawer-shot img {
+  display: block;
+  width: 100%;
+  height: auto;                          /* natural ratio — nothing is cropped */
+  transition: transform .5s var(--ease-expo);
+}
+/* Matches the restrained lift used elsewhere; the figure clips the overflow. */
+.pdrawer-shot:hover img { transform: scale(1.02); }
+@media (prefers-reduced-motion: reduce) {
+  .pdrawer-shot:hover img { transform: none; }
+}
+
 .pdrawer-stats { display: flex; flex-wrap: wrap; gap: 26px; }
 .pdrawer-stat { display: flex; flex-direction: column; gap: 3px; }
 .pdrawer-stat-val {
@@ -2049,11 +2123,11 @@ body.cur-label-show .cur-label { opacity: 1; }
   text-transform: uppercase; color: var(--accent2); margin-bottom: 10px;
 }
 .pdrawer-h::after { content: ""; flex: 1; height: 1px; background: var(--border); }
-.pdrawer-section p { font-size: 14px; line-height: 1.75; color: var(--fg2); }
+.pdrawer-section p { font-size: 15px; line-height: 1.75; color: var(--fg2); }
 .pdrawer-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
 .pdrawer-list li {
   display: flex; gap: 11px;
-  font-size: 13.5px; line-height: 1.7; color: var(--fg2);
+  font-size: 14.5px; line-height: 1.7; color: var(--fg2);
 }
 .pdrawer-list li::before {
   content: '→'; color: var(--accent2); flex-shrink: 0;
@@ -2108,7 +2182,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   font-family: var(--f-display); font-weight: 700;
   font-size: clamp(1rem, 2vw, 1.15rem); color: var(--fg);
 }
-.form-sent-copy { font-size: 13.5px; line-height: 1.7; color: var(--fg2); }
+.form-sent-copy { font-size: 14.5px; line-height: 1.7; color: var(--fg2); }
 .form-sent-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
 .form-sent-actions .proj-link { cursor: pointer; }
 

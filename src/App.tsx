@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { LenisProvider } from './hooks/useLenis'
 import { useSiteAnimations } from './hooks/useSiteAnimations'
 import { initMouse } from './lib/mouse'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import { Loader } from './components/Loader'
 import { Cursor } from './components/Cursor'
 import { ScrollProgress } from './components/ScrollProgress'
@@ -76,8 +77,10 @@ function Site() {
 
 export default function App() {
   return (
-    <LenisProvider>
-      <Site />
-    </LenisProvider>
+    <ErrorBoundary>
+      <LenisProvider>
+        <Site />
+      </LenisProvider>
+    </ErrorBoundary>
   )
 }

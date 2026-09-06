@@ -30,9 +30,9 @@ function EduCard({ edu }: { edu: Education }) {
 }
 
 export function About() {
-  const philosophy = useReveal<HTMLDivElement>()
-  const pillars = useReveal<HTMLDivElement>()
-  const certs = useReveal<HTMLDivElement>()
+  const { ref: philosophyRef, inView: philosophyIn } = useReveal<HTMLDivElement>()
+  const { ref: pillarsRef, inView: pillarsIn } = useReveal<HTMLDivElement>()
+  const { ref: certsRef, inView: certsIn } = useReveal<HTMLDivElement>()
 
   return (
     <section id="about" className="section" aria-labelledby="about-heading">
@@ -66,7 +66,7 @@ export function About() {
             ))}
           </div>
 
-          <div ref={certs.ref} className={`cert-block glass-card reveal-up${certs.inView ? ' in' : ''}`} style={delay('.1s')}>
+          <div ref={certsRef} className={`cert-block glass-card reveal-up${certsIn ? ' in' : ''}`} style={delay('.1s')}>
             <div className="cert-label">Certifications</div>
             <div className="cert-list">
               {CERTIFICATIONS.map((c) => (
@@ -83,8 +83,8 @@ export function About() {
           <Portrait />
 
           <div
-            ref={philosophy.ref}
-            className={`philosophy-block reveal-up${philosophy.inView ? ' in' : ''}`}
+            ref={philosophyRef}
+            className={`philosophy-block reveal-up${philosophyIn ? ' in' : ''}`}
             style={delay('.05s')}
             role="list"
             aria-label="Engineering philosophy"
@@ -99,7 +99,7 @@ export function About() {
             ))}
           </div>
 
-          <div ref={pillars.ref} className={`pillar-stack glass-card reveal-up${pillars.inView ? ' in' : ''}`} style={delay('.08s')}>
+          <div ref={pillarsRef} className={`pillar-stack glass-card reveal-up${pillarsIn ? ' in' : ''}`} style={delay('.08s')}>
             {PILLARS.map((pillar) => (
               <div className="pillar" key={pillar.title}>
                 <div className="pillar-row">

@@ -71,22 +71,16 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
 
   projects: `<span class="t-hi">01</span>  Brain Tumor Classification      [AI/ML] · <span class="t-link">IEEE ICC-ROBINS 2024</span>
     EfficientNetB3 · 99.84% (published) · ONNX + FastAPI serving
-
-<span class="t-hi">02</span>  AI Interview Simulator          [AI/ML · Full-Stack] · <span class="t-link">live</span>
-    Gemini 2.5 · Web Speech · Monaco + Pyodide/WASM · $0 infra
-
-<span class="t-hi">03</span>  Biomedical AI Research Assistant [AI/ML] · <span class="t-link">live</span>
+<span class="t-hi">02</span>  Biomedical AI Research Assistant [AI/ML] · <span class="t-link">live</span>
     Qwen2.5-7B QLoRA · RAG · LangGraph agents · pgvector
-
-<span class="t-hi">04</span>  Screen Recording &amp; Sharing      [Full-Stack] · <span class="t-link">live</span>
-    Next.js · Cloudinary · AI chapters · better-auth
-
-<span class="t-hi">05</span>  Decision Intelligence Engine    [Analytics] · <span class="t-link">live</span>
+<span class="t-hi">03</span>  AI Interview Simulator          [AI/ML · Full-Stack] · <span class="t-link">live</span>
+    Gemini 2.5 · Web Speech · Monaco + Pyodide/WASM · $0 infra
+<span class="t-hi">04</span>  Decision Intelligence Engine    [Analytics] · <span class="t-link">live</span>
     3 products, 1 core engine · walk-forward backtesting
-
-<span class="t-hi">06</span>  Pharmacy ERP (RxFlow)           [Full-Stack] · <span class="t-link">live</span>
+<span class="t-hi">05</span>  Pharmacy ERP (RxFlow)           [Full-Stack] · <span class="t-link">live</span>
     Multi-tenant · GST billing · real-time sync (SSE)
-
+<span class="t-hi">06</span>  Screen Recording &amp; Sharing      [Full-Stack] · <span class="t-link">live</span>
+    Next.js · Cloudinary · AI chapters · better-auth
 <span class="t-hi">07</span>  Secret Exposure Detection       [Systems] · <span class="t-link">live</span>
     FastAPI · entropy + regex · SARIF · 0.94 F1`,
 

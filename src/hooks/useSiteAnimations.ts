@@ -18,6 +18,7 @@ export function useSiteAnimations() {
     const reduced = prefersReducedMotion()
     const touch = isTouch()
     const tickers: gsap.TickerCallback[] = []
+    const observers: IntersectionObserver[] = []
     // gsap.context().revert() reverts animations but does NOT detach manually
     // added DOM listeners. One controller removes every listener below on
     // cleanup (React StrictMode remounts this effect in development).
@@ -136,20 +137,44 @@ export function useSiteAnimations() {
         if (heroInner || badge) {
           let cx = 0
           let cy = 0
+
+          // The perspective/origin never change — set them once instead of
+          // re-parsing them into every frame's tween.
+          if (heroInner) gsap.set(heroInner, { transformPerspective: 1200, transformOrigin: 'center' })
+
+          // quickSetter caches the property setter and skips gsap.set()'s
+          // per-call parsing and `overwrite: 'auto'` conflict scan, which this
+          // was paying for on four elements every single frame.
+          const setRotY = heroInner && gsap.quickSetter(heroInner, 'rotationY', 'deg')
+          const setRotX = heroInner && gsap.quickSetter(heroInner, 'rotationX', 'deg')
+          const setBadgeX = badge && gsap.quickSetter(badge, 'x', 'px')
+          const setBadgeY = badge && gsap.quickSetter(badge, 'y', 'px')
+          const setNameX = name && gsap.quickSetter(name, 'x', 'px')
+          const setNameY = name && gsap.quickSetter(name, 'y', 'px')
+          const setRoleX = role && gsap.quickSetter(role, 'x', 'px')
+          const setRoleY = role && gsap.quickSetter(role, 'y', 'px')
+
+          // Don't burn a frame's work on a hero nobody can see.
+          let heroVisible = true
+          const home = document.getElementById('home')
+          if (home) {
+            const heroIO = new IntersectionObserver(
+              ([e]) => { heroVisible = e.isIntersecting },
+              { threshold: 0 },
+            )
+            heroIO.observe(home)
+            observers.push(heroIO)
+          }
+
           const parallaxTick = () => {
+            if (!heroVisible) return
             cx += (mouse.nx - cx) * 0.08
             cy += (mouse.ny - cy) * 0.08
-            if (heroInner)
-              gsap.set(heroInner, {
-                rotateY: cx * 4.5,
-                rotateX: -cy * 3.5,
-                transformPerspective: 1200,
-                transformOrigin: 'center',
-                overwrite: 'auto',
-              })
-            if (badge) gsap.set(badge, { x: cx * 16, y: cy * 16, overwrite: 'auto' })
-            if (name) gsap.set(name, { x: cx * 10, y: cy * 7, overwrite: 'auto' })
-            if (role) gsap.set(role, { x: cx * 6, y: cy * 4, overwrite: 'auto' })
+            if (setRotY) setRotY(cx * 4.5)
+            if (setRotX) setRotX(-cy * 3.5)
+            if (setBadgeX) { setBadgeX(cx * 16); setBadgeY!(cy * 16) }
+            if (setNameX) { setNameX(cx * 10); setNameY!(cy * 7) }
+            if (setRoleX) { setRoleX(cx * 6); setRoleY!(cy * 4) }
           }
           gsap.ticker.add(parallaxTick)
           tickers.push(parallaxTick)
@@ -206,6 +231,7 @@ export function useSiteAnimations() {
 
     return () => {
       tickers.forEach((t) => gsap.ticker.remove(t))
+      observers.forEach((o) => o.disconnect())
       offReveal()
       ac.abort() // detaches every listener registered with `sig`
       ctx.revert()

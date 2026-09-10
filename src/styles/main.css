@@ -37,7 +37,8 @@
   --fg2:         #3f3b34;
   --fg3:         #5f5b55;   /* 6.07:1 on --bg (was #6f6b64, 4.77) */
   --accent:      #1a1814;
-  --accent2:     #b54a1c;   /* 4.77:1 on --bg (was #c05020, 4.29 — AA-large only) */
+  --accent2:     #b54a1c;
+  --on-accent:   #ffffff;   /* text on an --accent2 fill: 5.30:1 */   /* 4.77:1 on --bg (was #c05020, 4.29 — AA-large only) */
   --accent3:     #2f7a46;
   --accent-light: rgba(181,74,28,0.12);
   --nav-bg:      rgba(242,240,235,0.85);
@@ -70,6 +71,7 @@
   --fg3:         #87837a;   /* 5.14:1 on --bg (was #5a5752, 2.70 — failed AA) */
   --accent:      #d4c9b0;
   --accent2:     #e8855a;
+  --on-accent:   #0d0d0d;   /* white on this orange is 2.64:1 (fails AA); dark ink is 7.36:1 */
   --accent3:     #b8d94a;
   --accent-light: rgba(232,133,90,0.1);
   --nav-bg:      rgba(13,13,13,0.90);
@@ -110,7 +112,7 @@ img, canvas, svg { display: block; max-width: 100%; }
 a    { color: inherit; text-decoration: none; }
 button { font-family: var(--f-mono); background: none; border: none; color: inherit; }
 input, textarea { font-family: var(--f-mono); color: var(--fg); }
-::selection { background: var(--accent2); color: #fff; }
+::selection { background: var(--accent2); color: var(--on-accent); }
 
 /* Skip-to-content link — hidden until keyboard focus */
 .skip-link {
@@ -123,7 +125,7 @@ input, textarea { font-family: var(--f-mono); color: var(--fg); }
   font-size: 12px;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--on-accent);
   background: var(--accent2);
   padding: 10px 22px;
   border-radius: 100px;
@@ -169,36 +171,40 @@ body::before {
     var(--blob1),
     var(--blob2),
     var(--blob3);
-  /* BUG FIX: reduced animation steps — much less GPU thrash */
-  animation: meshShift 18s ease-in-out infinite alternate;
-}
-
-@keyframes meshShift {
-  0%   { background-position: 0% 0%, 100% 0%, 50% 100%; }
-  33%  { background-position: 10% 20%, 88% 10%, 40% 85%; }
-  66%  { background-position: -5% 10%, 95% 25%, 55% 90%; }
-  100% { background-position: 8% -5%, 92% 15%, 48% 95%; }
+  /* PERF: this used to run a `meshShift` animation on background-position,
+     in percentages. These gradients fill the whole box, and a percentage offset
+     on a full-size background resolves to 0px — so it moved nothing (verified:
+     byte-identical screenshots across its whole 18s cycle) while forcing a
+     full-viewport repaint every frame, which every glass card above then had to
+     re-blur. Removing it changes no pixels. */
 }
 
 /* Subtle grain overlay */
 body::after {
   content: '';
   position: fixed;
-  inset: 0;
+  /* oversized by the largest grainShift jump (64px) so no edge ever shows */
+  inset: -64px;
   z-index: -1;
   opacity: 0.025;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 256px;
-  mix-blend-mode: multiply;
+  /* No mix-blend-mode: blending this full-screen layer against the animating
+     canvas cost a GPU blend every frame. Measured at this opacity, normal
+     alpha changes no pixel by more than 3/255 in either theme. */
   pointer-events: none;
+  will-change: transform;
   animation: grainShift 0.5s steps(1) infinite;
 }
-[data-theme="dark"] body::after { mix-blend-mode: screen; opacity: 0.03; }
+[data-theme="dark"] body::after { opacity: 0.03; }
+/* Same four offsets as before, applied as transforms: the noise jumps exactly
+   as it did, but it's a composited move rather than a full-screen repaint
+   8 times a second. */
 @keyframes grainShift {
-  0%  { background-position: 0 0; }
-  25% { background-position: -48px 32px; }
-  50% { background-position: 64px -40px; }
-  75% { background-position: -32px 56px; }
+  0%  { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(-48px, 32px, 0); }
+  50% { transform: translate3d(64px, -40px, 0); }
+  75% { transform: translate3d(-32px, 56px, 0); }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -214,7 +220,7 @@ body::after {
   .btn-primary:hover, .hero-pill:hover, .nav-link:hover,
   .nav-resume:hover, .pub-link:hover, .foot-links a:hover { transform: none !important; }
   .marquee-track { animation: none !important; }
-  .badge-svg { animation: none !important; }
+  .badge-rot { animation: none !important; }
   .scroll-line, .avail-dot, .live-dot { animation: none !important; }
   .type-cursor { animation: none !important; }
 }
@@ -386,7 +392,7 @@ body.cur-label-show .cur-label { opacity: 1; }
 .nav-resume {
   font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
   padding: 7px 18px; border-radius: var(--radius-sm);
-  border: 1.5px solid var(--accent2); background: var(--accent2); color: #fff;
+  border: 1.5px solid var(--accent2); background: var(--accent2); color: var(--on-accent);
   font-weight: 700;
   box-shadow: 0 3px 14px rgba(192,80,32,0.28);
   transition: box-shadow .25s, transform .25s var(--ease-spring), filter .2s;
@@ -456,7 +462,6 @@ body.cur-label-show .cur-label { opacity: 1; }
   position: relative; z-index: 1;
   padding: clamp(96px,13vw,152px) clamp(1.5rem,5vw,5rem) 0;
   width: 100%;
-  /* BUG FIX: will-change only helps if transform is actually used */
 }
 
 .hero-eyebrow {
@@ -489,10 +494,24 @@ body.cur-label-show .cur-label { opacity: 1; }
   opacity: 0; /* GSAP animates in */
   pointer-events: none;
 }
-.badge-svg {
+/* The rotation lives on an HTML wrapper, not the <svg>: Chrome repaints a
+   rotating inline SVG (text on a path) every frame instead of compositing it —
+   measured at 60 repaints/s, plus the root layer with it. Rotating a promoted
+   div around the same box costs nothing per frame. */
+.badge-rot {
+  position: absolute; inset: 0;
   animation: rotSlow 18s linear infinite;
-  transform-origin: center;
-  /* GPU-friendly: only rotates */
+  will-change: transform;
+}
+.badge-svg { display: block; width: 100%; height: 100%; }
+/* The hero parallax writes these transforms from script every frame (see
+   useSiteAnimations). Unlike CSS animations, script-driven transforms don't get
+   a compositor layer automatically, so each write repainted the hero and the
+   root layer — measured at 60 repaints/s with the mouse perfectly still.
+   Promoted, the parallax is compositor-only. Scoped to fine pointers: the
+   only devices that run it, so touch devices don't pay for idle layers. */
+@media (hover: hover) and (pointer: fine) {
+  .hero-inner, .hero-badge, .hero-name, .hero-role-wrap { will-change: transform; }
 }
 @keyframes rotSlow { to { transform: rotate(360deg); } }
 .badge-text {
@@ -593,7 +612,7 @@ body.cur-label-show .cur-label { opacity: 1; }
 /* Buttons */
 .btn-primary {
   font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
-  background: var(--accent2); color: #fff;
+  background: var(--accent2); color: var(--on-accent);
   padding: 11px 26px; border-radius: var(--radius-sm);
   display: inline-flex; align-items: center;
   transition: transform .3s var(--ease-spring), box-shadow .3s, filter .3s;
@@ -847,6 +866,19 @@ body.cur-label-show .cur-label { opacity: 1; }
   letter-spacing: -.01em;
 }
 
+/* Count-up numbers: the box is sized by an invisible copy of the final value
+   and the live digits are stacked on top (see Counter.tsx), so animating never
+   changes the element's width. Right-aligned so a GPA's number hugs its "/4.0"
+   the whole way up. tabular-nums helps further where the font supports it. */
+.counter-num { display: inline-grid; font-variant-numeric: tabular-nums; }
+.counter-num > * { grid-area: 1 / 1; }
+.counter-sizer { visibility: hidden; }
+.counter-live { justify-self: end; }
+
+/* The skills tabpanel is focusable (it holds no focusable content of its own),
+   so give it a visible ring consistent with the other controls. */
+.toolkit-stage:focus-visible { outline: 2px solid var(--accent2); outline-offset: 4px; }
+
 /* Certifications */
 .cert-block {
   margin-top: 1rem; padding: 20px 22px; }
@@ -984,13 +1016,22 @@ body.cur-label-show .cur-label { opacity: 1; }
   font-family: var(--f-mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
   color: var(--accent3);
 }
+/* The halo used to animate box-shadow, which repaints every frame — measured:
+   each "Current" card repainted ~44x/s even at idle and off-screen. It's now a
+   pseudo-element that scales and fades, which the compositor handles alone.
+   Same look: the ring spreads ~8px past the 7px dot (scale 3.3) as it fades. */
 .now-dot {
+  position: relative;
   width: 7px; height: 7px; border-radius: 50%; background: var(--accent3);
+}
+.now-dot::after {
+  content: ''; position: absolute; inset: 0; border-radius: 50%;
+  background: var(--accent3);
   animation: nowPulse 1.9s ease-out infinite;
 }
 @keyframes nowPulse {
-  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent3) 55%, transparent); }
-  70%, 100% { box-shadow: 0 0 0 8px transparent; }
+  0% { transform: scale(1); opacity: .55; }
+  70%, 100% { transform: scale(3.3); opacity: 0; }
 }
 .journey-type {
   margin-left: auto;
@@ -1104,7 +1145,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   padding: 9px 18px; border-radius: var(--radius-sm); white-space: nowrap;
   transition: background .2s, color .2s, transform .25s var(--ease-spring), filter .2s; align-self: center;
 }
-.pub-link:hover { background: var(--accent2); color: #fff; transform: translateY(-2px); filter: brightness(1.06); }
+.pub-link:hover { background: var(--accent2); color: var(--on-accent); transform: translateY(-2px); filter: brightness(1.06); }
 
 /* ═══════════════════════════════════════════════════
    CONTACT
@@ -1212,7 +1253,7 @@ body.cur-label-show .cur-label { opacity: 1; }
 }
 .form-submit {
   padding: 15px 0;
-  background: var(--accent2); color: #fff;
+  background: var(--accent2); color: var(--on-accent);
   width: 100%;
   font-family: var(--f-display); font-size: .72rem; font-weight: 900;
   letter-spacing: .08em; text-transform: uppercase;
@@ -1248,7 +1289,10 @@ body.cur-label-show .cur-label { opacity: 1; }
   --term-bg:        rgba(10,9,8,0.97);
   --term-bg-bar:    rgba(255,255,255,0.025);
   --term-border:    rgba(255,255,255,0.09);
-  --term-title-c:   rgba(255,255,255,0.3);
+  --term-title-c:   rgba(255,255,255,0.55); /* was 0.3 ≈ 2.4:1 */
+  --term-clear-c:   #ffbd2e;
+  --term-copy-c:    #3ddc6a;
+  --term-close-c:   #ff5f57;
   --term-out-c:     rgba(200,195,188,0.82);
   --term-cmd-c:     #f0ece4;
   --term-out-bar:   rgba(255,255,255,0.08);
@@ -1258,7 +1302,10 @@ body.cur-label-show .cur-label { opacity: 1; }
   --term-bg:        rgba(248,246,243,0.97);
   --term-bg-bar:    rgba(0,0,0,0.035);
   --term-border:    rgba(0,0,0,0.10);
-  --term-title-c:   rgba(0,0,0,0.35);
+  --term-title-c:   rgba(0,0,0,0.6);       /* was 0.35, below AA */
+  --term-clear-c:   #8a5208;
+  --term-copy-c:    #176e32;
+  --term-close-c:   #b02a23;
   --term-out-c:     rgba(60,55,48,0.85);
   --term-cmd-c:     #1a1814;
   --term-out-bar:   rgba(0,0,0,0.10);
@@ -1312,11 +1359,9 @@ body.cur-label-show .cur-label { opacity: 1; }
   flex-shrink: 0;
   user-select: none;
 }
-.term-traffic { display: flex; gap: 6px; flex-shrink: 0; }
-.term-traffic span { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
 .term-title {
   font-family: var(--f-mono); font-size: 10px;
-  color: var(--term-title-c); margin: 0 auto;
+  color: var(--term-title-c); margin-right: auto;
   letter-spacing: .1em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .term-toolbar { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
@@ -1326,14 +1371,20 @@ body.cur-label-show .cur-label { opacity: 1; }
   display: flex; align-items: center; justify-content: center;
   transition: color .15s, background .15s;
 }
-.term-action-btn:hover { color: var(--fg); background: var(--term-out-bar); }
+/* Each working control carries its own colour (the old decorative window dots,
+   which did nothing, were removed): tinted at rest, stronger on hover. */
+.term-btn-clear { color: var(--term-clear-c); background: color-mix(in srgb, var(--term-clear-c) 12%, transparent); }
+.term-btn-copy  { color: var(--term-copy-c);  background: color-mix(in srgb, var(--term-copy-c) 12%, transparent); }
+.term-btn-clear:hover { background: color-mix(in srgb, var(--term-clear-c) 20%, transparent); }
+.term-btn-copy:hover  { background: color-mix(in srgb, var(--term-copy-c) 20%, transparent); }
 .term-close {
   width: 22px; height: 22px; border-radius: 5px; font-size: 16px;
-  color: var(--term-title-c);
+  color: var(--term-close-c);
+  background: color-mix(in srgb, var(--term-close-c) 12%, transparent);
   display: flex; align-items: center; justify-content: center;
   transition: color .15s, background .15s;
 }
-.term-close:hover { color: var(--fg); background: rgba(248,60,60,.15); }
+.term-close:hover { background: color-mix(in srgb, var(--term-close-c) 20%, transparent); }
 
 .term-output {
   flex: 1; overflow-y: auto; padding: 12px 16px;
@@ -1373,7 +1424,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   margin-left: 6px; vertical-align: middle; flex-shrink: 0;
 }
 .t-out:hover .t-copy-btn { opacity: 1; }
-.t-copy-btn:hover { background: var(--accent2); color: #fff; }
+.t-copy-btn:hover { background: var(--accent2); color: var(--on-accent); }
 
 .term-inputbar {
   display: flex; align-items: center; gap: 6px;
@@ -1419,7 +1470,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   transition: background .1s, color .1s;
 }
 .term-ac-item:hover,
-.term-ac-item.ac-active { background: var(--accent2); color: #fff; }
+.term-ac-item.ac-active { background: var(--accent2); color: var(--on-accent); }
 
 /* ═══════════════════════════════════════════════════
    TABLET (≤860px)
@@ -1702,7 +1753,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   transition: color .2s, border-color .2s, background .2s, transform .25s var(--ease-spring);
 }
 .toolkit-cat-pill:hover { color: var(--fg); border-color: var(--accent2); transform: translateY(-1px); }
-.toolkit-cat-pill.active { color: #fff; background: var(--accent2); border-color: var(--accent2); }
+.toolkit-cat-pill.active { color: var(--on-accent); background: var(--accent2); border-color: var(--accent2); }
 
 /* Bounded floating-skills stage */
 .toolkit-stage {
@@ -1759,12 +1810,12 @@ body.cur-label-show .cur-label { opacity: 1; }
   background: radial-gradient(circle, rgba(232, 133, 90, 0.16), rgba(232, 133, 90, 0.06) 38%, transparent 70%);
   pointer-events: none;
   z-index: -1;
-  mix-blend-mode: screen;
+  /* Plain alpha, not screen/multiply: the blend re-composited this layer
+     against the animating canvas every frame for no measurable visual gain. */
   will-change: transform;
 }
 [data-theme="light"] #cursor-glow {
   background: radial-gradient(circle, rgba(192, 80, 32, 0.14), rgba(192, 80, 32, 0.05) 38%, transparent 70%);
-  mix-blend-mode: multiply;
 }
 @media (hover: none), (pointer: coarse) { #cursor-glow { display: none; } }
 
@@ -1850,7 +1901,9 @@ body.cur-label-show .cur-label { opacity: 1; }
    display:contents flattens both columns into the about-layout flex line so
    `order` can interleave items across the original columns. */
 @media (max-width: 960px) {
-  .about-layout { display: flex; flex-direction: column; gap: 1.4rem; }
+  /* stretch: the desktop grid's align-items:start carried over and shrank the
+     certifications and philosophy blocks to half width on tablets */
+  .about-layout { display: flex; flex-direction: column; gap: 1.4rem; align-items: stretch; }
   .about-sticky, .about-right { display: contents; }
   .about-layout .display-h     { order: 1; }
   .about-layout .serif-intro   { order: 2; }
@@ -1886,7 +1939,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   transition: color .2s, border-color .2s, background .2s, transform .2s var(--ease-spring);
 }
 .proj-link:hover { color: var(--accent2); border-color: var(--accent2); transform: translateY(-1px); }
-.proj-link-live { color: #fff; background: var(--accent2); border-color: var(--accent2); }
+.proj-link-live { color: var(--on-accent); background: var(--accent2); border-color: var(--accent2); }
 .proj-link-live:hover { color: #fff; filter: brightness(1.08); }
 .proj-link-paper { color: var(--accent3); border-color: var(--accent3); }
 .proj-link-paper:hover { color: var(--accent3); border-color: var(--accent3); }
@@ -2149,7 +2202,7 @@ body.cur-label-show .cur-label { opacity: 1; }
   border-color: var(--accent2);
   background: var(--accent-light);
 }
-.proj-link-more:hover { color: #fff; background: var(--accent2); }
+.proj-link-more:hover { color: var(--on-accent); background: var(--accent2); }
 
 /* Mobile: bottom sheet */
 @media (max-width: 640px) {
@@ -2213,10 +2266,8 @@ body.cur-label-show .cur-label { opacity: 1; }
   .foot-updated { margin-left: 0; padding-left: 0; border-left: none; margin-top: 6px; }
 }
 
-/* Skip offscreen paint/layout for the tall, static sections.
-   Deliberately NOT applied to #projects — the belt measures child offsetLeft
-   to size its loop, and skipped layout would report zero. */
-#journey, #contact {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 900px;
-}
+/* No content-visibility here. It was once applied to #journey and #contact
+   with a 900px intrinsic-size estimate, but their real heights differ by far
+   more than that, so the document grew ~1.4k px mid-scroll: every
+   ScrollTrigger position below them went stale and the scrollbar and progress
+   bar jumped. Rendering two static sections up front costs far less. */

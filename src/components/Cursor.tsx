@@ -17,8 +17,21 @@ export function Cursor() {
     let gx = mouse.x
     let gy = mouse.y
     let raf = 0
+    let lastX = NaN
+    let lastY = NaN
 
     const tick = () => {
+      raf = requestAnimationFrame(tick)
+      // With the pointer still and the ring and glow caught up, every write
+      // below would set an identical transform — and still cost a style
+      // recalc each frame. Skip them until something actually moves.
+      if (
+        mouse.x === lastX && mouse.y === lastY &&
+        Math.abs(mouse.x - rx) < 0.1 && Math.abs(mouse.y - ry) < 0.1 &&
+        Math.abs(mouse.x - gx) < 0.1 && Math.abs(mouse.y - gy) < 0.1
+      ) return
+      lastX = mouse.x
+      lastY = mouse.y
       rx = lerp(rx, mouse.x, 0.11)
       ry = lerp(ry, mouse.y, 0.11)
       // slower follow for the ambient glow → soft trailing light
@@ -34,7 +47,6 @@ export function Cursor() {
       if (glow.current) {
         glow.current.style.transform = `translate3d(${gx}px, ${gy}px, 0)`
       }
-      raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
 

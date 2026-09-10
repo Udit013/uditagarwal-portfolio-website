@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NAV_LINKS } from '../data/content'
 import { useTheme } from '../hooks/useTheme'
 import { useActiveSection } from '../hooks/useActiveSection'
@@ -18,6 +18,21 @@ export function Nav() {
     onScroll()
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  /* The closed drawer is only moved off-screen with a transform, so its links
+     stayed in the Tab order while marked aria-hidden — keyboard users landed on
+     invisible links a screen reader couldn't see. `inert` takes it out of both.
+     (React 18's types don't know `inert`, so it's set on the node directly.) */
+  const drawerRef = useRef<HTMLElement>(null)
+  const burgerRef = useRef<HTMLButtonElement>(null)
+  useEffect(() => {
+    const d = drawerRef.current
+    if (!d) return
+    // Closing with focus inside (Escape, or a drawer link) would otherwise
+    // drop focus to <body> once the drawer goes inert. Return it to the burger.
+    if (!drawerOpen && d.contains(document.activeElement)) burgerRef.current?.focus()
+    d.toggleAttribute('inert', !drawerOpen)
+  }, [drawerOpen])
 
   /* Close drawer on Escape */
   useEffect(() => {
@@ -72,6 +87,7 @@ export function Nav() {
             </span>
           </button>
           <button
+            ref={burgerRef}
             className={`burger${drawerOpen ? ' open' : ''}`}
             aria-label={drawerOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={drawerOpen}
@@ -85,7 +101,7 @@ export function Nav() {
         </div>
       </header>
 
-      <nav id="mobile-drawer" className={drawerOpen ? 'open' : ''} aria-hidden={!drawerOpen} aria-label="Mobile navigation">
+      <nav id="mobile-drawer" ref={drawerRef} className={drawerOpen ? 'open' : ''} aria-hidden={!drawerOpen} aria-label="Mobile navigation">
         <div className="drawer-inner">
           {NAV_LINKS.map((link) => (
             <a key={link.id} className="drawer-link" href={`#${link.id}`} onClick={(e) => handleNav(e, link.id)}>

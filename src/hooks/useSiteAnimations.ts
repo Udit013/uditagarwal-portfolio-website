@@ -168,8 +168,15 @@ export function useSiteAnimations() {
 
           const parallaxTick = () => {
             if (!heroVisible) return
-            cx += (mouse.nx - cx) * 0.08
-            cy += (mouse.ny - cy) * 0.08
+            const dx = mouse.nx - cx
+            const dy = mouse.ny - cy
+            // The lerp only ever approaches the pointer, so without this it
+            // re-wrote near-identical transforms on four elements every frame,
+            // forever, with the mouse still. Once caught up (under 0.002px of
+            // remaining travel), there is nothing to move.
+            if (Math.abs(dx) < 1e-4 && Math.abs(dy) < 1e-4) return
+            cx += dx * 0.08
+            cy += dy * 0.08
             if (setRotY) setRotY(cx * 4.5)
             if (setRotX) setRotX(-cy * 3.5)
             if (setBadgeX) { setBadgeX(cx * 16); setBadgeY!(cy * 16) }

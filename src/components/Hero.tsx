@@ -40,16 +40,18 @@ export function Hero() {
         </div>
 
         <div className="hero-badge" id="heroBadge" aria-hidden="true">
-          <svg viewBox="0 0 120 120" className="badge-svg" aria-hidden="true">
-            <defs>
-              <path id="bp" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" />
-            </defs>
-            <text className="badge-text">
-              <textPath href="#bp">
-                SOFTWARE ENGINEER • AI • ML • DATA • SYSTEMS •
-              </textPath>
-            </text>
-          </svg>
+          <div className="badge-rot" aria-hidden="true">
+            <svg viewBox="0 0 120 120" className="badge-svg" aria-hidden="true">
+              <defs>
+                <path id="bp" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" />
+              </defs>
+              <text className="badge-text">
+                <textPath href="#bp">
+                  SOFTWARE ENGINEER • AI • ML • DATA • SYSTEMS •
+                </textPath>
+              </text>
+            </svg>
+          </div>
           <BadgeCenter />
         </div>
 

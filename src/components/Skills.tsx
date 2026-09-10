@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from 'react'
 import gsap from 'gsap'
 import { SKILL_CATEGORIES } from '../data/content'
 import { prefersReducedMotion } from '../lib/utils'
@@ -9,6 +9,25 @@ export function Skills() {
   const [active, setActive] = useState(CATEGORIES[0].id)
   const [displayed, setDisplayed] = useState(CATEGORIES[0].id)
   const stageRef = useRef<HTMLDivElement>(null)
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+
+  /* WAI-ARIA tabs pattern: one tab stop for the whole list (roving tabindex),
+     arrows/Home/End move between categories. Previously every pill was its own
+     Tab stop and the arrow keys did nothing. */
+  const onTabKey = (e: KeyboardEvent<HTMLDivElement>) => {
+    const i = CATEGORIES.findIndex((c) => c.id === active)
+    const last = CATEGORIES.length - 1
+    const next =
+      e.key === 'ArrowRight' || e.key === 'ArrowDown' ? (i + 1) % CATEGORIES.length
+      : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? (i - 1 + CATEGORIES.length) % CATEGORIES.length
+      : e.key === 'Home' ? 0
+      : e.key === 'End' ? last
+      : -1
+    if (next < 0) return
+    e.preventDefault()
+    setActive(CATEGORIES[next].id)
+    tabRefs.current[next]?.focus()
+  }
   const current = CATEGORIES.find((c) => c.id === displayed) ?? CATEGORIES[0]
   const count = current.groups.reduce((n, g) => n + g.skills.length, 0)
 
@@ -58,13 +77,19 @@ export function Skills() {
         {count} technologies across {current.groups.length} areas in <span>{current.label}</span>.
       </p>
 
-      <div className="toolkit-cats" role="tablist" aria-label="Skill categories">
-        {CATEGORIES.map((cat) => (
+      <div className="toolkit-cats" role="tablist" aria-label="Skill categories" onKeyDown={onTabKey}>
+        {CATEGORIES.map((cat, idx) => (
           <button
             key={cat.id}
+            ref={(el) => {
+              tabRefs.current[idx] = el
+            }}
+            id={`skills-tab-${cat.id}`}
             type="button"
             role="tab"
             aria-selected={active === cat.id}
+            aria-controls="skills-panel"
+            tabIndex={active === cat.id ? 0 : -1}
             className={`toolkit-cat-pill${active === cat.id ? ' active' : ''}`}
             onClick={() => setActive(cat.id)}
           >
@@ -73,7 +98,14 @@ export function Skills() {
         ))}
       </div>
 
-      <div className="toolkit-stage toolkit-stage-skills" ref={stageRef} role="tabpanel" aria-label={`${current.label} skills`}>
+      <div
+        className="toolkit-stage toolkit-stage-skills"
+        ref={stageRef}
+        id="skills-panel"
+        role="tabpanel"
+        aria-labelledby={`skills-tab-${displayed}`}
+        tabIndex={0}
+      >
         <div className="toolkit-groups" key={displayed}>
           {current.groups.map((group) => (
             <div className="toolkit-group" key={group.label}>

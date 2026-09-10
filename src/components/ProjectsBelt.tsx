@@ -16,6 +16,7 @@ const CYCLE_SECONDS = 26 // one full autonomous loop
 const COPIES = 3 // duplicate the list for a seamless wrap
 const AUTO_EASE = 0.08 // easing toward the autoplay speed
 const WHEEL_SENS = 2.4 // wheel deltaY → belt velocity (px/sec) impulse
+const ENGAGE_PX = 6 // pointer travel over the belt before it takes the wheel
 const MAX_VEL = 2800 // clamp belt velocity (px/sec)
 const FRICTION = 3.2 // higher = the scroll momentum settles faster
 
@@ -296,16 +297,37 @@ export function ProjectsBelt() {
     // or autoplay dies. Hover handlers read the live `lenis` from closure.
   }, [reduced])
 
-  const onEnter = () => {
-    if (touch || reduced || drawerOpen.current) return
-    hover.current += 1
+  /* Wheel capture engages only after the pointer actually MOVES over the belt.
+     Chrome fires mouseenter — but no mousemove — when content scrolls under a
+     stationary cursor, so engaging on mouseenter trapped anyone scrolling past
+     with the mouse mid-screen: the belt took every wheel event from then on and
+     the page froze at the Projects section (measured: stuck at 6131 of 7741px,
+     unable to reach the footer without moving the mouse). A small movement
+     threshold also keeps trackpad jitter from engaging it by accident. */
+  const over = useRef(false)
+  const moved = useRef(0)
+  const engage = () => {
+    if (hover.current > 0 || drawerOpen.current) return
+    hover.current = 1
     lenis?.stop() // freeze page scroll so the wheel drives the belt
     if (labelRef.current) labelRef.current.textContent = 'PROJECT BELT LINKED TO YOUR SCROLL'
   }
+  const onEnter = () => {
+    if (touch || reduced || drawerOpen.current) return
+    over.current = true
+    moved.current = 0
+  }
+  const onMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (touch || reduced || !over.current || hover.current > 0) return
+    moved.current += Math.abs(e.movementX) + Math.abs(e.movementY)
+    if (moved.current > ENGAGE_PX) engage()
+  }
   const onLeave = () => {
     if (touch || reduced) return
-    hover.current = Math.max(0, hover.current - 1)
-    if (hover.current === 0) {
+    over.current = false
+    moved.current = 0
+    if (hover.current > 0) {
+      hover.current = 0
       if (!drawerOpen.current) lenis?.start()
       if (labelRef.current) labelRef.current.textContent = 'SCROLL TO EXPLORE →'
     }
@@ -367,10 +389,16 @@ export function ProjectsBelt() {
         className="belt-viewport"
         ref={viewportRef}
         onMouseEnter={onEnter}
+        onMouseMove={onMove}
         onMouseLeave={onLeave}
         onFocusCapture={onFocusIn}
         onBlurCapture={onFocusOut}
-        role="list"
+        /* WAI-ARIA carousel pattern. It was role="list", but its children are
+           <article>s — which can't take role="listitem" — so axe flagged a
+           critical aria-required-children violation. An auto-advancing belt of
+           slides is exactly what the carousel roledescription is for. */
+        role="region"
+        aria-roledescription="carousel"
         aria-label="Projects"
       >
         <div className="belt-track" ref={trackRef}>

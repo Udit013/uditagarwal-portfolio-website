@@ -3,12 +3,6 @@ import type { Project } from '../data/content'
 import { useLenis } from '../hooks/useLenis'
 
 /**
- * Project case-study drawer — slides in from the right on desktop, up from the
- * bottom on mobile. Self-contained: no routing, no new dependencies.
- * Implements a proper modal contract — focus trap, Escape to close, focus
- * restoration, inert background, and locked page scroll.
- */
-/**
  * Case-study screenshot. Renders nothing when a project has no `image`, and
  * removes itself if the file fails to load, so a missing asset never leaves a
  * broken-image box in the drawer.
@@ -30,6 +24,14 @@ function ProjectShot({ src, title }: { src?: string; title: string }) {
   )
 }
 
+/**
+ * Project case-study drawer — slides in from the right on desktop, up from the
+ * bottom on mobile. Self-contained: no routing, no new dependencies.
+ * Implements a modal contract: focus trap, Escape to close, focus restoration,
+ * aria-modal, and locked page scroll. (Not an inert background — the drawer
+ * renders inside #main, so inerting the page would inert the drawer too. The
+ * focus trap plus aria-modal cover keyboard and screen-reader users.)
+ */
 export function ProjectDrawer({ project, onClose }: { project: Project | null; onClose: () => void }) {
   const lenis = useLenis()
   const panelRef = useRef<HTMLDivElement>(null)

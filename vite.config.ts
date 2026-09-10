@@ -4,6 +4,11 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  define: {
+    /* Build month (YYYY-MM) for the footer's "last updated" stamp, so it never
+       goes stale between deploys. */
+    __BUILD_MONTH__: JSON.stringify(new Date().toISOString().slice(0, 7)),
+  },
   server: {
     port: 5173,
     open: true,

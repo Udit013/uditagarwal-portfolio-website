@@ -27,6 +27,7 @@ export function Terminal() {
   const outputRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
+  const toggleRef = useRef<HTMLButtonElement>(null)
   const idRef = useRef(0)
   const booted = useRef(false)
   const chatMode = useRef(false)
@@ -40,6 +41,13 @@ export function Terminal() {
     setAcItems([])
     setAcIdx(-1)
   }, [])
+
+  /* Closed, the panel is only faded and made click-through (opacity +
+     pointer-events), so its buttons and input stayed in the Tab order while
+     aria-hidden. `inert` removes them from focus and the accessibility tree. */
+  useEffect(() => {
+    panelRef.current?.toggleAttribute('inert', !open)
+  }, [open])
 
   /* Keep output scrolled to the bottom as lines are added */
   useLayoutEffect(() => {
@@ -58,6 +66,9 @@ export function Terminal() {
   }, [print])
 
   const closePanel = useCallback(() => {
+    // The closed panel is inert, so focus left inside it would be dropped to
+    // <body> and strand keyboard users. Hand it back to the toggle first.
+    if (panelRef.current?.contains(document.activeElement)) toggleRef.current?.focus()
     setOpen(false)
     hideAc()
   }, [hideAc])
@@ -246,8 +257,10 @@ export function Terminal() {
   return (
     <>
       <button
+        ref={toggleRef}
         className="term-toggle"
-        aria-label="Open terminal (press backtick to toggle)"
+        aria-expanded={open}
+        aria-label={open ? 'Close terminal' : 'Open terminal (press backtick to toggle)'}
         title="Press ` to toggle"
         type="button"
         onClick={() => (open ? closePanel() : openPanel())}
@@ -267,19 +280,14 @@ export function Terminal() {
       >
         <div className="term-resize-handle" aria-hidden="true" onMouseDown={onResizeStart} />
         <div className="term-titlebar">
-          <div className="term-traffic" aria-hidden="true">
-            <span style={{ background: '#ff5f57' }} />
-            <span style={{ background: '#ffbd2e' }} />
-            <span style={{ background: '#28ca42' }} />
-          </div>
           <span className="term-title" aria-hidden="true">
             portfolio@udit
           </span>
           <div className="term-toolbar">
-            <button className="term-action-btn" title="Clear terminal" aria-label="Clear terminal output" onClick={() => setLines([])}>
+            <button className="term-action-btn term-btn-clear" title="Clear terminal" aria-label="Clear terminal output" onClick={() => setLines([])}>
               ⌫
             </button>
-            <button className="term-action-btn" title="Copy all output" aria-label="Copy all terminal output" onClick={copyAll}>
+            <button className="term-action-btn term-btn-copy" title="Copy all output" aria-label="Copy all terminal output" onClick={copyAll}>
               ⧉
             </button>
             <button className="term-close" aria-label="Close terminal" type="button" onClick={closePanel}>

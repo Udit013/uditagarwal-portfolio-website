@@ -59,7 +59,18 @@ export function Counter({ raw, className, ariaLabel }: CounterProps) {
      the visible "/4.0" is hidden from assistive tech to avoid a double read. */
   return (
     <span className={className} aria-label={ariaLabel}>
-      <span ref={ref}>0</span>
+      {/* The invisible sizer holds the FINAL value, and the live number is
+          stacked on top of it, so the count-up never changes the box width.
+          Before, the digits wobbled and a GPA's "/4.0" slid sideways as the
+          number grew — a measured layout-shift source. */}
+      <span className="counter-num">
+        <span className="counter-sizer" aria-hidden="true">
+          {isNaN(target) ? numeric : target.toFixed(decimals)}
+        </span>
+        <span ref={ref} className="counter-live">
+          0
+        </span>
+      </span>
       {scale && (
         <span className="counter-scale" aria-hidden="true">
           /{scale}

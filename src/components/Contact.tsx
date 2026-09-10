@@ -11,15 +11,16 @@ export function Contact() {
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
-  const [copied, setCopied] = useState(false)
+  // Which button was just used — one shared boolean flipped BOTH to "Copied ✓".
+  const [copied, setCopied] = useState<'draft' | 'email' | null>(null)
   const formRef = useRef<HTMLFormElement>(null)
   const draftRef = useRef('')
 
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText(EMAIL)
-      setCopied(true)
-      window.setTimeout(() => setCopied(false), 2000)
+      setCopied('email')
+      window.setTimeout(() => setCopied(null), 2000)
     } catch {
       /* clipboard unavailable — the address is visible in the message anyway */
     }
@@ -28,8 +29,8 @@ export function Contact() {
   const copyDraft = async () => {
     try {
       await navigator.clipboard.writeText(draftRef.current)
-      setCopied(true)
-      window.setTimeout(() => setCopied(false), 2000)
+      setCopied('draft')
+      window.setTimeout(() => setCopied(null), 2000)
     } catch {
       /* no-op */
     }
@@ -83,7 +84,7 @@ export function Contact() {
             Open to full-time roles in SWE, AI/ML, and Data Engineering. Research collaborations and interesting projects welcome.
           </p>
 
-          <div className="contact-links" role="list" aria-label="Contact methods">
+          <div className="contact-links" role="group" aria-label="Contact methods">
             {CONTACT_LINKS.map((link) => (
               <a
                 key={link.label}
@@ -91,7 +92,6 @@ export function Contact() {
                 className="clink glass-card"
                 data-magnetic
                 data-cursor={link.cursor}
-                role="listitem"
                 aria-label={link.ariaLabel ?? (link.external ? `${link.label} profile (opens in new tab)` : undefined)}
                 {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
@@ -100,7 +100,18 @@ export function Contact() {
                 </div>
                 <div className="clink-info">
                   <span className="clink-label">{link.label}</span>
-                  <span className="clink-val">{link.value}</span>
+                  {/* <wbr> after "@" lets a tight row (320px phones) break as
+                      "name@" / "gmail.com" instead of mid-word. */}
+                  <span className="clink-val">
+                    {link.value.includes('@') ? (
+                      <>
+                        {link.value.split('@')[0]}@<wbr />
+                        {link.value.split('@')[1]}
+                      </>
+                    ) : (
+                      link.value
+                    )}
+                  </span>
                 </div>
                 <span className="clink-arr" aria-hidden="true">
                   ↗
@@ -131,10 +142,10 @@ export function Contact() {
               </p>
               <div className="form-sent-actions">
                 <button type="button" className="proj-link proj-link-live" onClick={copyDraft}>
-                  {copied ? 'Copied ✓' : 'Copy message'}
+                  {copied === 'draft' ? 'Copied ✓' : 'Copy message'}
                 </button>
                 <button type="button" className="proj-link" onClick={copyEmail}>
-                  {copied ? 'Copied ✓' : `Copy ${EMAIL}`}
+                  {copied === 'email' ? 'Copied ✓' : `Copy ${EMAIL}`}
                 </button>
                 <button
                   type="button"

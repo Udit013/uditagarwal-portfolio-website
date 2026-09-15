@@ -36,7 +36,7 @@ export function Hero() {
           <span className="avail-dot" aria-hidden="true" />
           <span>Available · Full-time</span>
           <span className="eyebrow-line" aria-hidden="true" />
-          <span className="eyebrow-loc">Bloomington, IN, USA · EST</span>
+          <span className="eyebrow-loc">United States</span>
         </div>
 
         <div className="hero-badge" id="heroBadge" aria-hidden="true">

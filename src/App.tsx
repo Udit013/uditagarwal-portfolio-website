@@ -27,7 +27,7 @@ function Site() {
     initMouse()
   }, [])
 
-  /* Defer the WebGL background (heavy Three.js chunk) until the page has
+  /* Defer the WebGL background (WebGL chunk) until the page has
      fully loaded and the main thread is idle — it's ambience, not content,
      so it should never compete with fonts, hero paint, or interactivity. */
   useEffect(() => {

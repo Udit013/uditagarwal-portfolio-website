@@ -123,7 +123,7 @@ export function Contact() {
           <div ref={availRef} className={`avail-block reveal-up${availIn ? ' in' : ''}`}>
             <span className="live-dot" aria-hidden="true" />
             <p>
-              Open to full-time opportunities. Based in Bloomington, IN; available for remote, hybrid, and
+              Open to full-time opportunities. Based in Bloomington, Indiana, US; available for remote, hybrid, and
               relocation anywhere in the US. Seeking Software · AI/ML · Data · Consultant roles.
             </p>
           </div>

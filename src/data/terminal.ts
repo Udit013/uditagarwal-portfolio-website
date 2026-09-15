@@ -69,19 +69,19 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
   → Backend services &amp; data pipelines for population health forecasting
   → REST APIs powering forecasting dashboards · query &amp; backend optimization`,
 
-  projects: `<span class="t-hi">01</span>  NeuroClass (Brain Tumor MRI)    [AI/ML] · <span class="t-link">IEEE ICC-ROBINS 2024</span>
+  projects: `<span class="t-hi">01</span>  NeuroClass (Brain Tumor MRI)    [AI/ML] · <a class="t-link" href="https://doi.org/10.1109/ICC-ROBINS60238.2024.10533941" target="_blank" rel="noopener noreferrer">IEEE ICC-ROBINS 2024</a>
     EfficientNetB3 · 99.84% (published) · ONNX Runtime on HF Spaces
-<span class="t-hi">02</span>  Veritome (Biomedical RAG)       [AI/ML] · <span class="t-link">live</span>
+<span class="t-hi">02</span>  Veritome (Biomedical RAG)       [AI/ML] · <a class="t-link" href="https://huggingface.co/spaces/Udit013/biomed-assistant" target="_blank" rel="noopener noreferrer">live</a>
     Qwen2.5-7B QLoRA · RAG · LangGraph agents · pgvector
-<span class="t-hi">03</span>  PrepWise (AI Voice Interviews)  [AI/ML · Full-Stack] · <span class="t-link">live</span>
+<span class="t-hi">03</span>  PrepWise (AI Voice Interviews)  [AI/ML · Full-Stack] · <a class="t-link" href="https://mock-ai-prep.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
     Gemini 2.5 · Web Speech · Monaco + Pyodide/WASM · $0 infra
-<span class="t-hi">04</span>  CoreSightIQ (Decision Intel.)   [Analytics] · <span class="t-link">live</span>
+<span class="t-hi">04</span>  CoreSightIQ (Decision Intel.)   [Analytics] · <a class="t-link" href="https://coresightiq.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
     3 products, 1 core engine · walk-forward backtesting
-<span class="t-hi">05</span>  RxFlow (Pharmacy ERP)           [Full-Stack] · <span class="t-link">live</span>
+<span class="t-hi">05</span>  RxFlow (Pharmacy ERP)           [Full-Stack] · <a class="t-link" href="https://rx-flow-web.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
     Multi-tenant · GST billing · real-time sync (SSE)
-<span class="t-hi">06</span>  SnapCast (Screen Recording)     [Full-Stack] · <span class="t-link">live</span>
+<span class="t-hi">06</span>  SnapCast (Screen Recording)     [Full-Stack] · <a class="t-link" href="https://snapcast-video-sharing.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
     Next.js · Cloudinary · AI chapters · better-auth
-<span class="t-hi">07</span>  CipherWatch (Secret Exposure)   [Systems] · <span class="t-link">live</span>
+<span class="t-hi">07</span>  CipherWatch (Secret Exposure)   [Systems] · <a class="t-link" href="https://cipherwatch-web.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
     FastAPI · entropy + regex · SARIF · 26 secret types`,
 
   education: `<span class="t-hi">MS Computer Science</span>  ·  Indiana University Bloomington

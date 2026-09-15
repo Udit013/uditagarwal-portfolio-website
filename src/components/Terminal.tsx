@@ -129,7 +129,7 @@ export function Terminal() {
         print(`<span class="t-err">✗ command not found: '${escHtml(cmd)}' · type <span class="t-hi">help</span></span>`)
       } else if (res.startsWith('__open__')) {
         const url = res.slice(8)
-        printOut(`Opening → <span class="t-link">${url}</span>`)
+        printOut(`Opening → <a class="t-link" href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`)
         setTimeout(() => window.open(url, '_blank', 'noopener,noreferrer'), 500)
       } else if (res === '__chat__') {
         chatMode.current = true

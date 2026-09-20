@@ -13,7 +13,7 @@ export const KB: Record<string, string> = {
 <span class="t-hi">projects</span>       Flagship projects
 <span class="t-hi">education</span>      Academic background
 <span class="t-hi">research</span>       IEEE publication &amp; AI/ML
-<span class="t-hi">certifications</span> DeepLearning.AI &amp; AWS
+<span class="t-hi">certifications</span> Oracle, DeepLearning.AI &amp; AWS
 <span class="t-hi">contact</span>        How to reach Udit
 <span class="t-hi">now</span>            What Udit is currently doing
 <span class="t-hi">github</span>         Open GitHub
@@ -46,7 +46,7 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
 <span class="t-hi">Auth</span>          OAuth 2.0 · JWT · bcrypt · RBAC · Rate Limiting
 <span class="t-hi">Databases</span>     PostgreSQL · pgvector · DynamoDB · MongoDB · Redis · Prisma · Drizzle
 <span class="t-hi">AI / ML</span>       PyTorch · TensorFlow · Transformers · OpenCV · ONNX · Grad-CAM
-<span class="t-hi">LLMs</span>          QLoRA · PEFT · Qwen2.5 · Gemini API · Ollama · RAG · LangGraph
+<span class="t-hi">LLMs</span>          QLoRA · PEFT · Qwen2.5 · Gemini API · RAG · LangChain/LangGraph · MCP · Agents
 <span class="t-hi">Data</span>          Pandas · NumPy · Airflow · Tableau · Forecasting · ETL
 <span class="t-hi">Cloud / Sec</span>   AWS · Docker · GitHub Actions · Vercel · Render · SARIF
 <span class="t-hi">Testing</span>       Vitest · pytest · ESLint · Calibration · OOD Testing`,
@@ -105,7 +105,10 @@ Role:     Co-author
   Veritome · Qwen2.5-7B QLoRA · cited RAG · LangGraph 4-agent workflow
   Transformers · BERT · Prompt Engineering · RAG`,
 
-  certifications: `<span class="t-hi">DeepLearning.AI</span>
+  certifications: `<span class="t-hi">Oracle University</span>
+  Oracle Agentic AI Foundations Associate (1Z0-1157-26) · Sep 2026
+
+<span class="t-hi">DeepLearning.AI</span>
   Neural Networks and Deep Learning
   Credential: ZKQGVGVJGDX7 · Sep 2023
 
@@ -159,6 +162,6 @@ export const CHAT_FAQ: { q: RegExp; a: string }[] = [
   { q: /llm|voice|gemini|vapi|gpt|generative|qlora|fine.?tun|rag|agent/i, a: 'LLM work spans QLoRA/PEFT fine-tuning (Qwen2.5-7B), cited RAG over PubMed with pgvector, LangGraph multi-agent workflows with per-claim citation verification, Gemini API, Ollama, and LLM evaluation with lm-evaluation-harness. Built Veritome, a live biomedical research assistant, and voice interviews on browser-native speech + Gemini.' },
   { q: /data|etl|tableau|airflow|pipeline|analytics|forecast/i, a: 'Strong data engineering & analytics: ETL pipelines, PostgreSQL, forecasting, cohort retention, and A/B testing; see CoreSightIQ, which unifies three analytics products on one core engine with auditable, calibrated metrics (walk-forward backtesting, Brier/ECE).' },
   { q: /location|remote|reloc|where/i, a: 'Based in Bloomington, IN (EST). Open to remote, hybrid, and relocation.' },
-  { q: /cert|aws|deeplearning/i, a: 'Certifications: DeepLearning.AI Neural Networks & Improving DNNs (Sep 2023), AWS Academy Cloud Graduate (Jul 2023).' },
+  { q: /cert|aws|deeplearning/i, a: 'Certifications: Oracle Agentic AI Foundations Associate (Sep 2026), DeepLearning.AI Neural Networks & Improving DNNs (Sep 2023), AWS Academy Cloud Graduate (Jul 2023).' },
   { q: /now|current|exploring/i, a: 'Currently: Senior Consultant at Heartland Community Network and IT Services Consultant at IU UITS. Exploring LLM agents, real-time voice AI, and cloud-native systems.' },
 ]

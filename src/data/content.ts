@@ -119,9 +119,10 @@ export const EDUCATION: Education[] = [
 ]
 
 export const CERTIFICATIONS = [
+  { issuer: 'Oracle University', name: 'Oracle Agentic AI Foundations Associate' },
   { issuer: 'DeepLearning.AI', name: 'Neural Networks & Deep Learning' },
   { issuer: 'DeepLearning.AI', name: 'Improving DNNs: Hyperparameter Tuning' },
-  { issuer: 'Amazon Web Services', name: 'AWS Academy Graduate: Cloud Introduction' },
+  { issuer: 'Amazon Web Services', name: 'AWS Academy Graduate: Cloud Semester 1' },
 ]
 
 /* ── Skills — six categorized groups, each with labeled sub-categories.
@@ -164,7 +165,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     label: "Databases & Data Engineering",
     blurb: "Storage, pipelines and analytics",
     groups: [
-      { label: "Databases & Storage", skills: ["PostgreSQL", "Neon", "pgvector", "DynamoDB", "MySQL", "MongoDB", "Redis", "Firebase (Auth, Firestore)", "Neo4j", "SQLite", "Drizzle ORM", "Prisma", "SQLAlchemy"] },
+      { label: "Databases & Storage", skills: ["PostgreSQL", "Neon", "pgvector", "Oracle AI Vector Search", "DynamoDB", "MySQL", "MongoDB", "Redis", "Firebase (Auth, Firestore)", "Neo4j", "SQLite", "Drizzle ORM", "Prisma", "SQLAlchemy"] },
       { label: "Data Engineering & Analytics", skills: ["Pandas", "NumPy", "Matplotlib", "Tableau", "Apache Airflow", "ETL Pipelines", "Data Modeling", "Forecasting", "Statistical Modeling", "Backtesting", "A/B Testing"] },
     ],
   },
@@ -174,7 +175,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     blurb: "Deep learning, LLMs and fine-tuning",
     groups: [
       { label: "AI / ML", skills: ["PyTorch", "TensorFlow/Keras", "Scikit-learn", "Transformers", "CNNs (VGG16, InceptionV3, EfficientNetB3)", "Transfer Learning", "Computer Vision (OpenCV)", "BERT", "ONNX Runtime", "Grad-CAM", "Prompt Engineering"] },
-      { label: "LLMs & Fine-Tuning", skills: ["Qwen2.5", "LLM Fine-Tuning", "QLoRA", "PEFT/LoRA", "4-bit Quantization (bitsandbytes)", "lm-evaluation-harness", "Gemini API", "Ollama", "RAG", "LangGraph", "Multi-Agent Workflows", "Embeddings & Vector Search (sentence-transformers, pgvector/HNSW)", "Citation Grounding & Hallucination Checks", "LLM Evaluation (Recall@k, MRR, ROUGE-L, BERTScore)", "Structured Generation"] },
+      { label: "LLMs & Fine-Tuning", skills: ["Qwen2.5", "LLM Fine-Tuning", "QLoRA", "PEFT/LoRA", "4-bit Quantization (bitsandbytes)", "lm-evaluation-harness", "Gemini API", "Ollama", "RAG", "LangChain", "LangGraph", "Multi-Agent Workflows", "Model Context Protocol (MCP)", "OpenAI Agents SDK", "OpenAI Responses API", "Tool Use & Function Calling", "Agent Handoffs", "Agent Guardrails & Safety", "Embeddings & Vector Search (sentence-transformers, pgvector/HNSW)", "Citation Grounding & Hallucination Checks", "LLM Evaluation (Recall@k, MRR, ROUGE-L, BERTScore)", "Structured Generation"] },
     ],
   },
   {
@@ -182,7 +183,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     label: "Cloud, DevOps & Security",
     blurb: "Infra, delivery and DevSecOps",
     groups: [
-      { label: "Cloud & DevOps", skills: ["AWS (EC2, S3, Lambda, RDS, CloudFront)", "Vercel", "Render", "Cloudinary", "Expo EAS", "Docker", "CI/CD (GitHub Actions)", "Git", "pnpm Workspaces", "Turborepo", "ServiceNow"] },
+      { label: "Cloud & DevOps", skills: ["AWS (EC2, S3, Lambda, RDS, CloudFront)", "Oracle Cloud Infrastructure (OCI)", "Vercel", "Render", "Cloudinary", "Expo EAS", "Docker", "CI/CD (GitHub Actions)", "Git", "pnpm Workspaces", "Turborepo", "ServiceNow"] },
       { label: "Security & DevSecOps", skills: ["Secrets Detection (SAST)", "Shannon Entropy Analysis", "Git History Auditing", "SARIF / GitHub Code Scanning", "Application Security Auditing (IDOR, Broken Access Control, Path Traversal)"] },
     ],
   },

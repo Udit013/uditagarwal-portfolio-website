@@ -238,6 +238,15 @@ Aug 2020 – May 2024
 
 ---
 
+## CERTIFICATIONS
+
+- **Oracle Agentic AI Foundations Associate (1Z0-1157-26)** — Oracle University, Sep 2026
+- **Neural Networks and Deep Learning** — DeepLearning.AI, Sep 2023 (credential ZKQGVGVJGDX7)
+- **Improving Deep Neural Networks: Hyperparameter Tuning** — DeepLearning.AI, Sep 2023 (credential ZLN2LZ2YZNLE)
+- **AWS Academy Graduate: Cloud Semester 1** — Amazon Web Services, Jul 2023
+
+---
+
 ## TECHNICAL SKILLS (full master list)
 
 **Programming Languages:** Python, TypeScript, JavaScript, Java, C/C++, SQL
@@ -245,10 +254,10 @@ Aug 2020 – May 2024
 **Browser APIs:** MediaRecorder, Canvas, Web Speech API, Web Crypto API, Web Workers, WebAssembly (Pyodide), IndexedDB
 **Backend & APIs:** Node.js, Express.js, Fastify, FastAPI, REST APIs, Next.js Server Actions, WebSockets, Server-Sent Events, Swagger/OpenAPI, Zod, Pydantic, APScheduler
 **Auth & Security:** OAuth 2.0, JWT, bcrypt, better-auth, Role-Based Access Control, Rate Limiting
-**Databases & Storage:** PostgreSQL, Neon, pgvector, DynamoDB, MySQL, MongoDB, Redis, Firebase (Auth, Firestore), Neo4j, SQLite, Drizzle ORM, Prisma, SQLAlchemy
-**Cloud & DevOps:** AWS (EC2, S3, Lambda, RDS, CloudFront), Vercel, Render, Cloudinary, Expo EAS, Docker, CI/CD (GitHub Actions), Git, pnpm Workspaces, Turborepo, ServiceNow
+**Databases & Storage:** PostgreSQL, Neon, pgvector, Oracle AI Vector Search, DynamoDB, MySQL, MongoDB, Redis, Firebase (Auth, Firestore), Neo4j, SQLite, Drizzle ORM, Prisma, SQLAlchemy
+**Cloud & DevOps:** AWS (EC2, S3, Lambda, RDS, CloudFront), Oracle Cloud Infrastructure (OCI Enterprise AI Platform, OCI Enterprise AI Agents), Vercel, Render, Cloudinary, Expo EAS, Docker, CI/CD (GitHub Actions), Git, pnpm Workspaces, Turborepo, ServiceNow
 **AI/ML:** PyTorch, TensorFlow/Keras, Scikit-learn, Transformers, CNNs (VGG16, InceptionV3, EfficientNetB3), Transfer Learning, Computer Vision (OpenCV), BERT, ONNX Runtime, Grad-CAM, Prompt Engineering
-**LLMs & Fine-Tuning:** Qwen2.5, LLM Fine-Tuning, QLoRA, PEFT/LoRA, 4-bit Quantization (bitsandbytes), lm-evaluation-harness, Gemini API, Ollama, RAG, LangGraph, Multi-Agent Workflows, Embeddings & Vector Search (sentence-transformers, pgvector/HNSW), Citation Grounding & Hallucination Checks, LLM Evaluation (Recall@k, MRR, ROUGE-L, BERTScore), Structured Generation
+**LLMs & Fine-Tuning:** Qwen2.5, LLM Fine-Tuning, QLoRA, PEFT/LoRA, 4-bit Quantization (bitsandbytes), lm-evaluation-harness, Gemini API, Ollama, RAG, LangChain, LangGraph, Multi-Agent Workflows, Model Context Protocol (MCP), OpenAI Agents SDK, OpenAI Responses API, Tool Use & Function Calling, Agent Handoffs, Agent Guardrails & Safety, Embeddings & Vector Search (sentence-transformers, pgvector/HNSW), Citation Grounding & Hallucination Checks, LLM Evaluation (Recall@k, MRR, ROUGE-L, BERTScore), Structured Generation
 **Data Engineering & Analytics:** Pandas, NumPy, Matplotlib, Tableau, Apache Airflow, ETL Pipelines, Data Modeling, Forecasting, Statistical Modeling, Backtesting, A/B Testing
 **Security & DevSecOps:** Secrets Detection (SAST), Shannon Entropy Analysis, Git History Auditing, SARIF / GitHub Code Scanning, Application Security Auditing (IDOR, Broken Access Control, Path Traversal)
 **Testing & Quality:** Vitest, pytest, Unit & Integration Testing, TypeScript strict mode, ESLint

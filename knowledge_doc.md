@@ -240,10 +240,10 @@ Aug 2020 – May 2024
 
 ## CERTIFICATIONS
 
-- **Oracle Agentic AI Foundations Associate (1Z0-1157-26)** — Oracle University, Sep 2026
-- **Neural Networks and Deep Learning** — DeepLearning.AI, Sep 2023 (credential ZKQGVGVJGDX7)
-- **Improving Deep Neural Networks: Hyperparameter Tuning** — DeepLearning.AI, Sep 2023 (credential ZLN2LZ2YZNLE)
-- **AWS Academy Graduate: Cloud Semester 1** — Amazon Web Services, Jul 2023
+- **Oracle Agentic AI Foundations Associate** — Oracle University, Sep 2026
+- **Neural Networks and Deep Learning** — DeepLearning.AI (Coursera), Sep 2023 (credential ZKQGVGVJGDX7)
+- **Improving Deep Neural Networks: Hyperparameter Tuning, Regularization and Optimization** — DeepLearning.AI (Coursera), Sep 2023 (credential ZLN2LZ2YZNLE)
+- **AWS Academy Graduate - AWS Academy Introduction to Cloud, Semester 1** — AWS Academy, Jul 2023
 
 ---
 

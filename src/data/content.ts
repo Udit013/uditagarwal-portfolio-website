@@ -120,9 +120,9 @@ export const EDUCATION: Education[] = [
 
 export const CERTIFICATIONS = [
   { issuer: 'Oracle University', name: 'Oracle Agentic AI Foundations Associate' },
-  { issuer: 'DeepLearning.AI', name: 'Neural Networks & Deep Learning' },
-  { issuer: 'DeepLearning.AI', name: 'Improving DNNs: Hyperparameter Tuning' },
-  { issuer: 'Amazon Web Services', name: 'AWS Academy Graduate: Cloud Semester 1' },
+  { issuer: 'DeepLearning.AI (Coursera)', name: 'Neural Networks and Deep Learning' },
+  { issuer: 'DeepLearning.AI (Coursera)', name: 'Improving Deep Neural Networks: Hyperparameter Tuning, Regularization and Optimization' },
+  { issuer: 'AWS Academy', name: 'AWS Academy Graduate - AWS Academy Introduction to Cloud, Semester 1' },
 ]
 
 /* ── Skills — six categorized groups, each with labeled sub-categories.

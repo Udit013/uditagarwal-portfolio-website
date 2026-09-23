@@ -82,6 +82,7 @@ Aug 2020 – May 2024
 
 ### Chomp — Social Recipe & Creator App
 **Live:** Private — client project via Heartland Community Network (pre-launch)
+**Attribution:** Client confidentiality — the product is not to be named on resumes at present. The underlying skills and the experience itself remain claimable.
 **Code:** Private repositories
 **Stack:** React Native 0.81 · Expo SDK 54 (EAS) · Expo Router · TypeScript · Node.js · Express · AWS DynamoDB · JWT · Swagger/OpenAPI
 **Description:** Cross-platform (iOS/Android) social recipe app where users share recipes, posts, and stories, follow chefs, explore trending content, and organize recipe books and grocery lists — plus a creator program (application, admin review, creator dashboard) and Stripe-backed premium subscriptions and creator payouts, on a Node.js/Express backend over AWS DynamoDB, S3, and CloudFront.
@@ -238,15 +239,6 @@ Aug 2020 – May 2024
 
 ---
 
-## CERTIFICATIONS
-
-- **Oracle Agentic AI Foundations Associate** — Oracle University, Sep 2026
-- **Neural Networks and Deep Learning** — DeepLearning.AI (Coursera), Sep 2023 (credential ZKQGVGVJGDX7)
-- **Improving Deep Neural Networks: Hyperparameter Tuning, Regularization and Optimization** — DeepLearning.AI (Coursera), Sep 2023 (credential ZLN2LZ2YZNLE)
-- **AWS Academy Graduate - AWS Academy Introduction to Cloud, Semester 1** — AWS Academy, Jul 2023
-
----
-
 ## TECHNICAL SKILLS (full master list)
 
 **Programming Languages:** Python, TypeScript, JavaScript, Java, C/C++, SQL
@@ -265,3 +257,26 @@ Aug 2020 – May 2024
 **MLOps & Experimentation:** Model Evaluation & Benchmarking, Inference Optimization, Experiment Tracking, Hyperparameter Tuning, Cross-Validation, Error Analysis, Data Leakage Auditing, Confidence Calibration, Uncertainty Estimation (Test-Time Augmentation), Robustness Testing, OOD Testing, Data Drift Detection, Model Cards, Hugging Face (Hub, Spaces, Inference), Gradio
 
 ---
+
+## CERTIFICATIONS
+
+| Credential | Issuer | Date | Verification |
+|---|---|---|---|
+| Oracle Certified Foundations Associate - Agentic AI (exam 1Z0-1157-26). Certificate title: "Agentic AI Certified Foundations Associate". Credential ID 331774691AAI26OFA | Oracle University | Sep 20, 2026 | https://catalog-education.oracle.com/pls/certview/sharebadge?id=2DF428C813E7A33DA925DB9E030385DA4FB6699D7109218C35E27AA01AEBF489 |
+| Neural Networks and Deep Learning | DeepLearning.AI (Coursera) | Sep 10, 2023 | coursera.org/verify/ZKQGVGVJGDX7 |
+| Improving Deep Neural Networks: Hyperparameter Tuning, Regularization and Optimization | DeepLearning.AI (Coursera) | Sep 13, 2023 | coursera.org/verify/ZLN2LZ2YZNLE |
+| AWS Academy Graduate - AWS Academy Introduction to Cloud, Semester 1 | AWS Academy | Jul 8, 2023 | credly.com/go/y7D2u8ge |
+
+---
+
+## WORK AUTHORIZATION
+
+- **Current status:** F-1 OPT. EAD valid through **7 June 2027**.
+- **Extension:** eligible for the 24-month STEM OPT extension, which he intends to apply
+  for. Approved, that adds two years on top of the current EAD.
+- **Net effect:** authorized to work in the US now, and for approximately three years
+  total across OPT plus STEM OPT, without requiring H-1B or any other employer
+  sponsorship during that period.
+- **After that window:** continued employment would require sponsorship.
+- **Outside the US:** no independent right to work in any other country except India. Any non-US role would require sponsorship.
+

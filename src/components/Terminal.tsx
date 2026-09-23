@@ -284,13 +284,13 @@ export function Terminal() {
             portfolio@udit
           </span>
           <div className="term-toolbar">
-            <button className="term-action-btn term-btn-clear" title="Clear terminal" aria-label="Clear terminal output" onClick={() => setLines([])}>
+            <button className="term-action-btn term-btn-clear" data-tip="Clear terminal" aria-label="Clear terminal output" onClick={() => setLines([])}>
               ⌫
             </button>
-            <button className="term-action-btn term-btn-copy" title="Copy all output" aria-label="Copy all terminal output" onClick={copyAll}>
+            <button className="term-action-btn term-btn-copy" data-tip="Copy all output" aria-label="Copy all terminal output" onClick={copyAll}>
               ⧉
             </button>
-            <button className="term-close" aria-label="Close terminal" type="button" onClick={closePanel}>
+            <button className="term-close" data-tip="Close" aria-label="Close terminal" type="button" onClick={closePanel}>
               ×
             </button>
           </div>

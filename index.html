@@ -154,10 +154,16 @@
       #loader { display: none; }
     }
   </style>
-  <!-- Inline theme script prevents flash of wrong theme -->
+  <!-- Inline theme script prevents flash of wrong theme. Storage access throws
+       when a browser blocks site data, so it is guarded; only known themes are
+       accepted. Its hash is pinned in vercel.json's CSP (npm run check:csp). -->
   <script>
     (function () {
-      var t = localStorage.getItem('udit-theme') || 'dark';
+      var t = 'dark';
+      try {
+        var s = localStorage.getItem('udit-theme');
+        if (s === 'light' || s === 'dark') t = s;
+      } catch (e) {}
       document.documentElement.setAttribute('data-theme', t);
     })();
   </script>

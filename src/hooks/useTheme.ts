@@ -8,12 +8,20 @@ const STORAGE_KEY = 'udit-theme'
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof document === 'undefined') return 'dark'
-    return (document.documentElement.getAttribute('data-theme') as Theme) || 'dark'
+    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark'
   })
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem(STORAGE_KEY, theme)
+    // Storage access throws (SecurityError) when a browser blocks site data.
+    // Unguarded, that throw escaped this effect into the error boundary and
+    // replaced the entire site with the error screen. Persisting the theme is
+    // a convenience; the toggle still works for the visit without it.
+    try {
+      localStorage.setItem(STORAGE_KEY, theme)
+    } catch {
+      /* storage unavailable: theme simply isn't remembered */
+    }
     // Keep the mobile browser chrome in sync with the manual toggle
     // (the static meta tags only track the OS-level preference)
     document

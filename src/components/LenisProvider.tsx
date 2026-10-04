@@ -1,12 +1,11 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { LenisContext } from '../hooks/useLenis'
 import { isTouch } from '../lib/utils'
 
 gsap.registerPlugin(ScrollTrigger)
-
-const LenisContext = createContext<Lenis | null>(null)
 
 /**
  * Provides a single Lenis smooth-scroll instance (desktop only — native scroll
@@ -52,18 +51,4 @@ export function LenisProvider({ children }: { children: ReactNode }) {
   }, [])
 
   return <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>
-}
-
-export const useLenis = () => useContext(LenisContext)
-
-/** Smooth-scroll to an element id (with nav offset), via Lenis or native fallback. */
-export function scrollToId(lenis: Lenis | null, id: string) {
-  const target = document.getElementById(id)
-  if (!target) return
-  if (lenis) {
-    lenis.scrollTo(target, { offset: -70, duration: 1.4 })
-  } else {
-    const y = target.getBoundingClientRect().top + window.scrollY - 70
-    window.scrollTo({ top: y, behavior: 'smooth' })
-  }
 }

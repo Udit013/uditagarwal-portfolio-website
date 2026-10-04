@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { LenisProvider } from './hooks/useLenis'
+import { LenisProvider } from './components/LenisProvider'
 import { useSiteAnimations } from './hooks/useSiteAnimations'
 import { initMouse } from './lib/mouse'
 import { ErrorBoundary } from './components/ErrorBoundary'

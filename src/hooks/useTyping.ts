@@ -9,7 +9,7 @@ const START_DELAY = 1200
 export function useTyping(roles: string[]) {
   const [text, setText] = useState('')
   const state = useRef({ idx: 0, charIndex: 0, deleting: false })
-  const timer = useRef<ReturnType<typeof setTimeout>>()
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   useEffect(() => {
     const tick = () => {

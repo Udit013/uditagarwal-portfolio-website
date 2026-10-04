@@ -5,7 +5,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules', 'vite.config.d.ts'] },
+  { ignores: ['dist', 'node_modules', 'vite.config.d.ts', 'playwright-report', 'test-results'] },
 
   // Browser app source
   {
@@ -23,6 +23,16 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       // Unused args are fine when prefixed with _ (e.g. deliberate signatures).
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    },
+  },
+
+  // End-to-end tests (Playwright, Node context)
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ['e2e/**/*.ts', 'playwright.config.ts'],
+    languageOptions: { ecmaVersion: 2022, globals: globals.node },
+    rules: {
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
     },
   },

@@ -19,9 +19,12 @@ export default defineConfig({
         /* Split the dependencies out of the app chunk. They change far less
            often than the site content, so a copy edit no longer invalidates
            ~100 KB of cached React/GSAP on repeat visits. */
-        manualChunks: {
-          react: ['react', 'react-dom'],
-          motion: ['gsap', 'lenis', 'split-type'],
+        manualChunks(id) {
+          // Match by path, not entry name: React 19 renders through
+          // react-dom/client and scheduler, which a ['react', 'react-dom']
+          // list missed, folding the framework into the app chunk.
+          if (/[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/.test(id)) return 'react'
+          if (/[\\/]node_modules[\\/](gsap|lenis|split-type)[\\/]/.test(id)) return 'motion'
         },
       },
     },

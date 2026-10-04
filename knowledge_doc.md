@@ -8,6 +8,7 @@
 - **Name:** Udit Agarwal
 - **Email:** agarwaludit13@gmail.com
 - **Phone:** +1 (930) 904-4901
+- **Date of Birth:** May 13, 2002
 - **LinkedIn:** linkedin.com/in/udit013
 - **GitHub:** github.com/Udit013
 - **Portfolio:** uditagarwal.vercel.app
@@ -227,7 +228,7 @@ Aug 2020 – May 2024
 ### Personal Portfolio Website - Interactive Web Experience
 **Live:** https://uditagarwal.vercel.app
 **Code:** github.com/Udit013/uditagarwal-portfolio-website
-**Stack:** React 18 · TypeScript (strict) · Vite · GSAP (ScrollTrigger) · Lenis · SplitType · WebGL (hand-written, no Three.js) · ESLint · Vercel
+**Stack:** React 18 · TypeScript 6 (strict) · Vite · GSAP (ScrollTrigger) · Lenis · SplitType · WebGL (hand-written, no Three.js) · ESLint · Playwright · GitHub Actions · Vercel
 **Description:** Interactive, animated portfolio with a liquid-glass UI in light and dark themes and a cursor-reactive WebGL particle backdrop. Features an intro curtain painted from static HTML, a cursor-driven real ⇆ anime portrait split, a tabbed skills toolkit, an infinite project belt with case-study drawers and screenshots, GSAP + Lenis scroll motion, and a built-in interactive terminal. Fully responsive, honors reduced motion, and deploys on push via Vercel.
 **Bullets:**
 - Replaced a Three.js / React Three Fiber scene with a hand-written, dependency-free WebGL particle field (~230 lines), removing **~218 KB** of gzipped JavaScript while keeping the same visual
@@ -236,6 +237,7 @@ Aug 2020 – May 2024
 - Painted the intro curtain from static HTML on the first frame and lifted it on font readiness with a failsafe timer, holding LCP to **688 ms** on throttled Fast 4G with a 4× CPU slowdown
 - Reached **0** axe-core violations across dark, light, mobile, and open-terminal states by moving accent buttons to a theme-aware text token (**2.64:1 → 7.34:1** contrast), making off-screen menus inert with focus restoration, and implementing the WAI-ARIA tabs and carousel patterns
 - Kept design tokens single-sourced — CSS custom properties read by the WebGL layer at runtime, plus a lint-time check that fails if the pre-paint loader palette drifts — alongside ESLint, strict TypeScript, a top-level error boundary, and CSP/HSTS security headers on Vercel
+- Gated every push with a **22-test** Playwright suite (desktop and mobile, including axe-core WCAG A/AA checks) in a GitHub Actions pipeline with weekly dependency audits, after fixing a crash that replaced the entire site with an error screen when browsers block site storage, replacing the CSP's `'unsafe-inline'` with SHA-256 script hashes enforced by a build-time check, and cutting case-study screenshot weight **86%** (**1.87 MB → 269 KB**) with WebP
 
 ---
 
@@ -260,12 +262,28 @@ Aug 2020 – May 2024
 
 ## CERTIFICATIONS
 
+### Featured Certifications
+
 | Credential | Issuer | Date | Verification |
 |---|---|---|---|
-| Oracle Certified Foundations Associate - Agentic AI (exam 1Z0-1157-26). Certificate title: "Agentic AI Certified Foundations Associate". Credential ID 331774691AAI26OFA | Oracle University | Sep 20, 2026 | https://catalog-education.oracle.com/pls/certview/sharebadge?id=2DF428C813E7A33DA925DB9E030385DA4FB6699D7109218C35E27AA01AEBF489 |
-| Neural Networks and Deep Learning | DeepLearning.AI (Coursera) | Sep 10, 2023 | coursera.org/verify/ZKQGVGVJGDX7 |
-| Improving Deep Neural Networks: Hyperparameter Tuning, Regularization and Optimization | DeepLearning.AI (Coursera) | Sep 13, 2023 | coursera.org/verify/ZLN2LZ2YZNLE |
-| AWS Academy Graduate - AWS Academy Introduction to Cloud, Semester 1 | AWS Academy | Jul 8, 2023 | credly.com/go/y7D2u8ge |
+| **Oracle Certified Foundations Associate - Agentic AI** | Oracle University | Sep 20, 2026 | [Verify](https://catalog-education.oracle.com/pls/certview/sharebadge?id=2DF428C813E7A33DA925DB9E030385DA4FB6699D7109218C35E27AA01AEBF489) |
+| **Neural Networks and Deep Learning** | DeepLearning.AI / Coursera | Sep 10, 2023 | [Verify](https://coursera.org/verify/ZKQGVGVJGDX7) |
+| **Improving Deep Neural Networks: Hyperparameter Tuning, Regularization and Optimization** | DeepLearning.AI / Coursera | Sep 13, 2023 | [Verify](https://coursera.org/verify/ZLN2LZ2YZNLE) |
+| **AWS Academy Graduate - AWS Academy Introduction to Cloud, Semester 1** | AWS Academy | Jul 8, 2023 | [Verify](https://credly.com/go/y7D2u8ge) |
+
+### Additional Certifications & Courses
+
+| Credential | Issuer | Date |
+|---|---|---|
+| Introduction to SQL | DataCamp | Aug 31, 2025 |
+| Joining Data in SQL | DataCamp | Sep 8, 2025 |
+| Introduction to Snowflake | DataCamp | Sep 25, 2025 |
+| NoSQL Concepts | DataCamp | Oct 6, 2025 |
+| Introduction to Neo4j | LinkedIn Learning | Oct 27, 2025 |
+| Introduction to Cassandra | LinkedIn Learning | Nov 10, 2025 |
+| React (Basic) | HackerRank | Jun 11, 2023 |
+| Problem Solving (Intermediate) | HackerRank | Sep 10, 2022 |
+| Problem Solving (Basic) | HackerRank | Sep 10, 2022 |
 
 ---
 

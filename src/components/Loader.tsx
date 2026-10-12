@@ -71,15 +71,18 @@ export function Loader() {
       if (cancelled) return
       cancelled = true // whichever of ready/cap wins, only lift once
       takeOver()
+      // A visitor who already sat through the ceiling has waited enough: open
+      // the panels straight away instead of playing the full outro first.
+      const late = performance.now() >= MAX_MS
       tl = gsap
         .timeline({ onComplete: () => el.remove() })
-        // finish the progress bar honestly before the panels move
+        // finish the progress bar while the mark fades, then open the panels
         .to('#loader .loader-bar-fill', { scaleX: 1, duration: 0.22, ease: 'power2.out' })
-        .to('#loader .loader-mark', { opacity: 0, duration: 0.22, ease: 'power2.in' })
+        .to('#loader .loader-mark', { opacity: 0, duration: 0.22, ease: 'power2.in' }, late ? 0 : 0.08)
         .to(
           '#loader .loader-panel',
           { scaleY: 0, duration: 0.6, ease: 'power4.inOut', stagger: 0.08, transformOrigin: 'top' },
-          '-=.05',
+          late ? 0 : 0.2,
         )
         // hero entrance starts with the panels, so it plays in full view
         .add(markRevealed, '<')
@@ -87,7 +90,14 @@ export function Loader() {
 
     // performance.now() is measured from navigation start, which is when the
     // curtain actually appeared — not when this bundle finished parsing.
-    const fonts = document.fonts?.ready ?? Promise.resolve()
+    // document.fonts.ready is not enough: it settles as soon as nothing is
+    // *currently* loading, which is before React has rendered the text that
+    // requests the serif faces, so the curtain lifted and the tagline then
+    // swapped fonts in view. Ask for the faces the hero actually uses.
+    const HERO_FONTS = ['700 1em Unbounded', '400 1em "Fragment Mono"', 'italic 400 1em "Libre Baskerville"']
+    const fonts = document.fonts
+      ? Promise.all(HERO_FONTS.map((f) => document.fonts.load(f))).catch(() => undefined)
+      : Promise.resolve()
     const ready = Promise.all([fonts, after(MIN_MS - performance.now())])
     Promise.race([ready, after(MAX_MS - performance.now())]).then(lift)
 

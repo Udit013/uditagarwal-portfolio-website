@@ -65,6 +65,9 @@
        Unbounded & Libre Baskerville are variable files covering all used weights. -->
   <link rel="preload" href="/fonts/unbounded-var.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin />
+  <!-- The hero tagline (the mobile LCP element) is set in this face. Without
+       the preload it is only discovered after React renders, ~1s later. -->
+  <link rel="preload" href="/fonts/libre-baskerville-italic.woff2" as="font" type="font/woff2" crossorigin />
   <style>
     @font-face {
       font-family: 'Unbounded';

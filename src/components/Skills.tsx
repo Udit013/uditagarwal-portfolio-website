@@ -50,8 +50,17 @@ export function Skills() {
     })
   }, [active, displayed])
 
-  /* Entrance for the displayed category's sub-groups. */
+  /* Entrance for the displayed category's sub-groups — on tab changes only.
+     On first mount the section is below the fold and already in its final
+     state; tweening it then made GSAP read computed styles inside React's
+     mount, forcing the page's first full style + layout pass into that task
+     (~0.5s of the startup long task on a throttled phone). */
+  const mounted = useRef(false)
   useLayoutEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true
+      return
+    }
     const stage = stageRef.current
     if (!stage) return
     const groups = gsap.utils.toArray<HTMLElement>('.toolkit-group', stage)

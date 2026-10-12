@@ -55,10 +55,13 @@ export function useSiteAnimations() {
           stagger: 0.08,
           ease: 'power4.out',
         })
-          .to('#heroEyebrow', { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=.5')
-          .to('#heroRole', { opacity: 1, duration: 0.4, ease: 'power3.out' }, '-=.35')
-          .to('#heroMeta', { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, '-=.3')
-          .to('#heroBadge', { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)' }, '-=.4')
+          // Absolute start times, top to bottom, overlapping the name rise.
+          // #heroMeta holds the tagline (the mobile LCP element): it used to
+          // start 0.53s in, after the name had nearly landed.
+          .to('#heroEyebrow', { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0.12)
+          .to('#heroRole', { opacity: 1, duration: 0.4, ease: 'power3.out' }, 0.22)
+          .to('#heroMeta', { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0.3)
+          .to('#heroBadge', { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)' }, 0.36)
 
         offReveal = onReveal(() => tl.play())
 

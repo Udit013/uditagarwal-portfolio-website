@@ -14,7 +14,8 @@ export function Counter({ raw, className, ariaLabel }: CounterProps) {
   const ref = useRef<HTMLSpanElement>(null)
   const [numeric, scale] = raw.split('/')
   const target = parseFloat(numeric)
-  const decimals = numeric.includes('.') ? 2 : 0
+  // Keep the source precision: "11.7" must not count up to "11.70".
+  const decimals = numeric.includes('.') ? numeric.split('.')[1].length : 0
   const done = useRef(false)
 
   useEffect(() => {

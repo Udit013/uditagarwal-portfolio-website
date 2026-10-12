@@ -568,7 +568,6 @@ export const CONTACT_LINKS = [
     value: '+1 (930) 904-4901',
     href: 'tel:+19309044901',
     cursor: 'Call',
-    ariaLabel: 'Call Udit: +1 (930) 904-4901',
   },
   {
     icon: 'in',

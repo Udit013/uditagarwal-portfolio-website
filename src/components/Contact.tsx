@@ -92,7 +92,10 @@ export function Contact() {
                 className="clink glass-card"
                 data-magnetic
                 data-cursor={link.cursor}
-                aria-label={link.ariaLabel ?? (link.external ? `${link.label} profile (opens in new tab)` : undefined)}
+                /* No aria-label: the visible label + value is the accessible
+                   name. An aria-label replaced it ("Call Udit: …"), which
+                   breaks WCAG 2.5.3 for people who click by voicing the
+                   text they see. */
                 {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
                 <div className="clink-icon" aria-hidden="true">
@@ -112,6 +115,7 @@ export function Contact() {
                       link.value
                     )}
                   </span>
+                  {link.external && <span className="sr-only"> (opens in new tab)</span>}
                 </div>
                 <span className="clink-arr" aria-hidden="true">
                   ↗

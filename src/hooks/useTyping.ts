@@ -1,17 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
+import { prefersReducedMotion } from '../lib/utils'
 
 const TYPE_SPEED = 70
 const DELETE_SPEED = 35
 const PAUSE_TIME = 2000
 const START_DELAY = 1200
 
-/** Typewriter cycling through a list of phrases. Pauses when the tab is hidden. */
+/**
+ * Typewriter cycling through a list of phrases. Pauses when the tab is hidden.
+ * Under prefers-reduced-motion it shows the first phrase, still: endless
+ * typing is exactly the kind of motion that setting asks to stop.
+ */
 export function useTyping(roles: string[]) {
-  const [text, setText] = useState('')
+  const [reduced] = useState(prefersReducedMotion)
+  const [text, setText] = useState(reduced ? roles[0] : '')
   const state = useRef({ idx: 0, charIndex: 0, deleting: false })
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   useEffect(() => {
+    if (reduced) return
     const tick = () => {
       const s = state.current
       const current = roles[s.idx]

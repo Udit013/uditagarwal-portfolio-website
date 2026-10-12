@@ -1146,7 +1146,12 @@ body.cur-label-show .cur-label { opacity: 1; }
   border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
 }
 .proj-stat-val { font-family: var(--f-display); font-size: 1.6rem; font-weight: 900; color: var(--accent3); line-height: 1; }
-.proj-stat small { font-size: .45em; }
+.proj-stat small {
+  /* Unit beside the number ("M", "%", "K"). It sits next to the value, not
+     inside it, so .45em resolved against ~14px body text: ~6px, unreadable. */
+  font-family: var(--f-display); font-weight: 800; font-size: .95rem;
+  color: var(--accent3); margin-left: 2px;
+}
 .proj-stat-lbl { font-family: var(--f-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--fg3); margin-top: 3px; display: block; }
 .proj-card-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; }
 
@@ -1720,11 +1725,12 @@ body.cur-label-show .cur-label { opacity: 1; }
 @media (max-width: 600px) { .hero-name { font-size: clamp(2rem, 12.5vw, 3.6rem); } }
 @media (max-width: 380px) { .hero-name { font-size: clamp(1.85rem, 12.5vw, 2.7rem); } }
 
-/* On phones, drop the full-height bottom-pin — let the hero be compact so
-   there's no large empty band between the role and the meta bar. */
-@media (max-width: 700px) {
+/* On phones and other tall viewports (portrait tablets), drop the full-height
+   bottom-pin. The name is sized by width, so on a 820x1180 iPad the pinned
+   meta bar left a ~600px empty band between the role and the tagline. */
+@media (max-width: 700px), (max-aspect-ratio: 4/5) {
   .hero { min-height: auto; }
-  .hero-inner { flex: 0 1 auto; padding-bottom: clamp(1.5rem, 6vw, 2.5rem); }
+  .hero-inner { flex: 0 1 auto; padding-bottom: clamp(1.5rem, 6vw, 4.5rem); }
   .hero-meta { margin-top: 0; }
 }
 

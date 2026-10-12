@@ -10,31 +10,37 @@ function JourneyItem({ entry }: { entry: JourneyEntry }) {
         <div className="jtl-dot" />
         <div className="jtl-line" />
       </div>
+      {/* Three areas — head, body, tags. Desktop: head + tags on the left,
+          body on the right. Narrower: stacked head → body → tags. */}
       <div className="jtl-content glass-card">
-        <div className="jtl-meta">
-          <time className="journey-period" dateTime={entry.datetime}>
-            {entry.period}
-          </time>
-          {entry.current && (
-            <span className="journey-now">
-              <span className="now-dot" aria-hidden="true" />
-              Current
-            </span>
-          )}
-          <span className="journey-type">{entry.type}</span>
+        <div className="jtl-head">
+          <div className="jtl-meta">
+            <time className="journey-period" dateTime={entry.datetime}>
+              {entry.period}
+            </time>
+            {entry.current && (
+              <span className="journey-now">
+                <span className="now-dot" aria-hidden="true" />
+                Current
+              </span>
+            )}
+            <span className="journey-type">{entry.type}</span>
+          </div>
+          <h3 className="journey-role">{entry.role}</h3>
+          <div className="journey-company">{entry.company}</div>
+          <div className="journey-loc">
+            <span aria-hidden="true">📍</span> {entry.location}
+          </div>
         </div>
-        <div className="journey-role">{entry.role}</div>
-        <div className="journey-company">{entry.company}</div>
-        <div className="journey-loc">
-          <span aria-hidden="true">📍</span> {entry.location}
+        <div className="jtl-body">
+          <p className="journey-desc">{entry.desc}</p>
+          <ul className="journey-bullets" aria-label="Key contributions">
+            {entry.bullets.map((b, i) => (
+              <li key={i}>{b}</li>
+            ))}
+          </ul>
         </div>
-        <p className="journey-desc">{entry.desc}</p>
-        <ul className="journey-bullets" aria-label="Key contributions">
-          {entry.bullets.map((b, i) => (
-            <li key={i}>{b}</li>
-          ))}
-        </ul>
-        <div className="chip-row" aria-label="Technologies">
+        <div className="chip-row jtl-chips" aria-label="Technologies">
           {entry.chips.map((c) => (
             <span className="chip" key={c}>
               {c}

@@ -35,9 +35,9 @@ Deployed on Vercel: pushing to `main` triggers a production deploy.
   grid. The certification list is the part that grows, so from the 7th
   certificate it splits into two columns; on tablets and phones the
   credentials stack and certifications tile.
-- **Tabbed skills toolkit**: six WAI-ARIA tabs (Programming & Frontend;
+- **Tabbed skills toolkit**: six WAI-ARIA tabs (a single swipeable row on phones): Programming & Frontend;
   Backend, APIs & Architecture; Databases & Data Engineering; AI, Machine
-  Learning & LLMs; Cloud, DevOps & Security; Testing, Quality & MLOps), each
+  Learning & LLMs; Cloud, DevOps & Security; Testing, Quality & MLOps, each
   broken into labeled sub-categories.
 - **Infinite project belt**: flagship projects glide in a seamless marquee;
   hover captures the scroll wheel to drive the belt with momentum, touch drags
@@ -85,6 +85,7 @@ the app branches on both (Lenis and the custom cursor are desktop-only).
 | `interactions.spec.ts` | Skills tabs (keyboard pattern); case-study drawer (focus, Escape, restore); terminal commands, links, and input escaping; contact-form validation |
 | `a11y.spec.ts` | axe-core WCAG A/AA in dark and light themes and with the terminal open |
 | `about.spec.ts` | About layout contract: desktop columns, the 7+ certificate rule, tablet stacking, mobile reading order |
+| `regressions.spec.ts` | Pinned bugs: stat precision and unit size, static role under reduced motion, WCAG 2.5.3 label-in-name on contact links, swipeable skill tabs on phones |
 
 `e2e/fixtures.ts` loads each page past the intro curtain and fails a test on
 any uncaught exception or console error.

@@ -2,7 +2,40 @@
  * terminal.ts — knowledge base + chat FAQ for the interactive terminal.
  * The string values may contain HTML (rendered via dangerouslySetInnerHTML,
  * exactly as in the original vanilla implementation — content is static/trusted).
+ *
+ * Per-project commands (`prepwise`, `cipherwatch`, …) and their chat answers
+ * are generated from PROJECTS in content.ts, so the terminal can't drift from
+ * the project cards and case-study drawers.
  */
+import { PROJECTS, type Project } from './content'
+
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+const link = (href: string, text: string) =>
+  `<a class="t-link" href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`
+
+/** "PrepWise - AI Voice Interview Platform" → command "prepwise" */
+const projectKey = (p: Project) => p.title.split(' - ')[0].trim().toLowerCase().replace(/[^a-z0-9]/g, '')
+
+function projectDetail(p: Project): string {
+  const [name, subtitle] = p.title.split(' - ')
+  const stats = (p.stats ?? []).map((s) => `<span class="t-hi">${esc(s.value + (s.suffix ?? ''))}</span> ${esc(s.label)}`).join('  ·  ')
+  const links = [
+    p.live && link(p.live, 'live'),
+    p.repo && link(p.repo, 'code'),
+    p.paper && link(p.paper, 'paper'),
+    p.model && link(p.model, 'model'),
+  ].filter(Boolean).join(' · ')
+  return [
+    `<span class="t-hi">${esc(name)}</span>${subtitle ? `  ·  ${esc(subtitle)}` : ''}`,
+    esc(p.desc),
+    stats,
+    ...(p.study?.highlights ?? []).map((h) => `  → ${esc(h)}`),
+    `<span class="t-sys">${esc(p.chips.join(' · '))}</span>`,
+    links,
+  ].filter(Boolean).join('\n')
+}
+
+const PROJECT_COMMANDS: Record<string, string> = Object.fromEntries(PROJECTS.map((p) => [projectKey(p), projectDetail(p)]))
 
 export const KB: Record<string, string> = {
   help: `<span class="t-sys">Portfolio Terminal  ·  Commands:</span>
@@ -11,6 +44,7 @@ export const KB: Record<string, string> = {
 <span class="t-hi">skills</span>         Full tech stack
 <span class="t-hi">experience</span>     Work history
 <span class="t-hi">projects</span>       Flagship projects
+<span class="t-hi">&lt;project&gt;</span>      Details, e.g. <span class="t-hi">prepwise</span> · <span class="t-hi">cipherwatch</span>
 <span class="t-hi">education</span>      Academic background
 <span class="t-hi">research</span>       IEEE publication &amp; AI/ML
 <span class="t-hi">certifications</span> Oracle, DeepLearning.AI &amp; AWS Academy
@@ -74,15 +108,17 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
 <span class="t-hi">02</span>  Veritome (Biomedical RAG)       [AI/ML] · <a class="t-link" href="https://huggingface.co/spaces/Udit013/biomed-assistant" target="_blank" rel="noopener noreferrer">live</a>
     Qwen2.5-7B QLoRA · RAG · LangGraph agents · pgvector
 <span class="t-hi">03</span>  PrepWise (AI Voice Interviews)  [AI/ML · Full-Stack] · <a class="t-link" href="https://mock-ai-prep.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
-    Gemini 2.5 · Web Speech · Monaco + Pyodide/WASM · $0 infra
+    Gemini 3.5 Flash-Lite · Web Speech · Monaco + Pyodide/WASM · $0 infra
 <span class="t-hi">04</span>  CoreSightIQ (Decision Intel.)   [Analytics] · <a class="t-link" href="https://coresightiq.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
     3 products, 1 core engine · walk-forward backtesting
 <span class="t-hi">05</span>  RxFlow (Pharmacy ERP)           [Full-Stack] · <a class="t-link" href="https://rx-flow-web.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
-    Multi-tenant · GST billing · real-time sync (SSE)
-<span class="t-hi">06</span>  SnapCast (Screen Recording)     [Full-Stack] · <a class="t-link" href="https://snapcast-video-sharing.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
+    Multi-tenant · 5 regional profiles · 4 tax engines · SSE sync
+<span class="t-hi">06</span>  SnapCast (One-Take Editor)      [Full-Stack] · <a class="t-link" href="https://snapcast-video-sharing.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
     Next.js · Cloudinary · AI chapters · better-auth
-<span class="t-hi">07</span>  CipherWatch (Secret Exposure)   [Systems] · <a class="t-link" href="https://cipherwatch-web.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
-    FastAPI · entropy + regex · SARIF · 26 secret types`,
+<span class="t-hi">07</span>  CipherWatch (Credential Ledger) [Systems] · <a class="t-link" href="https://cipherwatch-web.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
+    HMAC ledger · CI gate · SARIF · 26 credential types
+
+<span class="t-sys">Type a project name (e.g. prepwise) for details.</span>`,
 
   education: `<span class="t-hi">MS Computer Science</span>  ·  Indiana University Bloomington
   Aug 2024 – May 2026  ·  GPA: <span class="t-hi">3.84 / 4.0</span>
@@ -106,7 +142,7 @@ Role:     Co-author
   Transformers · BERT · Prompt Engineering · RAG`,
 
   certifications: `<span class="t-hi">Oracle University</span>
-  Oracle Agentic AI Foundations Associate · Sep 2026
+  Oracle Certified Foundations Associate - Agentic AI · Sep 2026
 
 <span class="t-hi">DeepLearning.AI (Coursera)</span>
   Neural Networks and Deep Learning
@@ -152,18 +188,25 @@ Role:     Co-author
   ml: 'research',
   pub: 'research',
   certs: 'certifications',
+
+  ...PROJECT_COMMANDS,
 }
 
 export const CHAT_FAQ: { q: RegExp; a: string }[] = [
+  // A named project gets its own answer before the generic "projects" one.
+  ...PROJECTS.map((p) => ({
+    q: new RegExp(`\\b${projectKey(p)}\\b`, 'i'),
+    a: `${esc(p.title)}: ${esc(p.desc)} Type <span class="t-hi">${projectKey(p)}</span> for highlights and links.`,
+  })),
   { q: /hire|job|full.?time|intern|open.?to|available|role/i, a: 'Udit is open to full-time SWE, AI/ML, and Data roles. Open to remote, hybrid, and relocation anywhere in the US. Email: agarwaludit13@gmail.com · Phone: +1 (930) 904-4901' },
   { q: /ieee|research|paper|publish|brain.?tumor/i, a: 'Udit co-authored an IEEE paper at ICC-ROBINS 2024 on brain tumor classification: 99.84% accuracy on 7,023 MRI scans with EfficientNetB3. DOI: 10.1109/ICC-ROBINS60238.2024.10533941' },
   { q: /gpa|grade|school|degree|university|master|indiana/i, a: 'MS CS at Indiana University Bloomington, GPA 3.84/4.0, May 2026. B.Tech at KIIT, GPA 8.85/10.0.' },
   { q: /skill|tech|stack|language|python|react|framework/i, a: 'Python, TypeScript, React, Next.js, Node.js, Fastify, FastAPI, PostgreSQL, PyTorch, TensorFlow, Hugging Face, QLoRA, Gemini API, Ollama, Docker, AWS. Type "skills" for the full list.' },
-  { q: /project|built|app|demo|portfolio/i, a: '7 flagship projects: NeuroClass (IEEE brain tumor MRI classifier), PrepWise (AI voice interviews), Veritome (biomedical RAG + QLoRA), SnapCast (screen recording), CoreSightIQ (decision intelligence), RxFlow (multi-tenant pharmacy ERP), and CipherWatch (secret exposure detection). Type "projects" for all.' },
+  { q: /project|built|app|demo|portfolio/i, a: '7 flagship projects: NeuroClass (IEEE brain tumor MRI classifier), PrepWise (AI voice interviews), Veritome (biomedical RAG + QLoRA), SnapCast (screen recorder and one-take editor), CoreSightIQ (decision intelligence), RxFlow (multi-tenant pharmacy ERP), and CipherWatch (credential exposure ledger). Type "projects" for all, or a project name for details.' },
   { q: /contact|email|phone|reach|talk/i, a: 'agarwaludit13@gmail.com · +1 (930) 904-4901 · linkedin.com/in/udit013 · Responds within 24h.' },
   { q: /llm|voice|gemini|vapi|gpt|generative|qlora|fine.?tun|rag|agent/i, a: 'LLM work spans QLoRA/PEFT fine-tuning (Qwen2.5-7B), cited RAG over PubMed with pgvector, LangGraph multi-agent workflows with per-claim citation verification, Gemini API, Ollama, and LLM evaluation with lm-evaluation-harness. Built Veritome, a live biomedical research assistant, and voice interviews on browser-native speech + Gemini.' },
   { q: /data|etl|tableau|airflow|pipeline|analytics|forecast/i, a: 'Strong data engineering & analytics: ETL pipelines, PostgreSQL, forecasting, cohort retention, and A/B testing; see CoreSightIQ, which unifies three analytics products on one core engine with auditable, calibrated metrics (walk-forward backtesting, Brier/ECE).' },
   { q: /location|remote|reloc|where/i, a: 'Based in Bloomington, IN (EST). Open to remote, hybrid, and relocation.' },
-  { q: /cert|aws|deeplearning/i, a: 'Certifications: Oracle Agentic AI Foundations Associate (Oracle University, Sep 2026), Neural Networks and Deep Learning plus Improving Deep Neural Networks (DeepLearning.AI on Coursera, Sep 2023), and AWS Academy Graduate - Introduction to Cloud, Semester 1 (Jul 2023).' },
+  { q: /cert|aws|deeplearning/i, a: 'Certifications: Oracle Certified Foundations Associate - Agentic AI (Oracle University, Sep 2026), Neural Networks and Deep Learning plus Improving Deep Neural Networks (DeepLearning.AI on Coursera, Sep 2023), and AWS Academy Graduate - Introduction to Cloud, Semester 1 (Jul 2023).' },
   { q: /now|current|exploring/i, a: 'Currently: Senior Consultant at Heartland Community Network and IT Services Consultant at IU UITS. Exploring LLM agents, real-time voice AI, and cloud-native systems.' },
 ]

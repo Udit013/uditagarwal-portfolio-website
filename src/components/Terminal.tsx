@@ -49,9 +49,65 @@ export function Terminal() {
     panelRef.current?.toggleAttribute('inert', !open)
   }, [open])
 
-  /* Keep output scrolled to the bottom as lines are added */
+  /* Footer-aware lift. While the footer is on screen, raise the toggle (and
+     the panel with it) just enough to clear the footer's top edge, so it
+     never covers the footer links. A scroll listener runs only while the
+     footer is visible, writes one CSS variable on the two fixed elements per
+     frame, and the move itself is a compositor-only `translate`. */
+  useEffect(() => {
+    const footer = document.querySelector<HTMLElement>('footer.site-footer')
+    const btn = toggleRef.current
+    const panel = panelRef.current
+    if (!footer || !btn || !panel) return
+    const GAP = 12
+    let raf = 0
+    let lift = -1
+    const apply = () => {
+      raf = 0
+      const restingBottom = parseFloat(getComputedStyle(btn).bottom) || 0
+      const next = Math.max(0, Math.ceil(innerHeight - restingBottom - footer.getBoundingClientRect().top + GAP))
+      if (next === lift) return
+      lift = next
+      btn.style.setProperty('--term-lift', `${next}px`)
+      panel.style.setProperty('--term-lift', `${next}px`)
+    }
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(apply)
+    }
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        window.addEventListener('scroll', schedule, { passive: true })
+        window.addEventListener('resize', schedule)
+        schedule()
+      } else {
+        window.removeEventListener('scroll', schedule)
+        window.removeEventListener('resize', schedule)
+        schedule() // settle back to 0 once the footer has left
+      }
+    })
+    io.observe(footer)
+    return () => {
+      io.disconnect()
+      cancelAnimationFrame(raf)
+      window.removeEventListener('scroll', schedule)
+      window.removeEventListener('resize', schedule)
+    }
+  }, [])
+
+  /* Keep the newest output in view. Usually that means the bottom; but when
+     an answer is taller than the panel (a project's details), jump to where
+     it starts — the echoed command — so it reads top-down instead of opening
+     on its last line. */
   useLayoutEffect(() => {
-    if (outputRef.current) outputRef.current.scrollTop = outputRef.current.scrollHeight
+    const el = outputRef.current
+    if (!el) return
+    const last = el.lastElementChild as HTMLElement | null
+    if (last && last.offsetHeight > el.clientHeight - 40) {
+      const start = (last.previousElementSibling as HTMLElement | null) ?? last
+      el.scrollTop += start.getBoundingClientRect().top - el.getBoundingClientRect().top - 8
+    } else {
+      el.scrollTop = el.scrollHeight
+    }
   }, [lines])
 
   const openPanel = useCallback(() => {

@@ -73,17 +73,23 @@ test('terminal button never covers the footer links, open or closed', async ({ r
         .filter(({ r }) => !(t.right <= r.left || t.left >= r.right || t.bottom <= r.top || t.top >= r.bottom))
         .map((x) => x.name)
     })
+  // Read everything in one snapshot: smooth scroll can still be settling, and
+  // positions read in separate calls may come from different frames.
+  const snapshot = () =>
+    ready.evaluate(() => {
+      const r = (s: string) => document.querySelector(s)!.getBoundingClientRect()
+      const t = r('.term-toggle')
+      const p = r('.term-panel')
+      return { footerTop: r('footer').top, toggleTop: t.top, toggleBottom: t.bottom, panelTop: p.top, panelBottom: p.bottom }
+    })
+  await expect.poll(async () => { const s = await snapshot(); return s.footerTop - s.toggleBottom }).toBeGreaterThanOrEqual(0)
   expect(await overlap()).toEqual([])
-  const footerTop = await ready.locator('footer').evaluate((f) => f.getBoundingClientRect().top)
-  const toggle = (await ready.locator('.term-toggle').boundingBox())!
-  expect(toggle.y + toggle.height).toBeLessThanOrEqual(footerTop)
 
   await ready.getByRole('button', { name: /Open terminal/ }).click()
   await expect(ready.getByRole('textbox', { name: 'Terminal input' })).toBeFocused()
-  const panel = (await ready.locator('.term-panel').boundingBox())!
-  const toggleOpen = (await ready.locator('.term-toggle').boundingBox())!
-  expect(panel.y).toBeGreaterThanOrEqual(0) // fully on screen
-  expect(panel.y + panel.height).toBeLessThanOrEqual(toggleOpen.y) // above the button
+  await ready.mouse.move(10, 10) // drop the toggle's hover scale
+  await expect.poll(async () => { const s = await snapshot(); return s.toggleTop - s.panelBottom }).toBeGreaterThanOrEqual(0) // above the button
+  expect((await snapshot()).panelTop).toBeGreaterThanOrEqual(0) // fully on screen
   expect(await overlap()).toEqual([])
 })
 

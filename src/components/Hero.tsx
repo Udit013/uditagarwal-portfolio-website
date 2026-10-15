@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { TYPING_ROLES, SECTION_IDS } from '../data/content'
 import { useTyping } from '../hooks/useTyping'
 import { useActiveSection } from '../hooks/useActiveSection'
@@ -9,8 +10,9 @@ import { scrollToId, useLenis } from '../hooks/useLenis'
    headline, SVG badge and action row on each of those was wasted work. */
 
 function TypedRole() {
-  const typed = useTyping(TYPING_ROLES)
-  return <span aria-hidden="true">{typed}</span>
+  const ref = useRef<HTMLSpanElement>(null)
+  const typed = useTyping(TYPING_ROLES, ref)
+  return <span ref={ref} aria-hidden="true">{typed}</span>
 }
 
 function BadgeCenter() {

@@ -885,7 +885,12 @@ body.cur-label-show .cur-label { opacity: 1; }
 .counter-num { display: inline-grid; font-variant-numeric: tabular-nums; }
 .counter-num > * { grid-area: 1 / 1; }
 .counter-sizer { visibility: hidden; }
-.counter-live { justify-self: end; }
+.counter-live {
+  /* Fill the cell and right-align the text, rather than justify-self: end.
+     A narrower box shifting left as digits arrive registered as a layout
+     shift on every count-up; a full-width box never moves. */
+  justify-self: stretch; text-align: right;
+}
 
 /* The skills tabpanel is focusable (it holds no focusable content of its own),
    so give it a visible ring consistent with the other controls. */

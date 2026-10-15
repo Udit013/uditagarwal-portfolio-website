@@ -121,7 +121,10 @@ export function useSiteAnimations() {
 
       /* ── Contact background text parallax ── */
       if (!reduced) {
-        gsap.to('.contact-bg-text', {
+        // Scoped to Contact: the class is shared by all five background words,
+        // and the bare selector animated every one of them against #contact's
+        // scroll position, rewriting four off-screen elements for nothing.
+        gsap.to('#contact .contact-bg-text', {
           y: -50,
           ease: 'none',
           scrollTrigger: { trigger: '#contact', start: 'top bottom', end: 'bottom top', scrub: 2 },

@@ -51,7 +51,9 @@ Deployed on Vercel: pushing to `main` triggers a production deploy.
 - **Motion**: GSAP + ScrollTrigger entrances, Lenis smooth scroll, SplitType
   heading reveals, a curtain intro, a floating glass nav, and a custom cursor.
 - **Interactive terminal**: a built-in command line with a knowledge base,
-  tab completion, history, and a chat mode.
+  tab completion, history, and a chat mode. Per-project commands (`prepwise`,
+  `cipherwatch`, …) are generated from `content.ts`, so they always match the
+  project cards and drawers.
 
 ## Quality
 
@@ -85,7 +87,7 @@ the app branches on both (Lenis and the custom cursor are desktop-only).
 | `interactions.spec.ts` | Skills tabs (keyboard pattern); case-study drawer (focus, Escape, restore); terminal commands, links, and input escaping; contact-form validation |
 | `a11y.spec.ts` | axe-core WCAG A/AA in dark and light themes and with the terminal open |
 | `about.spec.ts` | About layout contract: desktop columns, the 7+ certificate rule, tablet stacking, mobile reading order |
-| `regressions.spec.ts` | Pinned bugs: stat precision and unit size, static role under reduced motion, WCAG 2.5.3 label-in-name on contact links, swipeable skill tabs on phones |
+| `regressions.spec.ts` | Pinned bugs: stat precision and unit size, static role under reduced motion, WCAG 2.5.3 label-in-name on contact links, swipeable skill tabs on phones, generated terminal project commands, and the terminal button clearing the footer links (open and closed) |
 
 `e2e/fixtures.ts` loads each page past the intro curtain and fails a test on
 any uncaught exception or console error.

@@ -42,3 +42,59 @@ test('phones: skill categories are one swipeable row', async ({ ready, isMobile 
   expect(box.height).toBeLessThan(60) // was ~230px of stacked rows
   expect(await row.evaluate((e) => e.scrollWidth > e.clientWidth)).toBe(true)
 })
+
+test('terminal: project commands are generated from the project data', async ({ ready }) => {
+  await ready.getByRole('button', { name: /Open terminal/ }).click()
+  const input = ready.getByRole('textbox', { name: 'Terminal input' })
+  const out = ready.getByRole('log', { name: 'Terminal output' })
+  await input.fill('cipherwatch')
+  await input.press('Enter')
+  await expect(out).toContainText('Credential Exposure Ledger')
+  await expect(out).toContainText('130 Backend Tests')
+  await expect(out.getByRole('link', { name: 'live' }).last()).toHaveAttribute('href', 'https://cipherwatch-web.vercel.app')
+  // A long answer opens at its start (the echoed command), not its last line.
+  await expect(out.getByText('cipherwatch', { exact: true })).toBeInViewport()
+  // Chat mode answers about a named project, not with the generic list.
+  await input.fill('chat')
+  await input.press('Enter')
+  await input.fill('what is snapcast?')
+  await input.press('Enter')
+  await expect(out).toContainText('One-Take Video Editor')
+})
+
+test('terminal button never covers the footer links, open or closed', async ({ ready }) => {
+  await ready.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight))
+  await ready.waitForTimeout(600) // the lift is applied on the next frame after scroll
+  const overlap = () =>
+    ready.evaluate(() => {
+      const t = document.querySelector('.term-toggle')!.getBoundingClientRect()
+      return [...document.querySelectorAll('footer a')]
+        .map((a) => ({ name: a.textContent!.trim(), r: a.getBoundingClientRect() }))
+        .filter(({ r }) => !(t.right <= r.left || t.left >= r.right || t.bottom <= r.top || t.top >= r.bottom))
+        .map((x) => x.name)
+    })
+  expect(await overlap()).toEqual([])
+  const footerTop = await ready.locator('footer').evaluate((f) => f.getBoundingClientRect().top)
+  const toggle = (await ready.locator('.term-toggle').boundingBox())!
+  expect(toggle.y + toggle.height).toBeLessThanOrEqual(footerTop)
+
+  await ready.getByRole('button', { name: /Open terminal/ }).click()
+  await expect(ready.getByRole('textbox', { name: 'Terminal input' })).toBeFocused()
+  const panel = (await ready.locator('.term-panel').boundingBox())!
+  const toggleOpen = (await ready.locator('.term-toggle').boundingBox())!
+  expect(panel.y).toBeGreaterThanOrEqual(0) // fully on screen
+  expect(panel.y + panel.height).toBeLessThanOrEqual(toggleOpen.y) // above the button
+  expect(await overlap()).toEqual([])
+})
+
+test('footer Email link is reachable and points at the mail address', async ({ ready }) => {
+  await ready.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight))
+  await ready.waitForTimeout(600)
+  const email = ready.getByRole('contentinfo').getByRole('link', { name: /email/i })
+  await expect(email).toBeVisible()
+  await expect(email).toHaveAttribute('href', /^mailto:agarwaludit13@gmail\.com/)
+  // Nothing sits on top of it: the element at its center is the link itself.
+  const box = (await email.boundingBox())!
+  const hit = await ready.evaluate(([x, y]) => document.elementFromPoint(x, y)?.closest('a')?.textContent?.trim(), [box.x + box.width / 2, box.y + box.height / 2])
+  expect(hit).toMatch(/email/i)
+})

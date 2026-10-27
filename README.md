@@ -4,7 +4,7 @@ An interactive, animated personal portfolio with a liquid-glass UI, a WebGL
 particle backdrop, and a real ⇆ anime portrait reveal.
 
 **Live:** [uditagarwal.vercel.app](https://uditagarwal.vercel.app)
-**Stack:** React 18 · TypeScript 6 (strict) · Vite 6 · GSAP (ScrollTrigger) · Lenis · SplitType · hand-written WebGL · Playwright · Vercel
+**Stack:** React 19 · TypeScript 7 (strict) · Vite 8 · GSAP (ScrollTrigger) · Lenis · SplitType · hand-written WebGL · Playwright · Vercel
 
 > The React app lives at the repository root and is what Vercel builds and deploys.
 
@@ -98,12 +98,15 @@ any uncaught exception or console error.
   weekly so newly published advisories surface even without code changes:
   `npm audit` (fails on high/critical), lint, build, then the Playwright suite.
   A failure uploads the Playwright report as an artifact.
-- **Dependabot** (`.github/dependabot.yml`) opens weekly grouped minor/patch
-  updates and monthly GitHub Actions updates. React and TypeScript major
-  versions are excluded and upgraded deliberately, with the test suite as the
-  regression check. (React 19 was evaluated and declined: it passed every test
-  but added ~24 KB gzip of JavaScript for features this site doesn't use.
-  TypeScript 7 awaits typescript-eslint support.)
+- **Dependabot** version-update PRs are turned off
+  (`open-pull-requests-limit: 0` in `.github/dependabot.yml`). Updates are
+  applied in batches by hand and verified by the test suite; the weekly CI
+  audit catches new advisories in between.
+- **TypeScript 7 runs side by side with the TypeScript 6 API**, the setup the
+  TypeScript team documents for 7.0: `tsc` is 7.0 (`@typescript/native`),
+  while `typescript` resolves to `@typescript/typescript6` because
+  typescript-eslint still needs the compiler API that 7.0 doesn't ship yet.
+  Once typescript-eslint supports TS 7.1+, drop the alias.
 - Enable **Dependabot alerts and security updates** under the GitHub repo's
   Settings → Code security; that is a repository setting, not a file.
 
@@ -111,8 +114,8 @@ any uncaught exception or console error.
 
 | Area | Tech |
 | --- | --- |
-| UI / components | React 18 + TypeScript 6 (strict) |
-| Build | Vite 6 |
+| UI / components | React 19 + TypeScript 7 (strict) |
+| Build | Vite 8 (Rolldown) |
 | WebGL | Hand-written vertex/fragment shaders, no Three.js, no dependencies |
 | Motion & scroll | GSAP + ScrollTrigger, Lenis, SplitType |
 | Styling | Hand-written CSS with design tokens (`src/styles/main.css`) |

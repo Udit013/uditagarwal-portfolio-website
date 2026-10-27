@@ -22,7 +22,8 @@ function ProjectShot({ src, title }: { src?: string; title: string }) {
         <img
           src={src}
           alt={`Screenshot of ${title}`}
-          loading="lazy"
+          // Not lazy: this only mounts when the drawer opens, already in view,
+          // so lazy loading saved nothing and made Chrome deprioritize it.
           decoding="async"
           draggable={false}
           onError={() => setFailed(true)}

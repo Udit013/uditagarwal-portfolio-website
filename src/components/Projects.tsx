@@ -24,7 +24,7 @@ function PublicationBlock() {
         rel="noopener noreferrer"
         className="pub-link"
         data-cursor="Read"
-        aria-label="Read IEEE paper (opens in new tab)"
+        aria-label="Read paper: IEEE ICC-ROBINS 2024 (opens in new tab)"
       >
         Read Paper ↗
       </a>

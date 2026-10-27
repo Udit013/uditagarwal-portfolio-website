@@ -376,6 +376,8 @@ export function Terminal() {
           <input
             ref={inputRef}
             className="term-input"
+            id="term-input"
+            name="terminal-command"
             autoComplete="off"
             spellCheck={false}
             placeholder="type 'help'…"

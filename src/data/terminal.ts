@@ -104,7 +104,7 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
   → REST APIs powering forecasting dashboards · query &amp; backend optimization`,
 
   projects: `<span class="t-hi">01</span>  NeuroClass (Brain Tumor MRI)    [AI/ML] · <a class="t-link" href="https://doi.org/10.1109/ICC-ROBINS60238.2024.10533941" target="_blank" rel="noopener noreferrer">IEEE ICC-ROBINS 2024</a>
-    EfficientNetB3 · 99.84% (published) · ONNX Runtime on HF Spaces
+    99.84% published · 93.44% after leakage audit + retrain · ONNX + Docker
 <span class="t-hi">02</span>  Veritome (Biomedical RAG)       [AI/ML] · <a class="t-link" href="https://huggingface.co/spaces/Udit013/biomed-assistant" target="_blank" rel="noopener noreferrer">live</a>
     Qwen2.5-7B QLoRA · RAG · LangGraph agents · pgvector
 <span class="t-hi">03</span>  PrepWise (AI Voice Interviews)  [AI/ML · Full-Stack] · <a class="t-link" href="https://mock-ai-prep.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
@@ -112,7 +112,7 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
 <span class="t-hi">04</span>  CoreSightIQ (Decision Intel.)   [Analytics] · <a class="t-link" href="https://coresightiq.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
     3 products, 1 core engine · walk-forward backtesting
 <span class="t-hi">05</span>  RxFlow (Pharmacy ERP)           [Full-Stack] · <a class="t-link" href="https://rx-flow-web.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
-    Multi-tenant · 5 regional profiles · 4 tax engines · SSE sync
+    Multi-tenant · 6 regional profiles · 4 tax engines · SSE sync
 <span class="t-hi">06</span>  SnapCast (One-Take Editor)      [Full-Stack] · <a class="t-link" href="https://snapcast-video-sharing.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
     Next.js · Cloudinary · AI chapters · better-auth
 <span class="t-hi">07</span>  CipherWatch (Credential Ledger) [Systems] · <a class="t-link" href="https://cipherwatch-web.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
@@ -134,10 +134,11 @@ ICC-ROBINS 2024  ·  DOI: 10.1109/ICC-ROBINS60238.2024.10533941
 Model:    EfficientNetB3 + CNN/VGG16/InceptionV3 benchmarks
 Dataset:  <span class="t-hi">7,023 MRI scans</span>
 Result:   <span class="t-hi">99.84% classification accuracy</span> (published)
+Audit:    train/test leakage found; retrained model: <span class="t-hi">93.44%</span> (89.4% on novel scans)
 Role:     Co-author
 
 <span class="t-hi">Production ML &amp; LLM work:</span>
-  NeuroClass · ONNX serving · confidence calibration · Grad-CAM explainability
+  NeuroClass · leakage audit · retrained model · ONNX + Docker serving · Grad-CAM
   Veritome · Qwen2.5-7B QLoRA · cited RAG · LangGraph 4-agent workflow
   Transformers · BERT · Prompt Engineering · RAG`,
 
@@ -199,7 +200,7 @@ export const CHAT_FAQ: { q: RegExp; a: string }[] = [
     a: `${esc(p.title)}: ${esc(p.desc)} Type <span class="t-hi">${projectKey(p)}</span> for highlights and links.`,
   })),
   { q: /hire|job|full.?time|intern|open.?to|available|role/i, a: 'Udit is open to full-time SWE, AI/ML, and Data roles. Open to remote, hybrid, and relocation anywhere in the US. Email: agarwaludit13@gmail.com · Phone: +1 (930) 904-4901' },
-  { q: /ieee|research|paper|publish|brain.?tumor/i, a: 'Udit co-authored an IEEE paper at ICC-ROBINS 2024 on brain tumor classification: 99.84% accuracy on 7,023 MRI scans with EfficientNetB3. DOI: 10.1109/ICC-ROBINS60238.2024.10533941' },
+  { q: /ieee|research|paper|publish|brain.?tumor/i, a: 'Udit co-authored an IEEE paper at ICC-ROBINS 2024 on brain tumor classification: 99.84% accuracy on 7,023 MRI scans with EfficientNetB3. A later audit found train/test leakage in that benchmark; the retrained, deployed model scores 93.44% (89.4% on novel scans). DOI: 10.1109/ICC-ROBINS60238.2024.10533941' },
   { q: /gpa|grade|school|degree|university|master|indiana/i, a: 'MS CS at Indiana University Bloomington, GPA 3.84/4.0, May 2026. B.Tech at KIIT, GPA 8.85/10.0.' },
   { q: /skill|tech|stack|language|python|react|framework/i, a: 'Python, TypeScript, React, Next.js, Node.js, Fastify, FastAPI, PostgreSQL, PyTorch, TensorFlow, Hugging Face, QLoRA, Gemini API, Ollama, Docker, AWS. Type "skills" for the full list.' },
   { q: /project|built|app|demo|portfolio/i, a: '7 flagship projects: NeuroClass (IEEE brain tumor MRI classifier), PrepWise (AI voice interviews), Veritome (biomedical RAG + QLoRA), SnapCast (screen recorder and one-take editor), CoreSightIQ (decision intelligence), RxFlow (multi-tenant pharmacy ERP), and CipherWatch (credential exposure ledger). Type "projects" for all, or a project name for details.' },

@@ -6,11 +6,11 @@ test('project stats keep their source precision, with readable units', async ({ 
   await page.emulateMedia({ reducedMotion: 'reduce' }) // counters settle immediately
   await page.goto('/')
   await expect(page.locator('#loader')).toHaveCount(0)
-  // NeuroClass lists 11.7M parameters; the counter used to force "11.70".
-  const stat = page.locator('.belt-card:not([aria-hidden]) .proj-stat', { hasText: 'Parameters' }).first()
-  await expect(stat.locator('.counter-live')).toHaveText('11.7')
+  // Veritome lists 64.5% on PubMedQA; the counter used to force "64.50".
+  const stat = page.locator('.belt-card:not([aria-hidden]) .proj-stat', { hasText: 'PubMedQA' }).first()
+  await expect(stat.locator('.counter-live')).toHaveText('64.5')
   const unit = stat.locator('small')
-  await expect(unit).toHaveText('M')
+  await expect(unit).toHaveText('%')
   expect(await unit.evaluate((e) => parseFloat(getComputedStyle(e).fontSize))).toBeGreaterThanOrEqual(12)
 })
 

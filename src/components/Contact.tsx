@@ -1,5 +1,5 @@
 import { useRef, useState, type FormEvent } from 'react'
-import { CONTACT_LINKS } from '../data/content'
+import { CONTACT_LINKS, sectionNum } from '../data/content'
 import { useReveal } from '../hooks/useReveal'
 
 const isValidEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)
@@ -65,7 +65,7 @@ export function Contact() {
   return (
     <section id="contact" className="section" aria-labelledby="contact-heading">
       <div className="sec-label">
-        <span className="sec-num">05</span> Contact
+        <span className="sec-num">{sectionNum('contact')}</span> Contact
       </div>
       <div className="contact-bg-text" aria-hidden="true">
         CONNECT

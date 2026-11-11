@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { CERTIFICATIONS, EDUCATION, PHILOSOPHY, PILLARS, type Education } from '../data/content'
+import { CERTIFICATIONS, EDUCATION, PHILOSOPHY, PILLARS, type Education, sectionNum } from '../data/content'
 import { useReveal } from '../hooks/useReveal'
 import { Counter } from './Counter'
 import { Portrait } from './Portrait'
@@ -55,7 +55,7 @@ export function About() {
         Profile
       </div>
       <div className="sec-label">
-        <span className="sec-num">01</span> About
+        <span className="sec-num">{sectionNum('about')}</span> About
       </div>
 
       <div className="about-intro">

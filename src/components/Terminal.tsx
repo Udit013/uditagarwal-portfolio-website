@@ -149,7 +149,7 @@ export function Terminal() {
         printOut(
           match
             ? match.a
-            : `I answer questions about Udit's skills, experience, projects, research, and availability. Try something specific, or type <span class="t-hi">exit</span> to return.`,
+            : `I answer questions about Udit's skills, projects, research, education, and availability. Try something specific, or type <span class="t-hi">exit</span> to return.`,
         )
         return
       }

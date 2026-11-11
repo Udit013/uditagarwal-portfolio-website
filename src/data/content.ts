@@ -12,6 +12,12 @@ export const TYPING_ROLES = [
   'Research Engineer',
 ]
 
+/* ── Experience visibility ──
+   Archived for now: false hides the Experience section, its nav link, and the
+   terminal's experience answers, and renumbers the sections that follow.
+   The data (JOURNEY, below) is kept as-is; set true to bring it all back. */
+export const SHOW_EXPERIENCE = false
+
 /* ── Nav ── */
 export const NAV_LINKS = [
   { id: 'about', label: 'About' },
@@ -19,9 +25,12 @@ export const NAV_LINKS = [
   { id: 'journey', label: 'Journey' },
   { id: 'projects', label: 'Projects' },
   { id: 'contact', label: 'Contact' },
-]
+].filter((l) => SHOW_EXPERIENCE || l.id !== 'journey')
 
-export const SECTION_IDS = ['home', 'about', 'skills', 'journey', 'projects', 'contact']
+export const SECTION_IDS = ['home', ...NAV_LINKS.map((l) => l.id)]
+
+/** Two-digit number in a section's label ("01 About"), following the visible order. */
+export const sectionNum = (id: string) => String(NAV_LINKS.findIndex((l) => l.id === id) + 1).padStart(2, '0')
 
 /* ── Marquee ── */
 export const MARQUEE_ITEMS: { text: string; hi?: boolean }[] = [

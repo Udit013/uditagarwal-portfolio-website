@@ -7,7 +7,7 @@
  * are generated from PROJECTS in content.ts, so the terminal can't drift from
  * the project cards and case-study drawers.
  */
-import { PROJECTS, type Project } from './content'
+import { PROJECTS, SHOW_EXPERIENCE, type Project } from './content'
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const link = (href: string, text: string) =>
@@ -35,6 +35,35 @@ function projectDetail(p: Project): string {
   ].filter(Boolean).join('\n')
 }
 
+/* Work history. Kept here but only served while SHOW_EXPERIENCE is on
+   (content.ts); while it's off the commands, the help line, and the
+   "Currently" roles in `about` are all left out. */
+const EXPERIENCE = `<span class="t-hi">[ Jun 2026 – Present ]</span>  Senior Consultant
+  Heartland Community Network (HCN) · Remote
+  → Full-stack apps, backend services, REST APIs, dashboards &amp; automation for clients
+  → AI-powered features and LLM-driven automation workflows
+  → End-to-end delivery: architecture → build → test → deploy → maintain
+
+<span class="t-hi">[ Aug 2025 – Present ]</span>  Consultant – IT Services
+  UITS · Indiana University
+  → 100+ technical issues/week across desktop, mobile &amp; enterprise apps
+  → Identity &amp; access management · root-cause analysis
+  → Resolutions and troubleshooting workflows documented in ServiceNow
+
+<span class="t-hi">[ Jan 2026 – Jun 2026 ]</span>  Software Engineer
+  Global Health Impact Project · Indiana University
+  → Full-stack analytics features (React, TypeScript, Python)
+  → Backend services &amp; data pipelines for population health forecasting
+  → REST APIs powering forecasting dashboards · query &amp; backend optimization`
+
+const CURRENT_ROLES = SHOW_EXPERIENCE
+  ? `
+
+<span class="t-hi">Currently:</span>
+  Senior Consultant @ Heartland Community Network
+  Consultant – IT Services @ UITS, Indiana University`
+  : ''
+
 const PROJECT_COMMANDS: Record<string, string> = Object.fromEntries(PROJECTS.map((p) => [projectKey(p), projectDetail(p)]))
 
 export const KB: Record<string, string> = {
@@ -42,8 +71,7 @@ export const KB: Record<string, string> = {
 ─────────────────────────────────────────────
 <span class="t-hi">about</span>          Who is Udit
 <span class="t-hi">skills</span>         Full tech stack
-<span class="t-hi">experience</span>     Work history
-<span class="t-hi">projects</span>       Flagship projects
+${SHOW_EXPERIENCE ? '<span class="t-hi">experience</span>     Work history\n' : ''}<span class="t-hi">projects</span>       Flagship projects
 <span class="t-hi">&lt;project&gt;</span>      Details, e.g. <span class="t-hi">prepwise</span> · <span class="t-hi">cipherwatch</span>
 <span class="t-hi">education</span>      Academic background
 <span class="t-hi">research</span>       IEEE publication &amp; AI/ML
@@ -65,11 +93,7 @@ MS Computer Science @ Indiana University Bloomington
 GPA: <span class="t-hi">3.84 / 4.0</span>  ·  May 2026
 
 Building intelligent, scalable systems at the intersection of
-full-stack engineering and applied AI/ML. IEEE-published researcher.
-
-<span class="t-hi">Currently:</span>
-  Senior Consultant @ Heartland Community Network
-  Consultant – IT Services @ UITS, Indiana University
+full-stack engineering and applied AI/ML. IEEE-published researcher.${CURRENT_ROLES}
 
 Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
 <span class="t-sys">Open to full-time SWE · AI/ML · Data roles</span>`,
@@ -85,23 +109,6 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
 <span class="t-hi">Cloud / Sec</span>   AWS · Docker · GitHub Actions · Vercel · Render · SARIF
 <span class="t-hi">Testing</span>       Vitest · pytest · ESLint · Calibration · OOD Testing`,
 
-  experience: `<span class="t-hi">[ Jun 2026 – Present ]</span>  Senior Consultant
-  Heartland Community Network (HCN) · Remote
-  → Full-stack apps, backend services, REST APIs, dashboards &amp; automation for clients
-  → AI-powered features and LLM-driven automation workflows
-  → End-to-end delivery: architecture → build → test → deploy → maintain
-
-<span class="t-hi">[ Aug 2025 – Present ]</span>  Consultant – IT Services
-  UITS · Indiana University
-  → 100+ technical issues/week across desktop, mobile &amp; enterprise apps
-  → Identity &amp; access management · root-cause analysis
-  → Resolutions and troubleshooting workflows documented in ServiceNow
-
-<span class="t-hi">[ Jan 2026 – Jun 2026 ]</span>  Software Engineer
-  Global Health Impact Project · Indiana University
-  → Full-stack analytics features (React, TypeScript, Python)
-  → Backend services &amp; data pipelines for population health forecasting
-  → REST APIs powering forecasting dashboards · query &amp; backend optimization`,
 
   projects: `<span class="t-hi">01</span>  NeuroClass (Brain Tumor MRI)    [AI/ML] · <a class="t-link" href="https://doi.org/10.1109/ICC-ROBINS60238.2024.10533941" target="_blank" rel="noopener noreferrer">IEEE ICC-ROBINS 2024</a>
     99.84% published · 93.44% after leakage audit + retrain · ONNX + Docker
@@ -184,12 +191,12 @@ Role:     Co-author
   whoami: 'about',
   ls: 'projects',
   stack: 'skills',
-  work: 'experience',
   ai: 'research',
   ml: 'research',
   pub: 'research',
   certs: 'certifications',
 
+  ...(SHOW_EXPERIENCE ? { experience: EXPERIENCE, work: 'experience' } : {}),
   ...PROJECT_COMMANDS,
 }
 
@@ -209,5 +216,7 @@ export const CHAT_FAQ: { q: RegExp; a: string }[] = [
   { q: /data|etl|tableau|airflow|pipeline|analytics|forecast/i, a: 'Strong data engineering & analytics: ETL pipelines, PostgreSQL, forecasting, cohort retention, and A/B testing; see CoreSightIQ, which unifies three analytics products on one core engine with auditable, calibrated metrics (walk-forward backtesting, Brier/ECE).' },
   { q: /location|remote|reloc|where/i, a: 'Based in Bloomington, IN (EST). Open to remote, hybrid, and relocation.' },
   { q: /cert|aws|deeplearning/i, a: 'Certifications: Oracle Certified Foundations Associate - Agentic AI (Oracle University, Sep 2026), Neural Networks and Deep Learning plus Improving Deep Neural Networks (DeepLearning.AI on Coursera, Sep 2023), and AWS Academy Graduate - Introduction to Cloud, Semester 1 (Jul 2023).' },
-  { q: /now|current|exploring/i, a: 'Currently: Senior Consultant at Heartland Community Network and IT Services Consultant at IU UITS. Exploring LLM agents, real-time voice AI, and cloud-native systems.' },
+  { q: /now|current|exploring/i, a: SHOW_EXPERIENCE
+      ? 'Currently: Senior Consultant at Heartland Community Network and IT Services Consultant at IU UITS. Exploring LLM agents, real-time voice AI, and cloud-native systems.'
+      : 'Currently exploring LLM agents, real-time voice AI, and cloud-native systems.' },
 ]

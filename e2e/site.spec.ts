@@ -1,8 +1,9 @@
 import { test, expect, assertNoErrors, waitForSite } from './fixtures'
+import { SECTION_IDS, SHOW_EXPERIENCE } from '../src/data/content'
 
 test.describe('page health', () => {
   test('loads every section with no errors', async ({ ready, errors }) => {
-    for (const id of ['home', 'about', 'skills', 'journey', 'projects', 'contact']) {
+    for (const id of SECTION_IDS) {
       await expect(ready.locator(`#${id}`), `#${id}`).toBeAttached()
     }
     await expect(ready.getByRole('heading', { level: 1 })).toBeVisible()
@@ -74,5 +75,33 @@ test.describe('navigation', () => {
     await expect(ready.getByRole('button', { name: 'Close navigation menu' })).toHaveAttribute('aria-expanded', 'true')
     await ready.getByRole('button', { name: 'Close navigation menu' }).click()
     await expect(ready.getByRole('button', { name: 'Open navigation menu' })).toHaveAttribute('aria-expanded', 'false')
+  })
+})
+
+// The Experience section is archived behind SHOW_EXPERIENCE (content.ts).
+test.describe('experience visibility', () => {
+  test('follows SHOW_EXPERIENCE: section, nav link, numbering, terminal', async ({ ready, isMobile }) => {
+    await expect(ready.locator('#journey')).toHaveCount(SHOW_EXPERIENCE ? 1 : 0)
+    // By target, not role: the closed mobile menu is aria-hidden.
+    const nav = ready.locator(isMobile ? '#mobile-drawer' : 'nav[aria-label="Main navigation"]')
+    await expect(nav.locator('a[href="#journey"]')).toHaveCount(SHOW_EXPERIENCE ? 1 : 0)
+    // Section numbers stay consecutive: Projects is 03 with Experience hidden.
+    await expect(ready.locator('#projects .sec-num')).toHaveText(SHOW_EXPERIENCE ? '04' : '03')
+    await expect(ready.locator('#contact .sec-num')).toHaveText(SHOW_EXPERIENCE ? '05' : '04')
+
+    await ready.getByRole('button', { name: /Open terminal/ }).click()
+    const input = ready.getByRole('textbox', { name: 'Terminal input' })
+    const out = ready.getByRole('log', { name: 'Terminal output' })
+    await input.fill('experience')
+    await input.press('Enter')
+    await input.fill('about')
+    await input.press('Enter')
+    if (SHOW_EXPERIENCE) {
+      await expect(out).toContainText('Heartland Community Network')
+    } else {
+      await expect(out).toContainText("command not found: 'experience'")
+      await expect(out).not.toContainText('Heartland')
+      await expect(out).not.toContainText('UITS')
+    }
   })
 })

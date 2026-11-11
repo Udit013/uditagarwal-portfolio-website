@@ -1,3 +1,4 @@
+import { sectionNum } from '../data/content'
 import { useReveal } from '../hooks/useReveal'
 import { ProjectsBelt } from './ProjectsBelt'
 
@@ -36,7 +37,7 @@ export function Projects() {
   return (
     <section id="projects" className="section" aria-labelledby="projects-heading">
       <div className="sec-label">
-        <span className="sec-num">04</span> Projects
+        <span className="sec-num">{sectionNum('projects')}</span> Projects
       </div>
       <div className="contact-bg-text" aria-hidden="true">
         PROJECTS

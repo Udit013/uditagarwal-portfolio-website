@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { JOURNEY, type JourneyEntry } from '../data/content'
+import { JOURNEY, type JourneyEntry, sectionNum } from '../data/content'
 import { useReveal } from '../hooks/useReveal'
 
 function JourneyItem({ entry }: { entry: JourneyEntry }) {
@@ -56,7 +56,7 @@ export function Journey() {
   return (
     <section id="journey" className="section" aria-labelledby="journey-heading">
       <div className="sec-label">
-        <span className="sec-num">03</span> Professional Journey
+        <span className="sec-num">{sectionNum('journey')}</span> Professional Journey
       </div>
       <div className="journey-header">
         <h2 id="journey-heading" className="display-h split-h">

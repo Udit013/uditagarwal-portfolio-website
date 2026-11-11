@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from 'react'
 import gsap from 'gsap'
-import { SKILL_CATEGORIES } from '../data/content'
+import { SKILL_CATEGORIES, sectionNum } from '../data/content'
 import { prefersReducedMotion } from '../lib/utils'
 
 const CATEGORIES = SKILL_CATEGORIES
@@ -74,7 +74,7 @@ export function Skills() {
   return (
     <section id="skills" className="section" aria-labelledby="skills-heading">
       <div className="sec-label">
-        <span className="sec-num">02</span> Technical Skills
+        <span className="sec-num">{sectionNum('skills')}</span> Technical Skills
       </div>
       <div className="contact-bg-text" aria-hidden="true">
         SKILLS

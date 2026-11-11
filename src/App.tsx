@@ -12,6 +12,7 @@ import { Marquee } from './components/Marquee'
 import { About } from './components/About'
 import { Skills } from './components/Skills'
 import { Journey } from './components/Journey'
+import { SHOW_EXPERIENCE } from './data/content'
 import { Projects } from './components/Projects'
 import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
@@ -65,7 +66,7 @@ function Site() {
         <Marquee />
         <About />
         <Skills />
-        <Journey />
+        {SHOW_EXPERIENCE && <Journey />}
         <Projects />
         <Contact />
       </main>

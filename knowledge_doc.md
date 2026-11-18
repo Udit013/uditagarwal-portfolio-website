@@ -5,7 +5,7 @@
 ## PERSONAL PROFILE
 
 - **Name:** Udit Agarwal
-- **Email:** agarwaludit13@gmail.com
+- **Email:** uditagarwal.dev@gmail.com or agarwaludit13@gmail.com(personal) or agarwalu@iu.edu(university)
 - **Phone:** +1 (930) 904-4901
 - **Date of Birth:** May 13, 2002
 - **LinkedIn:** linkedin.com/in/udit013
@@ -33,48 +33,93 @@ Aug 2020 – May 2024
 ### Heartland Community Network (HCN)
 
 **Role:** Senior Consultant
-**Period:** Jun 2026 – Present
+**Period:** Jun 2026 - Present
 **Location:** Remote (Indiana, US)
 **Type:** Full-Time · Remote
-**Description:** Technology consulting practice serving Indiana businesses with software engineering, AI, automation, and analytics work.
+**Stack:** React Native, Expo, TypeScript, Node.js, Express, AWS DynamoDB, JWT, Swagger/OpenAPI, Python
 **Bullets:**
-- Architect and deliver full-stack applications, backend services, REST APIs, dashboards, and workflow automation solutions tailored to client-specific business and operational requirements
-- Engineer AI-powered features and LLM-driven automation workflows that reduce manual processes, accelerate information retrieval, and improve data-driven decision-making
-- Translate complex and ambiguous business requirements into scalable technical designs, collaborating directly with engineering, data, and operations stakeholders
-- Own end-to-end delivery of production systems, spanning architecture, implementation, testing, deployment, debugging, and ongoing maintenance
-- Develop solution architectures, technical roadmaps, and implementation documentation that accelerate deployment, knowledge transfer, and long-term system maintainability
+- Architect and ship full-stack applications, REST APIs, dashboards, and workflow automations for Indiana business clients, owning delivery from design through testing, deployment, debugging, and maintenance
+- Build AI-powered features and LLM-driven automations that cut manual work and speed up information retrieval for client teams
+- Turn ambiguous business requirements into scalable technical designs, working directly with engineering, data, and operations stakeholders
+- Deliver cross-platform mobile work (React Native, Expo, Node.js, AWS DynamoDB) on a confidential client app: closed a privilege-escalation flaw across 3 unprotected admin endpoints and unblocked a team-wide build failure
+- Write solution architectures, technical roadmaps, and implementation docs that speed up handoff and long-term maintainability
+**Engagement detail (confidential client mobile app; the product is Chomp, which is not to be named on resumes; full write-up is under Projects):**
+- App: cross-platform iOS/Android social recipe app with a creator program (application, admin review, creator dashboard) on a Node.js/Express backend over AWS DynamoDB. Udit's scope was the creator-program backend, admin authorization, the creator UI, and keeping the team's build working
+- Security: any signed-in user could approve their own creator application and assign themselves any tier, because admin endpoints had no role check and the JWT carried only id and email. Fixed by resolving roles from the user record and enforcing them in shared role middleware; 3 admin endpoints now return 403 to non-admins
+- Backend: the creator-program controller required MongoDB models that were deleted in the DynamoDB migration, so it could never have run. Rebuilt its data layer on DynamoDB and shipped the first working version: 6 REST endpoints (apply, list, detail, admin list, review, stats) with Swagger docs, verified across 21 scripted API scenarios before merge
+- Admin workflow: teammates could not test it because the app had no way to grant admin. Wrote an operator script to grant, revoke, and list admins, keeping privilege changes off the public API. Closed a reviewer-reported bug where approved applications could be flipped to rejected by returning 409 for already-decided applications
+- Frontend: picked up about 1,300 lines of abandoned creator UI across 12 files, left unmerged and 19 commits behind main after its author left. Brought it up to date with main instead of rebuilding from Figma, then fixed 3 dashboard links to non-existent screens, an Apply button with no handler, and a dashboard entry that opened the wrong screen
+- Application flow: replaced a submit button that only showed a fake success alert with a working flow covering all 4 states (pending, under review, approved, rejected), using a typed API service and the design's fields mapped onto the API contract. Caught two regressions before merge and verified with Android and iOS production builds
+- Build health: diagnosed a failure that stopped the app compiling for the whole team (a merged PR imported a module that existed only in an unmerged one) by stubbing the module locally to isolate it. Also fixed the Explore feed 404 caused by a stripped /api URL prefix (one-line fix, merged)
 
 ---
 
-### University Information Technology Services (UITS) — Indiana University
+### University Information Technology Services (UITS), Indiana University
 
-**Role:** Consultant – IT Services
-**Period:** Aug 2025 – Present
+**Role:** Consultant - IT Services
+**Period:** Aug 2025 - Present
 **Location:** Bloomington, IN, US
 **Type:** Part-Time · On-site
-**Description:** Technical support and systems administration for university-wide infrastructure, including enterprise applications, identity systems, and end-user computing.
+**Stack / tools:** ServiceNow, enterprise identity and access management systems, desktop, mobile, and network troubleshooting
 **Bullets:**
 - Resolve **100+ technical issues weekly** across desktop, mobile, and enterprise applications through structured troubleshooting and root-cause analysis
 - Diagnose and remediate hardware, software, and network failures to minimize service disruption and keep technology services reliable for a large user base
 - Support enterprise identity and access management across authentication, authorization, account provisioning, and lifecycle workflows
 - Analyze recurring incidents and document technical resolutions and troubleshooting workflows in **ServiceNow**, improving knowledge reuse and consistency across support operations
 - Collaborate with cross-functional IT teams to triage and resolve complex incidents, coordinate escalations, and restore service availability efficiently
+**Detail:**
+- Relevant for roles that value customer-facing troubleshooting, incident handling, and identity/access fundamentals (authentication vs authorization, provisioning, account lifecycle), which overlap with the RBAC and auth work in the projects
 
 ---
 
-### Global Health Impact Project — Indiana University
+### Global Health Impact Project, Indiana University
 
 **Role:** Software Engineer
-**Period:** Jan 2026 – Jun 2026
+**Period:** Jan 2026 - Jun 2026
 **Location:** Bloomington, IN, US
 **Type:** Part-Time · Hybrid
-**Description:** Global health analytics platform that models pharmaceutical intervention impact across populations — treatment coverage, efficacy, and outcomes — through large-scale forecasting workflows.
+**Stack:** React, TypeScript, Python, REST APIs, SQL databases
 **Bullets:**
 - Engineered full-stack analytics features using **React, TypeScript, and Python** to enable researchers to evaluate pharmaceutical intervention coverage, efficacy, and population-level outcomes
 - Developed backend services and data pipelines for treatment-coverage modeling, efficacy analysis, and large-scale population health forecasting
 - Designed and maintained **REST APIs** connecting analytical services and data pipelines with interactive forecasting dashboards and visualization workflows
 - Optimized database queries and backend processing to improve application responsiveness and support increasingly complex analytical workloads
 - Identified and resolved application bottlenecks and production issues across the technology stack, translating research requirements into reliable, production-ready features in collaboration with domain experts
+**Detail:**
+- Users were researchers and domain experts, so requirements came as research questions that had to be turned into features and API contracts
+- Work spanned three layers: the React/TypeScript front end (dashboards, visualization), the Python services and pipelines (modeling, forecasting), and the REST layer between them
+
+
+---
+
+### Mindfire Solutions
+
+**Role:** Software Engineer
+**Period:** Jan 2023 - Jul 2024
+**Type:** Remote
+**Stack:** Python, Django REST Framework, PostgreSQL, Celery, Redis, FastAPI, OpenAI embeddings, FAISS
+**Bullets:**
+- Built the backend for a healthcare client workflow platform in Django REST Framework and PostgreSQL, with role-based permissions, audit logging, and versioned REST APIs for web and mobile clients
+- Sped up slow reports with EXPLAIN ANALYZE profiling, composite indexes, and nightly materialized views for heavy aggregations
+- Eliminated duplicate charges from replayed payment events by integrating payment and SMS gateways through signed webhooks, idempotent handlers, and Celery and Redis retry queues
+- Prototyped question-answering over client PDFs with OpenAI embeddings, FAISS, and FastAPI; presented accuracy and cost trade-offs
+**Detail:**
+- Healthcare platform: role-based permissions controlled which user types could see or change which records; audit logging recorded who did what; API versioning let existing web and mobile clients keep working while endpoints changed
+- Reporting: slow reports were profiled with EXPLAIN ANALYZE, then fixed with composite indexes and nightly materialized views so heavy aggregations did not run on every request
+- Payments and notifications: webhooks were signature-verified and handled idempotently, so a replayed payment event could not charge twice; failed deliveries went through Celery and Redis retry queues
+- RAG prototype: PDFs were embedded with OpenAI embeddings and searched with FAISS behind a FastAPI service; the client was shown retrieval accuracy against cost. It was a prototype, not a production feature
+**Gaps to fill:** No numbers recorded (report speedup, request volume, number of clients or users). Client names and the exact platform are not recorded and should stay generic.
+
+**Role:** Software Engineering Intern
+**Period:** Jan 2022 - Dec 2022
+**Type:** Internship · Remote
+**Stack:** Python, Django REST Framework, PostgreSQL, pytest
+**Bullets:**
+- Shipped Django REST Framework endpoints and serializers into existing client applications through senior engineer code review
+- Fixed QA-reported defects reproduced from application logs, covering each fix with pytest tests, and wrote PostgreSQL migrations
+**Detail:**
+- Worked inside existing client codebases under senior engineer review rather than building new systems from scratch
+- Defect work followed one pattern: reproduce from logs, fix, add a pytest regression test so it stays fixed
 
 ---
 
@@ -159,29 +204,63 @@ Aug 2020 – May 2024
 **Remaining limitations:** single-tenant (one shared token, no user accounts); in-process rate limits, scheduler, and WebSocket registry (one instance); additive startup migrations rather than Alembic; case-sensitive project names; history clones depth-limited (default 100 commits) and don't use `GITHUB_TOKEN`, so private-repo history is unsupported; per-IP limits are in-memory and per address (visitors behind one NAT share a bucket; many-address attackers can still use the shared ceiling), and the public demo is writable by anyone, which is acceptable for fake data.
 ---
 
-### NeuroClass - Brain Tumor MRI Classifier (IEEE 2024)
-**Live:** https://huggingface.co/spaces/Udit013/brain-tumor-mri-classifier
+### NeuroClass - Agentic MRI Research & Explainability Platform (IEEE 2024 foundation)
+**Live web app:** https://neuroclass-lab.vercel.app
+**API:** https://udit013-brain-tumor-mri-classifier.hf.space/api/docs (Hugging Face Space = API-only backend; no Gradio UI)
 **Model:** https://huggingface.co/Udit013/brain-tumor-efficientnetb3
 **Code:** https://github.com/Udit013/Brain_Tumor_Classificatioin
 **Publication:** [Identifying Various Types of Brain Tumors using Deep Neural Network based Image Features](https://doi.org/10.1109/ICC-ROBINS60238.2024.10533941), ICC-ROBINS 2024, IEEE (co-author)
-**Stack:** Python · TensorFlow/Keras · EfficientNetB3 · ONNX Runtime · OpenCV · scikit-learn · Gradio · FastAPI · Docker · Hugging Face Hub & Spaces · pytest · GitHub Actions
-**Description:** Production extension of an IEEE-published brain-tumor MRI classifier. Beyond reproducing the original four-architecture benchmark, it adds the evaluation and deployment work that turns a high-accuracy notebook into a served, trustworthy system: leakage auditing, out-of-distribution testing, calibration, uncertainty, robustness, explainability, and a live web app.
-**Status (Oct 2026):** Live on Hugging Face Spaces (free CPU; sleeps when idle and wakes on the first request). The deployed model is the retrained two-stage fine-tune, served under the original model identity and file names; Hub model `main` is `d655e25`, Space commit `b3f0598`. FastAPI Docker image verified. The previous paper-recipe model is preserved at tag `parity-2024` on the Hub for rollback. Known limits: glioma is still the weakest class (**25** of 400 called "no tumor"), external tumor recall is **56.1%**, results come from one training seed, and hosted staging is unavailable without HF PRO, so staging ran locally against the Hub `candidate` branch. Research and education only; not a medical device.
-**Bullets:**
-- Co-authored an IEEE ICC-ROBINS 2024 paper benchmarking **4** CNN architectures (custom CNN, VGG16, InceptionV3, EfficientNetB3) for 4-class brain-tumor MRI classification on a **7,023-image** dataset, where EfficientNetB3 posted the top reported accuracy (**99.844%**) with **11.7M** parameters — **38%** fewer than the next-smallest model (VGG16, 18.9M)
-- Exposed train/test leakage inflating the published benchmark, as measured by **95.9%** accuracy on test images with a near-duplicate in training vs **85.7%** on novel ones (**44.6%** near-duplicates and **114** exact pixel duplicates across a **1,600**-image test set), by building a perceptual- and content-hash audit over all **8.96M** train/test image pairs — reported as a lower bound, since the multi-source dataset carries no patient IDs
-- Retrained and redeployed the live classifier, raising test accuracy from **90.25% to 93.44%**, novel-image accuracy from **85.7% to 89.4%**, glioma recall from **64.3% to 79.5%**, and accuracy under 30 image corruptions from **67.3% to 90.7%** (paired McNemar p = 1.4e-6), by building a leakage-safe validation split (union-find over near-duplicate clusters, zero pairs straddling it) and a two-stage EfficientNet fine-tune with noise augmentation that trains in **21.5 minutes** on a laptop CPU, then promoting it through a checksum-verified candidate branch and smoke tests with a tagged one-step rollback
-- Replaced a single headline number with a defensible evaluation, as measured by the deployed model's **93.44%** accuracy and **0.993** macro ROC-AUC in-distribution (**89.4%** on scans with no near-duplicate in training) plus an honest **72.7%** on a separate **253**-image external MRI dataset, by re-implementing the published notebook as a tested Python package with exact recipe parity, per-class precision/recall/F1, confusion matrices, ROC/PR curves, and a tumor-vs-no-tumor evaluation for the external set — all measured on the exact preprocessing and CPU computation users are served
-- Found and fixed three silent correctness bugs that each changed reported accuracy, by isolating one variable at a time: a **tensorflow-metal graph-mode defect** (93.81% on Metal vs 90.25% on CPU for identical weights; eager mode matched; fixed by disabling grappler's meta-optimizer), a **train/serve resize skew** (nearest-neighbour vs bicubic, 1 point of accuracy), and a **Keras EfficientNet quirk** that silently dropped an input-scaling layer at serving time (95.0% → 86.7%), folded into the normalization layer as an exact identity
-- Made confidence scores trustworthy enough to act on, as measured by expected calibration error cut from **0.188 to 0.022** with the retrained model (and to **0.068** for the original via temperature scaling) and predictive entropy **7×** higher on wrong predictions than correct ones (**0.78** vs **0.11**, n=200), by fitting temperatures on held-out data and adding **6**-view test-time augmentation that flags unstable predictions in plain language
-- Pinpointed the original model's critical failure modes, as measured by accuracy across **30** corruption conditions (6 types × 5 severities; **90.25%** clean → **67.3%** mean, near-chance under Gaussian noise) and a glioma recall of **64.3%** (**33** of 400 gliomas called "no tumor"), by building robustness and per-class error benchmarks that directly shaped the retraining recipe
-- Deployed a live web app delivering **2.3×** lower CPU latency than the Keras model (**78 → 34.5 ms**), by exporting to ONNX Runtime and serving predictions with calibrated confidence, a stability indicator, and Grad-CAM heatmaps through Gradio on Hugging Face Spaces, with the model versioned on the Hugging Face Hub and any revision servable by configuration
-- Shipped the model as a containerized FastAPI service (non-root, Docker healthcheck, **715 MB** compressed image) that answered **12** concurrent predictions in **1.4 s** while health checks stayed under **45 ms**, and returns 503 with the cause instead of crash-looping when weights are missing, verified end to end against the model's offline predictions
-- Kept every result reproducible and the serving layer reliable, as measured by a **10**-stage one-command reproduction pipeline, README results tables generated only from measured run outputs, and **65** pytest tests plus linting gating GitHub Actions CI, by also fixing a FastAPI bug that failed every `/predict` request, returning 503 instead of crashing when the model can't load, and capping uploads at **10 MB**
+**Stack:** Python · TensorFlow/Keras (research) · EfficientNetB3 · ONNX Runtime · NumPy (analytic Grad-CAM) · LangGraph · Gemini API (free tier) · fastembed (bge-small, local ONNX) · BM25 + dense hybrid retrieval (RRF) · PostgreSQL + pgvector (Neon) · FastAPI · Pydantic · SQLAlchemy 2 / Alembic · psycopg 3 · JWT/scrypt · Next.js 16 · React 19 · TypeScript · Tailwind v4 · Docker Compose · Hugging Face Spaces · Vercel · pytest · Vitest · Playwright · GitHub Actions · MCP
+**Description:** Research and education platform built on my IEEE 2024 brain-tumour MRI paper. Three separated layers: (1) the published four-CNN benchmark, preserved byte-for-byte; (2) a post-publication audit and retrained model measured honestly; (3) a $0 agentic research platform that shows, for each MRI slice, the model-predicted class with calibrated confidence, Grad-CAM, a rule-based reliability level, literature-grounded explanations whose citations are verified, human review, reports and persistent history. Not a medical device; never presented as diagnostic.
+**Architecture:** Next.js app (Vercel Hobby, deploys on push to `main`) → FastAPI platform at `/api` on an existing free Hugging Face Space (CPU Basic, Gradio SDK used only as a free Python host) → LangGraph workflow: validate → infer (ONNX, 6-view TTA) → assess reliability (deterministic rules) → retrieve (routed hybrid search over pgvector, in-memory fallback) → explain (Gemini free tier behind a quota guard, or extractive quotes) → verify citations/numbers → human review (`interrupt()` + Postgres checkpoints) → report. Neon Postgres stores users, analyses, reviews, trace events, LangGraph checkpoints and the 7,355-chunk vector index.
+**Status :** Live at — Vercel Hobby, HF Space (account not PRO, no payment method), Neon Free (fixed 0.25 CU, scale-to-zero, $0/month, no card), Gemini free tier (`gemini-3.5-flash-lite`; project tier must be confirmed in AI Studio by me). CI green on 4 jobs; 12/12 Playwright journeys pass against production; history and paused reviews survive Space restarts on Neon. Test accounts and their data were deleted from Neon; the one leaked test token returns 401.
 
-**Resume (2 bullets):**
-- Co-authored an IEEE ICC-ROBINS 2024 paper on brain tumor MRI classification, then audited it by comparing 8.96M train/test image pairs with perceptual hashing, exposing leakage (95.9% vs 85.7% accuracy on near-duplicate vs novel scans) and three silent bugs, including a TensorFlow-Metal graph-mode defect that inflated accuracy by 3.6 points
-- Retrained and redeployed the model on Hugging Face Spaces (ONNX Runtime) and a Docker/FastAPI service, raising accuracy from 90.3% to 93.4% (89.4% on novel scans), glioma recall from 64% to 80%, and accuracy under image corruption from 67% to 91% (McNemar p < 1e-5), using a leakage-safe validation split, a 22-minute CPU fine-tune, and 65 pytest tests in CI
+**IEEE 2024 research (the paper's own claims):** 4 CNNs (custom CNN 21.4M params, VGG16 18.9M, InceptionV3 40.7M, EfficientNetB3 11.7M) on 7,023 images; EfficientNetB3 reported 99.844% — which is 639/640 images, about half of the 1,311-image test set.
+
+**Post-publication ML work (measured on CPU with the served preprocessing):**
+- Leakage audit over 8.96M train/test pairs (perceptual + content hashes): 44.6% of test images (714/1,600) have a near-duplicate in training, plus 114 exact duplicates; paper-recipe model 95.9% on leaked vs 85.7% on novel images (lower bound — no patient IDs).
+- Correctness bugs found and fixed: tensorflow-metal graph-mode defect (93.81% Metal vs 90.25% CPU, same weights; fixed by disabling grappler's meta-optimizer), train/serve resize skew, and a Keras EfficientNet quirk dropping an input-rescaling layer at serving (95.0% → 86.7% until folded into normalization exactly).
+- Retrained model (leakage-safe split, two-stage fine-tune, 21.5 min on a laptop CPU): accuracy 90.25% → 93.44%, novel-image 85.7% → 89.4%, glioma recall 64.3% → 79.5%, mean accuracy over 30 corruptions 67.3% → 90.7%, raw ECE 0.188 → 0.022, external dataset (n=253) 69.6% → 72.7% (tumour recall 56.1%); paired McNemar p = 1.4e-6.
+- Promotion gate (tolerances + paired McNemar) written afterwards and labelled as retroactive; Hub tag `parity-2024` keeps the previous model.
+
+**Platform engineering (not part of the paper):**
+- TF-free serving: one ONNX graph returns probabilities + the 8×8×1536 last conv map; Grad-CAM computed in closed form through the dense head. Export refuses to ship unless it matches TensorFlow (probabilities within 5e-6 on all 1,600 test images, 0 changed predictions; heatmaps within 9e-6). Per image incl. Grad-CAM (M3 Pro CPU): 89 → 41 ms, 803 → 262 MB peak RSS, load 7.0 → 0.24 s; API image 3.29 → 1.49 GB.
+- Reliability rules: on test, "standard" = 94.8% of images at 96.0% accuracy; "caution" = 4.9% at 47.4% → routed to review. Input-shift heuristic (Mahalanobis): AUROC 0.95 vs non-MRI, 0.52 vs another MRI dataset — labelled a heuristic, not OOD detection.
+- RAG: 241 PubMed Central OA articles with a declared CC licence (ND excluded; 51 rejected) + 3 project docs → 7,355 section-aware chunks. On 50 labelled questions, routed hybrid bge-small: recall@10 1.00, MRR 0.953, nDCG 0.966, 27 ms p50. Routing lifted project-question recall@10 from 0.786 (dense) to 1.00; bge-base (MRR 0.967) rejected for 2.8× latency; cross-encoder rerank rejected (+1 s/query, no recall gain).
+- Verified explanations: statements must cite retrieved passages, numbers must appear in their sources, weakly supported claims are removed and shown with reasons. Extractive pipeline fact recall 0.54 (naive) → 0.66 (full).
+- Gemini evaluation through the live production API (34 questions, 68 calls, $0, key never copied): fact recall 0.75 vs 0.66 extractive, citation precision 0.93 vs 0.59, but relevant-source citation 0.77 vs 0.97. 10 of 11 verifier removals traced to a Q&A rule bug (non-literature labels checked against an empty inference) — fixed with a regression test; numbers reported as measured. Remaining weakness: Flash-Lite sometimes omits citations (verifier removes them). Closed-book / naive-RAG Gemini variants not run.
+- Zero-billing LLM layer: provider abstraction; `auto` selects Gemini only when keyed and never a paid provider (Claude adapter requires `NEUROCLASS_ALLOW_PAID_LLM=true`); per-minute (4) and per-day (100) budgets taken before each call; SDK retries off; 429 → pause until reset; ≤ 2 calls per request; every fallback is extractive with the reason shown.
+- Neon integration: pooled-endpoint detection (prepared statements off behind PgBouncer), pre-ping/recycle across scale-to-zero, idempotent pgvector index sync with in-memory fallback, 503 "temporarily unavailable" instead of 500s when Neon is suspended; Neon's CLI template / Neon Auth deliberately not used.
+- Security: reviewer role = listed email + operator code (unverified emails grant nothing); reviewers see only analyses in the review workflow; owner deletion of an analysis (row, reviews, traces, checkpoints, upload); upload overlays cleared after 30 days, uploads after 24 h; equal scrypt work for unknown-email logins; per-client + global rate caps; 220 production log lines scanned with no secrets; pip-audit and production npm audit clean.
+- Testing/CI: platform 91 (Postgres) / 88 + 3 skipped (SQLite), 79 + 7 skipped on the Space's exact dependency set, 65 research, 8 web, 12/12 Playwright (desktop + mobile) against production; 4-job GitHub Actions (research, platform on pgvector, HF dependency set, web build + audit).
+
+**Bullets:**
+- Co-authored an IEEE ICC-ROBINS 2024 paper benchmarking **4** CNNs for 4-class brain-tumour MRI classification on **7,023** images, then audited it across **8.96M** train/test image pairs, finding **44.6%** of test images near-duplicated in training (**95.9%** vs **85.7%** accuracy on leaked vs novel scans) and three silent correctness bugs, including a TensorFlow-Metal graph-mode defect worth **3.6** points
+- Retrained the deployed classifier on a leakage-safe split, raising accuracy **90.25% → 93.44%**, novel-image accuracy **85.7% → 89.4%**, glioma recall **64.3% → 79.5%** and accuracy under 30 corruptions **67.3% → 90.7%** (McNemar p = 1.4e-6), with calibration error cut **0.188 → 0.022**
+- Removed TensorFlow from serving by exporting an ONNX graph with the last conv map and computing Grad-CAM in closed form, cutting latency **89 → 41 ms** and memory **803 → 262 MB** per image, verified within **5e-6** of TensorFlow on all **1,600** test images
+- Built a LangGraph analysis workflow (validate → infer → assess → retrieve → explain → verify → human review → report) with Postgres checkpoints whose paused reviews survive production restarts, and deterministic reliability rules that separate **96.0%**-accurate "standard" results from **47.4%** "caution" ones
+- Built scientific RAG over **241** CC-licensed PubMed Central papers (**7,355** chunks, pgvector on Neon) reaching recall@10 **1.00** / MRR **0.953** at **27 ms**, with a citation verifier; a live Gemini evaluation (**68** free-tier calls, **$0**) raised fact recall **0.66 → 0.75** and citation precision **0.59 → 0.93** — and exposed a verifier bug I fixed and documented
+- Shipped the platform at **$0** (Vercel, Hugging Face Space, Neon Free, Gemini free tier) with a zero-billing LLM guard, reviewer-code authorization, data deletion and retention, **91** backend tests, **12/12** production browser journeys and a 4-job CI that installs Hugging Face's exact dependency set
+
+**Resume (2 bullets, balanced):**
+NeuroClass - Agentic MRI Research and Explainability Platform (IEEE 2024) | Python, ONNX Runtime, FastAPI, LangGraph, Gemini, PostgreSQL/pgvector, Next.js
+• Co-authored an IEEE ICC-ROBINS 2024 paper benchmarking 4 CNN architectures for brain tumor MRI classification; identified 44.6% train/test near-duplicates through dataset auditing and retrained EfficientNetB3 using a leakage-safe validation split, achieving 93.4% test accuracy, 89.4% novel-image accuracy, and improving glioma recall from 64% to 80%
+• Built and deployed a full-stack agentic AI platform integrating LangGraph workflows, Gemini-powered RAG over 241 PubMed Central papers, citation verification, and human-in-the-loop review with PostgreSQL checkpoints and pgvector retrieval; reduced inference and Grad-CAM latency by 54% (89 to 41 ms) through TensorFlow-free ONNX serving
+
+**Interview prep — NeuroClass**
+*60-second pitch.* "I co-authored an IEEE paper on brain-tumour MRI classification that reported 99.8%. When I audited it, that number was scored on half the test set, and 45% of test images had near-copies in training. I retrained the model honestly — 93.4%, 89.4% on genuinely new scans, glioma recall from 64 to 80 — and then built a platform around one question: what can a researcher trust about a single prediction? Each analysis is a LangGraph workflow: calibrated confidence, Grad-CAM, reliability rules I validated, literature retrieved from 241 openly licensed papers, a verifier that deletes any claim its sources don't support, and human review that survives restarts. I removed TensorFlow from serving by computing Grad-CAM analytically, which made it twice as fast and small enough to run entirely on free infrastructure — it costs zero dollars."
+
+*Architecture walkthrough.* Browser → Next.js on Vercel (static/partial prerender, data fetched client-side) → FastAPI on a free HF Space (`/api`) → LangGraph graph with typed state: validate (size, pixels, format) → infer (ONNX, 6 TTA views, temperature, Mahalanobis shift) → assess (rules from measured per-class stats) → retrieve (BM25 + bge-small RRF, project-question routing, ≤2 chunks/doc, pgvector with in-memory fallback) → explain (Gemini behind QuotaGuard: one tool round + one schema-constrained call; else extractive) → verify (citations retrieved, numbers in sources, lexical support ≥ 0.5) → human review via `interrupt()` with PostgresSaver → report. Neon holds everything durable; one process with a thread pool; SSE streams trace events.
+
+*Research-to-production story.* Published benchmark → re-run byte-for-byte → leakage + device + preprocessing defects → leakage-safe split and retrain with paired significance → calibration/robustness/external evaluation → TF-free serving verified against TF → reliability rules validated on test → grounded explanations with verification → $0 deployment with honest degradation.
+
+*Decisions & trade-offs.* bge-small over bge-base (+0.014 MRR for 2.8× latency); no reranker (+1 s, no gain); routing over bigger models; extractive default vs fluency; lexical verifier (deterministic, explainable, not semantic); existing Space over Docker SDK (free accounts can't create Docker Spaces); Neon as plain Postgres, not Neon Auth; single process + DB job state instead of Redis/Celery; reviewer code instead of email verification (no paid mail provider).
+
+*Failures & fixes.* Next 16 prod build failed where dev worked → Suspense leaf + CI production build; HF `gradio[mcp]` pins and SSR port clash → Space dependency CI job, `ssr_mode=False`; CSS layer bug made the primary button invisible → base styles in `@layer base`; Neon pooler + prepared statements → detection; mobile overflow from grid `min-width:auto` → `minmax(0,1fr)`; test-worker race on slow CI → drain pools; live Gemini eval exposed a verifier rule bug → fixed with regression test, numbers kept as measured; a test token leaked into a log → account deleted, token verified 401.
+
+*Three-minute demo.* (0:00) Landing: paper's 99.844% vs measured 93.4 / 89.4 / 72.7. (0:30) Workbench: glioma example → 35% calibrated, "Unreliable", Grad-CAM, cited explanation, removed statements, report download. (1:30) Research assistant: "What share of test images have a near-duplicate in training?" → 44.6%, cited to the project docs. (2:15) System page: PostgreSQL (Neon), pgvector, Gemini free tier with today's budget, `paid_allowed: false`; mention restart-persistent reviews. (2:45) Close on $0 + measured limitations.
+
+**Known limitations:** single seed; glioma recall 79.5% and external tumour recall 56.1%; no clinical validation; lexical verifier; Gemini evaluation covers 34 of 50 questions, measured before the verifier fix, and Flash-Lite sometimes omits citations; input-shift heuristic doesn't catch other MRI sources; free hosting sleeps after 48 h idle; no email verification; in-process rate limits; dev-only picomatch advisory without a patched release.
 
 ---
 

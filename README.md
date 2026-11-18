@@ -103,7 +103,9 @@ any uncaught exception or console error.
   applied in batches by hand and verified by the test suite; the weekly CI
   audit catches new advisories in between.
 - **TypeScript 7 runs side by side with the TypeScript 6 API**, the setup the
-  TypeScript team documents for 7.0: `tsc` is 7.0 (`@typescript/native`),
+  TypeScript team documents for 7.0: type-checking runs TypeScript 7.0
+  (`typescript7`, called by path in the npm scripts because the TS 6 package
+  also installs a `tsc` shim),
   while `typescript` resolves to `@typescript/typescript6` because
   typescript-eslint still needs the compiler API that 7.0 doesn't ship yet.
   Once typescript-eslint supports TS 7.1+, drop the alias.

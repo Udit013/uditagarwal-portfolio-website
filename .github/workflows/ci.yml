@@ -31,9 +31,10 @@ jobs:
 
       - run: npm ci
 
-      # Fails on high/critical advisories in any dependency, dev tooling included.
+      # Fails on high/critical advisories in any dependency, dev tooling
+      # included, apart from documented, expiring exceptions in the script.
       - name: Audit dependencies
-        run: npm audit --audit-level=high
+        run: npm run audit:ci
 
       - name: Lint (ESLint, e2e types, token + CSP checks)
         run: npm run lint

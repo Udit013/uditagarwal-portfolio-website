@@ -110,8 +110,8 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
 <span class="t-hi">Testing</span>       Vitest · pytest · ESLint · Calibration · OOD Testing`,
 
 
-  projects: `<span class="t-hi">01</span>  NeuroClass (Brain Tumor MRI)    [AI/ML] · <a class="t-link" href="https://doi.org/10.1109/ICC-ROBINS60238.2024.10533941" target="_blank" rel="noopener noreferrer">IEEE ICC-ROBINS 2024</a>
-    99.84% published · 93.44% after leakage audit + retrain · ONNX + Docker
+  projects: `<span class="t-hi">01</span>  NeuroClass (Agentic MRI Platform) [AI/ML] · <a class="t-link" href="https://neuroclass-lab.vercel.app" target="_blank" rel="noopener noreferrer">live</a> · <a class="t-link" href="https://doi.org/10.1109/ICC-ROBINS60238.2024.10533941" target="_blank" rel="noopener noreferrer">IEEE 2024</a>
+    Audited + retrained (93.44%) · LangGraph · cited RAG · ONNX Grad-CAM · $0
 <span class="t-hi">02</span>  Veritome (Biomedical RAG)       [AI/ML] · <a class="t-link" href="https://huggingface.co/spaces/Udit013/biomed-assistant" target="_blank" rel="noopener noreferrer">live</a>
     Qwen2.5-7B QLoRA · RAG · LangGraph agents · pgvector
 <span class="t-hi">03</span>  PrepWise (AI Voice Interviews)  [AI/ML · Full-Stack] · <a class="t-link" href="https://mock-ai-prep.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
@@ -140,12 +140,12 @@ ICC-ROBINS 2024  ·  DOI: 10.1109/ICC-ROBINS60238.2024.10533941
 
 Model:    EfficientNetB3 + CNN/VGG16/InceptionV3 benchmarks
 Dataset:  <span class="t-hi">7,023 MRI scans</span>
-Result:   <span class="t-hi">99.84% classification accuracy</span> (published)
+Result:   <span class="t-hi">99.84% classification accuracy</span> (published; 639 of 640 images, about half the test set)
 Audit:    train/test leakage found; retrained model: <span class="t-hi">93.44%</span> (89.4% on novel scans)
 Role:     Co-author
 
 <span class="t-hi">Production ML &amp; LLM work:</span>
-  NeuroClass · leakage audit · retrained model · ONNX + Docker serving · Grad-CAM
+  NeuroClass · leakage audit · retrained model · LangGraph + verified RAG · ONNX Grad-CAM
   Veritome · Qwen2.5-7B QLoRA · cited RAG · LangGraph 4-agent workflow
   Transformers · BERT · Prompt Engineering · RAG`,
 
@@ -210,7 +210,7 @@ export const CHAT_FAQ: { q: RegExp; a: string }[] = [
   { q: /ieee|research|paper|publish|brain.?tumor/i, a: 'Udit co-authored an IEEE paper at ICC-ROBINS 2024 on brain tumor classification: 99.84% accuracy on 7,023 MRI scans with EfficientNetB3. A later audit found train/test leakage in that benchmark; the retrained, deployed model scores 93.44% (89.4% on novel scans). DOI: 10.1109/ICC-ROBINS60238.2024.10533941' },
   { q: /gpa|grade|school|degree|university|master|indiana/i, a: 'MS CS at Indiana University Bloomington, GPA 3.84/4.0, May 2026. B.Tech at KIIT, GPA 8.85/10.0.' },
   { q: /skill|tech|stack|language|python|react|framework/i, a: 'Python, TypeScript, React, Next.js, Node.js, Fastify, FastAPI, PostgreSQL, PyTorch, TensorFlow, Hugging Face, QLoRA, Gemini API, Ollama, Docker, AWS. Type "skills" for the full list.' },
-  { q: /project|built|app|demo|portfolio/i, a: '7 flagship projects: NeuroClass (IEEE brain tumor MRI classifier), PrepWise (AI voice interviews), Veritome (biomedical RAG + QLoRA), SnapCast (screen recorder and one-take editor), CoreSightIQ (decision intelligence), RxFlow (multi-tenant pharmacy ERP), and CipherWatch (credential exposure ledger). Type "projects" for all, or a project name for details.' },
+  { q: /project|built|app|demo|portfolio/i, a: '7 flagship projects: NeuroClass (agentic MRI research platform built on the IEEE paper), PrepWise (AI voice interviews), Veritome (biomedical RAG + QLoRA), SnapCast (screen recorder and one-take editor), CoreSightIQ (decision intelligence), RxFlow (multi-tenant pharmacy ERP), and CipherWatch (credential exposure ledger). Type "projects" for all, or a project name for details.' },
   { q: /contact|email|phone|reach|talk/i, a: 'agarwaludit13@gmail.com · +1 (930) 904-4901 · linkedin.com/in/udit013 · Responds within 24h.' },
   { q: /llm|voice|gemini|vapi|gpt|generative|qlora|fine.?tun|rag|agent/i, a: 'LLM work spans QLoRA/PEFT fine-tuning (Qwen2.5-7B), cited RAG over PubMed with pgvector, LangGraph multi-agent workflows with per-claim citation verification, Gemini API, Ollama, and LLM evaluation with lm-evaluation-harness. Built Veritome, a live biomedical research assistant, and voice interviews on browser-native speech + Gemini.' },
   { q: /data|etl|tableau|airflow|pipeline|analytics|forecast/i, a: 'Strong data engineering & analytics: ETL pipelines, PostgreSQL, forecasting, cohort retention, and A/B testing; see CoreSightIQ, which unifies three analytics products on one core engine with auditable, calibrated metrics (walk-forward backtesting, Brier/ECE).' },

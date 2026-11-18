@@ -79,7 +79,7 @@ test.describe('terminal', () => {
     await input.press('Enter')
     const out = ready.getByRole('log', { name: 'Terminal output' })
     const links = out.locator('a.t-link')
-    await expect(links).toHaveCount(7)
+    await expect(links).toHaveCount(8) // a live link per project, plus NeuroClass's paper
     for (const link of await links.all()) {
       await expect(link).toHaveAttribute('href', /^https:\/\//)
       await expect(link).toHaveAttribute('target', '_blank')

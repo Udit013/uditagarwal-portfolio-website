@@ -9,12 +9,8 @@
 import { execSync } from 'node:child_process'
 
 const ALLOW = {
-  // picomatch ReDoS via repeated extglobs. Every published picomatch is
-  // affected and there is no patched release yet; npm's suggested "fix"
-  // downgrades Vite 8 to 6.2.7. Reaches us only through Vite/tinyglobby at
-  // build and dev time, matching globs from our own config, never untrusted
-  // input, and nothing from it ships to the browser.
-  'GHSA-fc5q-39xc-vjpf': { expires: '2027-01-31' },
+  // No exceptions. Add one as  'GHSA-xxxx-xxxx-xxxx': { expires: 'YYYY-MM-DD' },
+  // with a comment explaining why it can't be fixed yet.
 }
 
 let report

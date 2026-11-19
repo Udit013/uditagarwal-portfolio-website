@@ -16,7 +16,7 @@ export const TYPING_ROLES = [
    Archived for now: false hides the Experience section, its nav link, and the
    terminal's experience answers, and renumbers the sections that follow.
    The data (JOURNEY, below) is kept as-is; set true to bring it all back. */
-export const SHOW_EXPERIENCE = false
+export const SHOW_EXPERIENCE = true
 
 /* ── Nav ── */
 export const NAV_LINKS = [
@@ -214,8 +214,9 @@ export interface JourneyEntry {
   type: string
   role: string
   company: string
-  location: string
-  desc: string
+  /** Omitted when not recorded (rendered only if present). */
+  location?: string
+  desc?: string
   current?: boolean
   bullets: string[]
   chips: string[]
@@ -228,36 +229,36 @@ export const JOURNEY: JourneyEntry[] = [
     datetime: "2026-06",
     type: "Full-Time · Remote",
     role: "Senior Consultant",
-    company: "Heartland Community Network (HCN)",
-    location: "Remote · Indiana, US",
+    company: "Heartland Community Network",
+    location: "Indiana, United States · Remote",
     desc: "Technology consulting practice serving Indiana businesses with software engineering, AI, automation, and analytics work.",
     current: true,
     bullets: [
-      "Architect and deliver full-stack applications, backend services, REST APIs, dashboards, and workflow automation solutions tailored to client-specific business and operational requirements",
-      "Engineer AI-powered features and LLM-driven automation workflows that reduce manual processes, accelerate information retrieval, and improve data-driven decision-making",
-      "Translate complex and ambiguous business requirements into scalable technical designs, collaborating directly with engineering, data, and operations stakeholders",
-      "Own end-to-end delivery of production systems, spanning architecture, implementation, testing, deployment, debugging, and ongoing maintenance",
-      "Develop solution architectures, technical roadmaps, and implementation documentation that accelerate deployment, knowledge transfer, and long-term system maintainability",
+      "Architect and ship full-stack applications, REST APIs, dashboards, and workflow automations for Indiana business clients, owning delivery from design through testing, deployment, debugging, and maintenance",
+      "Build AI-powered features and LLM-driven automations that cut manual work and speed up information retrieval for client teams",
+      "Turn ambiguous business requirements into scalable technical designs, working directly with engineering, data, and operations stakeholders",
+      "Deliver cross-platform mobile work (React Native, Expo, Node.js, AWS DynamoDB) on a confidential client app: closed a privilege-escalation flaw across 3 unprotected admin endpoints and unblocked a team-wide build failure",
+      "Write solution architectures, technical roadmaps, and implementation docs that speed up handoff and long-term maintainability",
     ],
-    chips: ["Full-Stack", "LLMs / AI", "REST APIs", "Automation", "Analytics", "Data Pipelines"],
+    chips: ["React Native", "Expo", "TypeScript", "Node.js", "Express", "AWS DynamoDB", "LLMs / AI"],
   },
   {
     period: "Aug 2025 – Present",
     datetime: "2025-08",
     type: "Part-Time · On-site",
-    role: "Consultant – IT Services",
-    company: "University Information Technology Services (UITS) · Indiana University",
-    location: "Bloomington, IN, US",
+    role: "Consultant - University Information Technology Services (UITS)",
+    company: "Indiana University",
+    location: "Bloomington, Indiana, United States · On-site",
     desc: "Technical support and systems administration for university-wide infrastructure, including enterprise applications, identity systems, and end-user computing.",
     current: true,
     bullets: [
-      "Resolve 100+ technical issues weekly across desktop, mobile, and enterprise applications through structured troubleshooting and root-cause analysis",
-      "Diagnose and remediate hardware, software, and network failures to minimize service disruption and keep technology services reliable for a large user base",
-      "Support enterprise identity and access management across authentication, authorization, account provisioning, and lifecycle workflows",
-      "Analyze recurring incidents and document technical resolutions and troubleshooting workflows in ServiceNow, improving knowledge reuse and consistency across support operations",
-      "Collaborate with cross-functional IT teams to triage and resolve complex incidents, coordinate escalations, and restore service availability efficiently",
+      "Resolve 100+ technical issues weekly across desktop, mobile, and enterprise applications using structured troubleshooting and root-cause analysis",
+      "Support enterprise identity and access management, including authentication, authorization, account provisioning, and lifecycle workflows",
+      "Diagnose hardware, software, and network failures to keep services reliable for a large user base",
+      "Document recurring incidents and fixes in ServiceNow, improving knowledge reuse and consistency across the support team",
+      "Coordinate escalations with cross-functional IT teams to restore service on complex incidents",
     ],
-    chips: ["Enterprise IT", "Identity & Access", "ServiceNow", "Troubleshooting", "Root-Cause Analysis"],
+    chips: ["Identity & Access", "ServiceNow", "Troubleshooting", "Root-Cause Analysis", "Enterprise IT"],
     delay: ".1s",
   },
   {
@@ -269,14 +270,42 @@ export const JOURNEY: JourneyEntry[] = [
     location: "Bloomington, IN, US",
     desc: "Global health analytics platform that models pharmaceutical intervention impact across populations (treatment coverage, efficacy, and outcomes) through large-scale forecasting workflows.",
     bullets: [
-      "Engineered full-stack analytics features using React, TypeScript, and Python to enable researchers to evaluate pharmaceutical intervention coverage, efficacy, and population-level outcomes",
-      "Developed backend services and data pipelines for treatment-coverage modeling, efficacy analysis, and large-scale population health forecasting",
-      "Designed and maintained REST APIs connecting analytical services and data pipelines with interactive forecasting dashboards and visualization workflows",
-      "Optimized database queries and backend processing to improve application responsiveness and support increasingly complex analytical workloads",
-      "Identified and resolved application bottlenecks and production issues across the technology stack, translating research requirements into reliable, production-ready features in collaboration with domain experts",
+      "Built full-stack analytics features in React, TypeScript, and Python so researchers could evaluate pharmaceutical intervention coverage, efficacy, and population-level outcomes",
+      "Developed backend services and data pipelines for treatment-coverage modeling and large-scale health forecasting",
+      "Designed and maintained REST APIs connecting analytical services to interactive forecasting dashboards",
+      "Optimized database queries and backend processing to keep the app responsive as analytical workloads grew",
+      "Found and fixed bottlenecks and production issues across the stack, turning researcher requirements into reliable features",
     ],
-    chips: ["Python", "React", "TypeScript", "REST APIs", "SQL", "Data Pipelines"],
+    chips: ["React", "TypeScript", "Python", "REST APIs", "SQL", "Data Pipelines"],
     delay: ".2s",
+  },
+  {
+    period: "Jan 2023 – Jul 2024",
+    datetime: "2023-01",
+    type: "Remote",
+    role: "Software Engineer",
+    company: "Mindfire Solutions",
+    bullets: [
+      "Developed backend services for a healthcare workflow platform using Django REST Framework and PostgreSQL, implementing role-based permissions, audit logging, and versioned REST APIs",
+      "Improved database reporting performance through SQL query profiling, composite indexing, and materialized views for complex aggregations",
+      "Integrated payment and notification systems using signed webhooks, idempotent event handlers, and Celery/Redis retry queues",
+      "Prototyped document question-answering using FastAPI, OpenAI embeddings, and FAISS, evaluating retrieval accuracy and implementation trade-offs",
+    ],
+    chips: ["Python", "Django REST Framework", "PostgreSQL", "Celery", "Redis", "FastAPI", "FAISS"],
+    delay: ".3s",
+  },
+  {
+    period: "Jan 2022 – Dec 2022",
+    datetime: "2022-01",
+    type: "Internship · Remote",
+    role: "Software Engineering Intern",
+    company: "Mindfire Solutions",
+    bullets: [
+      "Developed and maintained Django REST Framework endpoints, serializers, and PostgreSQL migrations under senior engineer supervision",
+      "Investigated application defects using logs, implemented fixes, and added pytest regression tests to improve backend reliability",
+    ],
+    chips: ["Python", "Django REST Framework", "PostgreSQL", "pytest"],
+    delay: ".4s",
   },
 ]
 

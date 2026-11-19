@@ -39,29 +39,42 @@ function projectDetail(p: Project): string {
    (content.ts); while it's off the commands, the help line, and the
    "Currently" roles in `about` are all left out. */
 const EXPERIENCE = `<span class="t-hi">[ Jun 2026 – Present ]</span>  Senior Consultant
-  Heartland Community Network (HCN) · Remote
-  → Full-stack apps, backend services, REST APIs, dashboards &amp; automation for clients
-  → AI-powered features and LLM-driven automation workflows
-  → End-to-end delivery: architecture → build → test → deploy → maintain
+  Heartland Community Network · Indiana, US · Remote
+  → Full-stack apps, REST APIs, dashboards &amp; workflow automations for Indiana business clients
+  → AI-powered features and LLM-driven automations for client teams
+  → Confidential client mobile app (React Native, Expo, Node.js, DynamoDB):
+    closed a privilege-escalation flaw across 3 admin endpoints
 
-<span class="t-hi">[ Aug 2025 – Present ]</span>  Consultant – IT Services
-  UITS · Indiana University
+<span class="t-hi">[ Aug 2025 – Present ]</span>  Consultant – University Information Technology Services (UITS)
+  Indiana University · Bloomington, IN · On-site
   → 100+ technical issues/week across desktop, mobile &amp; enterprise apps
-  → Identity &amp; access management · root-cause analysis
-  → Resolutions and troubleshooting workflows documented in ServiceNow
+  → Identity &amp; access management: authentication, authorization, provisioning
+  → Recurring incidents and fixes documented in ServiceNow
 
 <span class="t-hi">[ Jan 2026 – Jun 2026 ]</span>  Software Engineer
   Global Health Impact Project · Indiana University
   → Full-stack analytics features (React, TypeScript, Python)
-  → Backend services &amp; data pipelines for population health forecasting
-  → REST APIs powering forecasting dashboards · query &amp; backend optimization`
+  → Backend services &amp; data pipelines for health forecasting
+  → REST APIs connecting analytical services to forecasting dashboards
+
+<span class="t-hi">[ Jan 2023 – Jul 2024 ]</span>  Software Engineer
+  Mindfire Solutions · Remote
+  → Healthcare workflow backend: Django REST Framework, PostgreSQL, RBAC, audit logging
+  → Reporting sped up with query profiling, composite indexes, materialized views
+  → Signed webhooks, idempotent handlers, Celery/Redis retries for payments &amp; notifications
+  → Document Q&amp;A prototype with FastAPI, OpenAI embeddings, and FAISS
+
+<span class="t-hi">[ Jan 2022 – Dec 2022 ]</span>  Software Engineering Intern
+  Mindfire Solutions · Remote
+  → Django REST Framework endpoints, serializers, and PostgreSQL migrations
+  → Defect fixes from logs, covered by pytest regression tests`
 
 const CURRENT_ROLES = SHOW_EXPERIENCE
   ? `
 
 <span class="t-hi">Currently:</span>
   Senior Consultant @ Heartland Community Network
-  Consultant – IT Services @ UITS, Indiana University`
+  Consultant – UITS @ Indiana University`
   : ''
 
 const PROJECT_COMMANDS: Record<string, string> = Object.fromEntries(PROJECTS.map((p) => [projectKey(p), projectDetail(p)]))
@@ -206,6 +219,9 @@ export const CHAT_FAQ: { q: RegExp; a: string }[] = [
     q: new RegExp(`\\b${projectKey(p)}\\b`, 'i'),
     a: `${esc(p.title)}: ${esc(p.desc)} Type <span class="t-hi">${projectKey(p)}</span> for highlights and links.`,
   })),
+  ...(SHOW_EXPERIENCE
+    ? [{ q: /experience|worked|work history|employ|mindfire|heartland|hcn|uits|global health/i, a: 'Senior Consultant at Heartland Community Network (Jun 2026 – present), Consultant at Indiana University UITS (Aug 2025 – present), Software Engineer at the Global Health Impact Project (Jan – Jun 2026), and Software Engineer (Jan 2023 – Jul 2024) after a year as an intern (2022) at Mindfire Solutions. Type <span class="t-hi">experience</span> for details.' }]
+    : []),
   { q: /hire|job|full.?time|intern|open.?to|available|role/i, a: 'Udit is open to full-time SWE, AI/ML, and Data roles. Open to remote, hybrid, and relocation anywhere in the US. Email: agarwaludit13@gmail.com · Phone: +1 (930) 904-4901' },
   { q: /ieee|research|paper|publish|brain.?tumor/i, a: 'Udit co-authored an IEEE paper at ICC-ROBINS 2024 on brain tumor classification: 99.84% accuracy on 7,023 MRI scans with EfficientNetB3. A later audit found train/test leakage in that benchmark; the retrained, deployed model scores 93.44% (89.4% on novel scans). DOI: 10.1109/ICC-ROBINS60238.2024.10533941' },
   { q: /gpa|grade|school|degree|university|master|indiana/i, a: 'MS CS at Indiana University Bloomington, GPA 3.84/4.0, May 2026. B.Tech at KIIT, GPA 8.85/10.0.' },

@@ -28,12 +28,14 @@ function JourneyItem({ entry }: { entry: JourneyEntry }) {
           </div>
           <h3 className="journey-role">{entry.role}</h3>
           <div className="journey-company">{entry.company}</div>
-          <div className="journey-loc">
-            <span aria-hidden="true">📍</span> {entry.location}
-          </div>
+          {entry.location && (
+            <div className="journey-loc">
+              <span aria-hidden="true">📍</span> {entry.location}
+            </div>
+          )}
         </div>
         <div className="jtl-body">
-          <p className="journey-desc">{entry.desc}</p>
+          {entry.desc && <p className="journey-desc">{entry.desc}</p>}
           <ul className="journey-bullets" aria-label="Key contributions">
             {entry.bullets.map((b, i) => (
               <li key={i}>{b}</li>
@@ -72,7 +74,7 @@ export function Journey() {
       </div>
       <ol className="journey-timeline" aria-label="Work experience timeline">
         {JOURNEY.map((entry) => (
-          <JourneyItem key={entry.role} entry={entry} />
+          <JourneyItem key={`${entry.company}-${entry.datetime}`} entry={entry} />
         ))}
       </ol>
     </section>

@@ -127,7 +127,7 @@ Email: agarwaludit13@gmail.com  ·  Phone: +1 (930) 904-4901
     Audited + retrained (93.44%) · LangGraph · cited RAG · ONNX Grad-CAM · $0
 <span class="t-hi">02</span>  Veritome (Biomedical RAG)       [AI/ML] · <a class="t-link" href="https://huggingface.co/spaces/Udit013/biomed-assistant" target="_blank" rel="noopener noreferrer">live</a>
     Qwen2.5-7B QLoRA · RAG · LangGraph agents · pgvector
-<span class="t-hi">03</span>  PrepWise (AI Voice Interviews)  [AI/ML · Full-Stack] · <a class="t-link" href="https://mock-ai-prep.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
+<span class="t-hi">03</span>  PrepWise (AI Voice Interviews)  [AI/ML · Full-Stack] · <a class="t-link" href="https://prepwise-studio.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
     Gemini 3.5 Flash-Lite · Web Speech · Monaco + Pyodide/WASM · $0 infra
 <span class="t-hi">04</span>  CoreSightIQ (Decision Intel.)   [Analytics] · <a class="t-link" href="https://coresightiq.vercel.app" target="_blank" rel="noopener noreferrer">live</a>
     3 products, 1 core engine · walk-forward backtesting
